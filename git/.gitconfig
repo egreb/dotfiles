@@ -1,0 +1,24 @@
+[color]
+	ui = true
+[user]
+	name = Simen Berge
+	email = bergesimen@gmail.com
+[filter "lfs"]
+	smudge = git-lfs smudge %f
+	required = true
+	clean = git-lfs clean %f
+[core]
+	excludesfile = /Users/egreb/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/egreb/.stCommitMsg
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
