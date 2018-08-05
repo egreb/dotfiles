@@ -32,14 +32,11 @@ HIST_STAMPS="hh:ss"
 plugins=(git fast-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
 
-export JAVA_HOME=$(/usr/libexec/java_home)
+# Finally we can source the dotfiles (order matters)
+for DOTFILE in "$DOTFILES_DIR"/system/.{alias}; do
+  [ -f "$DOTFILE" ] && . "$DOTFILE"
+done
 
 #GO PATHS
 export GOPATH=$HOME/go
@@ -51,4 +48,3 @@ export PATH=$PATH:~/.bins
 
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-

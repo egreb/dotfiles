@@ -4,7 +4,6 @@ if ! is-executable brew -o ! is-executable git; then
 fi
 
 apps=(
-  node
   nvm
 )
 
