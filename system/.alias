@@ -66,9 +66,13 @@ done
 unset METHOD
 
 # Miscellaneous
-
 alias hosts="sudo $EDITOR /etc/hosts"
 alias his="historie"
 alias quit="exit"
 alias week="date +%V"
 alias speedtest="wget -O /dev/null http://speed.transip.nl/100mb.bin"
+
+# Docker
+alias dcu="docker-compose up -d"
+alias dcs="docker-compose stop"
+alias dockerDeleteImages="docker rmi $(docker images -a -q)"
