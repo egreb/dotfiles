@@ -39,9 +39,12 @@ plugins=(git fast-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 
 # Finally we can source the dotfiles (order matters)
-for DOTFILE in "$DOTFILES_DIR"/system/.{alias}; do
+for DOTFILE in "$DOTFILES_DIR"/system/.{alias, functions}; do
   [ -f "$DOTFILE" ] && . "$DOTFILE"
 done
+
+# Load the kubectl completion code for zsh[1] into the current shell                                                                                            130 ↵
+source <(kubectl completion zsh)
 
 #GO PATHS
 export GOPATH=$HOME/go
