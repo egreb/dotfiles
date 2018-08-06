@@ -26,7 +26,12 @@ PATH="$DOTFILES_DIR/bin:$PATH"
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
+# history
 HIST_STAMPS="hh:ss"
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=10000000
+SAVEHIST=10000000
+setopt HIST_IGNORE_ALL_DUPS
 
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git fast-syntax-highlighting)
