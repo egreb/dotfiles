@@ -18,7 +18,7 @@ else
   return
 fi
 
-ZSH_THEME="egreb"
+ZSH_THEME="robbyrussell"
 
 # Make utilities available
 PATH="$DOTFILES_DIR/bin:$PATH"
@@ -39,12 +39,9 @@ plugins=(git fast-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 
 # Finally we can source the dotfiles (order matters)
-for DOTFILE in "$DOTFILES_DIR"/system/.{alias, functions}; do
+for DOTFILE in "$DOTFILES_DIR"/system/.{alias,functions}; do
   [ -f "$DOTFILE" ] && . "$DOTFILE"
 done
-
-# Load the kubectl completion code for zsh[1] into the current shell                                                                                            130 ↵
-source <(kubectl completion zsh)
 
 #GO PATHS
 export GOPATH=$HOME/go
@@ -52,7 +49,15 @@ export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOPATH/bin
 
 # BINS
-export PATH=$PATH:~/.bins
+export PATH=$PATH:~/.bin
+
+# GCLOUD
+if [ -f '/Users/simen/.bin/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/simen/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/Users/simen/.bin/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/simen/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+# KUBERNETES
+# Load the kubectl completion code for zsh[1] into the current shell                                                                                            130 ↵
+source <(kubectl completion zsh)
 
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

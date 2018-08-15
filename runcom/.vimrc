@@ -15,6 +15,8 @@ colo seoul256
 
 " general stuff
 set tabstop=4
+set number
+filetype plugin on
 
 " make sure backspace works as intended (remove stuff)
 set backspace=indent,eol,start
@@ -24,8 +26,6 @@ map next item in quicklist to ctrl+n
 map <C-n> :cnext<CR>
 map previous item in quicklist to ctrl+m
 map <C-m> :cprevious<CR>
-close quicklist with , then a
+" close quicklist with , then a
 nnoremap <leader>a :cclose<CR>
-build file with , b
 
-filetype plugin on
