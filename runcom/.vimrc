@@ -6,6 +6,7 @@ Plug 'junegunn/seoul256.vim'
 Plug 'majutsushi/tagbar'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'kien/ctrlp.vim'
+Plug 'scrooloose/nerdcommenter'
 call plug#end()
 
 " color scheme
@@ -29,3 +30,7 @@ map <C-m> :cprevious<CR>
 " close quicklist with , then a
 nnoremap <leader>a :cclose<CR>
 
+" nerdcomment: github.com/scrooloose/nerdcommenter
+let g:NERDSpaceDelims = 1
+let g:NERDCommentEmptyLines = 1
+let g:NERDTrimTrailingWhitespace = 1
