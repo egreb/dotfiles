@@ -19,3 +19,7 @@ alias speedtest="wget -O /dev/null http://speed.transip.nl/100mb.bin"
 alias dcu="docker-compose up -d"
 alias dcs="docker-compose stop"
 alias dockerDeleteImages="docker rmi $(docker images -a -q)"
+
+# Python
+alias python="python3"
+alias branchclean="branchclean.py"

@@ -13,6 +13,7 @@ brew upgrade
 
 apps=(
   the_silver_searcher
+  python
 )
 
 brew install "${apps[@]}"
