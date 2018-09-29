@@ -56,9 +56,11 @@ export PATH=$PATH:~/.bin
 if [ -f '/Users/simen/.bin/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/simen/Downloads/google-cloud-sdk/path.zsh.inc'; fi
 if [ -f '/Users/simen/.bin/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/simen/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 
-# KUBERNETES
-# Load the kubectl completion code for zsh[1] into the current shell                                                                                            130 ↵
-source <(kubectl completion zsh)
+if is-executable kubectl; then
+  # KUBERNETES
+  # Load the kubectl completion code for zsh[1] into the current shell                                                                                            130 ↵
+  source <(kubectl completion zsh)
+fi
 
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
