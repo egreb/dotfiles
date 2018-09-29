@@ -1,4 +1,8 @@
-if ! is-macos -o ! is-executable ruby -o ! is-executable curl -o ! is-executable git; then
+if ! is-macos -o; then
+  echo "Not mac, skipping brew"
+fi
+
+if ! is-executable ruby -o ! is-executable curl -o ! is-executable git; then
   echo "Skipped: Homebrew (missing: ruby, curl and/or git)"
   return
 fi
