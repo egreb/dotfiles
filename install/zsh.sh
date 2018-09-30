@@ -1,15 +1,22 @@
 if ! is-macos -o ! is-executable brew -o; then
-  echo "Skipped: zsh"
+  echo "Missing brew, skipped: zsh"
   return
 fi
 
-brew install zsh
-chsh -s /bin/zsh
+if is-macos -o; then
+  brew install zsh
+  chsh -s /bin/zsh
+else
+  apt install zsh
+fi
 
 if ! is-executable zsh; then
-  echo "installing oh-my-zsh"
-  export ZSH="$HOME/.oh-my-zsh"; sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+  echo "skipping oh-my-zsh and plugins, missing zsh."
+  return
 fi
+
+echo "installing oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"; sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
 echo "installing fast-syntax-highlighting"
 git clone https://github.com/zdharma/fast-syntax-highlighting.git "~/.oh-my-zsh/custom/plugins"
