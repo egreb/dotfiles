@@ -8,7 +8,7 @@ if is-macos -o; then
 		echo "installing node"
 		brew install node
 	else
-		brew update node
+		brew upgrade node
 	fi
 else
 	if ! is-executable snap; then
@@ -47,7 +47,7 @@ npm install -g npm
 
 echo "installing global packages..."
 for app in ${apps[@]}; do
-	echo "$app"
+	echo "installing $app..."
 	npm install -g $app
 done
 
