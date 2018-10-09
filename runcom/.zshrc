@@ -64,3 +64,6 @@ fi
 
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# NPM
+export PATH=~/.npm-global/bin:$PATH

@@ -10,7 +10,10 @@ DOTFILES_EXTRA_DIR="$HOME/.extra"
 PATH="$DOTFILES_DIR/bin:$PATH"
 
 # update dotfiles itself
-if is-executable git -a -d "$DOTFILES_DIR/.git"; then git --work-tree="$DOTFILES_DIR" --git-dir="$DOTFILES_DIR/.git" pull origin master; fi
+if is-executable git -a -d "$DOTFILES_DIR/.git"; then
+	git --work-tree="$DOTFILES_DIR" --git-dir="$DOTFILES_DIR/.git"
+	pull origin master
+fi
 
 # Bunch of symlinks
 ln -sfv "$DOTFILES_DIR/runcom/.zshrc" ~
@@ -23,3 +26,5 @@ ln -sfv "$DOTFILES_DIR/git/.gitignore_global" ~
 . "$DOTFILES_DIR/install/vim.sh"
 . "$DOTFILES_DIR/install/nvm.sh"
 . "$DOTFILES_DIR/install/zsh.sh"
+. "$DOTFILES_DIR/install/vscode.sh"
+. "$DOTFILES_DIR/install/node.sh"
