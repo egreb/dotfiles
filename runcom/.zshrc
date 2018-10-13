@@ -18,7 +18,12 @@ else
   return
 fi
 
-ZSH_THEME="robbyrussell"
+if [ -f "$DOTFILES_DIR/runcom/.spaceship" ]; then
+  ZSH_THEME="spaceship"
+  source "$DOTFILES_DIR/runcom/.spaceship"
+else
+  ZSH_THEME="robbyrussel"
+fi
 
 # Make utilities available
 PATH="$DOTFILES_DIR/bin:$PATH"

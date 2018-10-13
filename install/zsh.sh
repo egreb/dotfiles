@@ -5,7 +5,8 @@ fi
 
 if is-macos -o; then
   brew install zsh
-  chsh -s /bin/zsh
+  # use zsh installed by brew
+  sudo -s 'echo /usr/local/bin/zsh >> /etc/shells' && chsh -s /usr/local/bin/zsh
 else
   apt install zsh
 fi
@@ -17,6 +18,10 @@ fi
 
 echo "installing oh-my-zsh"
 export ZSH="$HOME/.oh-my-zsh"; sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+echo "installing spaceship prompt"
+git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
+ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 
 echo "installing fast-syntax-highlighting"
 git clone https://github.com/zdharma/fast-syntax-highlighting.git "~/.oh-my-zsh/custom/plugins"

@@ -1,0 +1,16 @@
+SPACESHIP_PROMPT_ORDER=(
+	dir
+	git
+	line_sep
+	char
+)
+
+# right prompt
+SPACESHIP_RPROMPT_ORDER=(
+	node
+	golang
+	time
+)
+
+SPACESHIP_TIME_SHOW=true
+SPACESHIP_CHAR_SYMBOL="➜ "
