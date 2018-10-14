@@ -1,5 +1,6 @@
 if ! is-macos -o; then
   echo "Not mac, skipping brew"
+  return
 fi
 
 if ! is-executable ruby -o ! is-executable curl -o ! is-executable git; then
