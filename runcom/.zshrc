@@ -49,7 +49,7 @@ for DOTFILE in "$DOTFILES_DIR"/system/.{alias,functions}; do
 done
 
 #GO PATHS
-if ! is-mac; then
+if [ ! is-macos ]; then
   export GOROOT=$HOME/.go/1.11.1/go/bin
 fi
 export GOPATH=$HOME/go
