@@ -12,7 +12,7 @@ if [ -d "$DOTFILES_DIR/vscode" ]; then
 	echo "missing vscode src folder, aborting"
 fi
 
-SRC="$DOTFILES_DIR/vscode"
+SRC="$DOTFILES_DIR/vscode/User"
 
 if is-macos; then
 	DESTINATION="$HOME/Library/Application Support/Code/User"
