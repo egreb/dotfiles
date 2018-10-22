@@ -1,14 +1,13 @@
 SPACESHIP_PROMPT_ORDER=(
 	dir
 	git
+	node
 	line_sep
 	char
 )
 
 # right prompt
 SPACESHIP_RPROMPT_ORDER=(
-	node
-	golang
 	time
 )
 
