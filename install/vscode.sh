@@ -1,18 +1,18 @@
 if ! is-executable code ; then
 	echo "code is not installed, install code then try again"
-	exit 1
+	return
 fi
 
 if [ -z $DOTFILES_DIR ]; then
 	echo "DOTFILES_DIR variable not set, aborting"
-	exit 1
+	return
 fi
 
 if [ -d "$DOTFILES_DIR/vscode" ]; then
 	echo "missing vscode src folder, aborting"
 fi
 
-SRC="$DOTFILES_DIR/vscode"
+SRC="$DOTFILES_DIR/vscode/User"
 
 if is-macos; then
 	DESTINATION="$HOME/Library/Application Support/Code/User"
@@ -56,7 +56,7 @@ echo "installing extensions..."
 extension_install() {
 	local extension=$1
 	echo "$extension"
-	# code --install-extension $extension
+	code --install-extension $extension
 }
 
 for EXTENSION in ${extensions[@]}; do
@@ -64,4 +64,4 @@ for EXTENSION in ${extensions[@]}; do
 done
 
 
-echo "all done!"
+echo "done copying code config!"

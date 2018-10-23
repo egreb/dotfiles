@@ -18,7 +18,7 @@
   "editor.mouseWheelZoom": false,
   "editor.multiCursorModifier": "alt",
   "editor.snippetSuggestions": "top",
-  "editor.fontFamily": "Menlo",
+  "editor.fontFamily": "Hack",
   "editor.formatOnSave": true,
   // "editor.fontFamily": "Inconsolata, Monaco, Consolas, 'Courier New', Courier;",
   "editor.tokenColorCustomizations": {
@@ -76,25 +76,7 @@
   "workbench.editor.enablePreviewFromQuickOpen": true,
   "workbench.activityBar.visible": true,
   "workbench.iconTheme": "material-icon-theme",
-  // "workbench.colorCustomizations": {
-  //     "statusBar.background": "#262626",
-  //     "editorCursor.foreground": "#f8f8f0", // Default: #AEAFAD
-  //     "terminalCursor.foreground": "#31bc21", // Default: #c8c8c8
-  //     "tab.activeBackground": "#282c34",
-  // },
-  // "workbench.colorCustomizations": {
-  //     "tab.activeBackground": "#282c34",
-  //     "activityBar.background": "#282c34",
-  //     "editorGroup.background": "#282c34",
-  //     "sideBar.background": "#282c34"
-  // },
   "workbench.startupEditor": "newUntitledFile",
-  // "workbench.colorCustomizations": {
-  //     "statusBar.background": "#333",
-  //     "statusBar.foreground": "#fff",
-  //     "statusBar.noFolderBackground": "#333",
-  //     "statusBar.noFolderForeground": "#fff",
-  // },
   "workbench.colorTheme": "One Dark Pro",
   // WINDOW
   "window.zoomLevel": 0,
@@ -144,8 +126,9 @@
   // TELEMETRY
   "telemetry.enableTelemetry": false,
   // TERMINAL
-  "terminal.integrated.fontFamily": "Roboto Mono",
+  "terminal.integrated.fontFamily": "Hack",
   "terminal.integrated.cursorStyle": "underline",
+
   // GO
   "go.formatTool": "goreturns",
   "go.useCodeSnippetsOnFunctionSuggest": true,
@@ -175,24 +158,35 @@
   // JAVASCRIPT
   "javascript.validate.enable": false,
 
-  // SYNC SETTINGS
-  "sync.gist": "30114f567936a7c0dd82c5e76a3b8a5a",
-  "sync.autoUpload": false,
-  "sync.lastUpload": "2018-04-16T19:10:54.963Z",
-  "sync.autoDownload": false,
-  "sync.lastDownload": "2018-05-01T14:09:00.374Z",
-  "sync.forceDownload": false,
-  "sync.host": "",
-  "sync.pathPrefix": "",
-  "sync.quietSync": false,
-  "sync.askGistName": false,
-  "sync.removeExtensions": true,
-  "sync.syncExtensions": true,
-
   // EMMET
   "emmet.includeLanguages": {
     "javascript": "javascriptreact"
   },
   "emmet.triggerExpansionOnTab": true,
-  "javascript.updateImportsOnFileMove.enabled": "always"
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  // TODO
+  "todohighlight.include": [
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.html",
+    "**/*.php",
+    "**/*.css",
+    "**/*.scss",
+    "**/*.go"
+  ],
+  "todohighlight.exclude": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/.vscode/**",
+    "**/.github/**",
+    "**/_output/**",
+    "**/*.min.*",
+    "**/*.map",
+    "**/.next/**",
+    "**/vendor/**"
+  ]
 }

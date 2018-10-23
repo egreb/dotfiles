@@ -8,7 +8,8 @@ if is-macos -o; then
   # use zsh installed by brew
   sudo -s 'echo /usr/local/bin/zsh >> /etc/shells' && chsh -s /usr/local/bin/zsh
 else
-  apt install zsh
+  sudo apt install zsh
+  chsh -s /usr/bin/zsh
 fi
 
 if ! is-executable zsh; then

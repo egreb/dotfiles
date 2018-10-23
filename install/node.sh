@@ -19,8 +19,6 @@ else
 	if ! is-executable node; then
 		echo "installing node"
 		snap install node
-	else
-		snap update node
 	fi
 fi
 
