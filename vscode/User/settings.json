@@ -19,7 +19,7 @@
   "editor.multiCursorModifier": "alt",
   "editor.snippetSuggestions": "top",
   "editor.fontFamily": "Hack",
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   // "editor.fontFamily": "Inconsolata, Monaco, Consolas, 'Courier New', Courier;",
   "editor.tokenColorCustomizations": {
     "textMateRules": [
@@ -74,7 +74,7 @@
   "workbench.editor.showTabs": true,
   "workbench.editor.enablePreview": true,
   "workbench.editor.enablePreviewFromQuickOpen": true,
-  "workbench.activityBar.visible": true,
+  "workbench.activityBar.visible": false,
   "workbench.iconTheme": "material-icon-theme",
   "workbench.startupEditor": "newUntitledFile",
   "workbench.colorTheme": "One Dark Pro",
