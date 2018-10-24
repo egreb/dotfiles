@@ -18,7 +18,7 @@ else
   return
 fi
 
-ZSH_THEME="robbyrussell"
+ZSH_THEME="oxide"
 
 # Make utilities available
 PATH="$DOTFILES_DIR/bin:$PATH"

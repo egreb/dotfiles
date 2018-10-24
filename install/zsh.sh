@@ -20,6 +20,9 @@ fi
 echo "installing oh-my-zsh"
 export ZSH="$HOME/.oh-my-zsh"; sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
+# add oxide theme
+ln -s $DOTFILES/.oh-my-zsh/themes/oxide.zsh-theme $ZSH/themes
+
 echo "installing fast-syntax-highlighting"
 git clone https://github.com/zdharma/fast-syntax-highlighting.git "~/.oh-my-zsh/custom/plugins"
 
