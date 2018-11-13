@@ -17,11 +17,12 @@ autoload -Uz vcs_info
 
 # use extended color palette if available.
 if [[ "${terminfo[colors]}" -ge 256 ]]; then
-    turquoise="%F{73}"
+    turquoise="%F{75}"
     orange="%F{179}"
     purple="%F{140}"
     red="%F{167}"
     limegreen="%F{107}"
+    bluie="%F{207}"
 else
     turquoise="%F{cyan}"
     orange="%F{yellow}"
@@ -88,5 +89,5 @@ oxide_precmd() {
 add-zsh-hook precmd oxide_precmd
 
 PROMPT=$'
-%{$limegreen%}%~${PR_RST} $vcs_info_msg_0_$(virtualenv_info)
+%{$bluie%}%~${PR_RST} $vcs_info_msg_0_$(virtualenv_info)
 %(?.%F{white}.%F{red})$%f '
