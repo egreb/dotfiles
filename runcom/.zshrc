@@ -18,7 +18,7 @@ else
   return
 fi
 
-ZSH_THEME="oxide"
+ZSH_THEME="minimal_improve"
 
 # Make utilities available
 PATH="$DOTFILES_DIR/bin:$PATH"
@@ -69,3 +69,7 @@ fi
 
 # NPM
 export PATH=~/.npm-global/bin:$PATH
+
+#PHP
+export PATH="/usr/local/opt/php@7.2/bin:$PATH"
+export PATH="/usr/local/opt/php@7.2/sbin:$PATH"
