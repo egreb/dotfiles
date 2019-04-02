@@ -18,7 +18,7 @@ else
   return
 fi
 
-ZSH_THEME="minimal_improve"
+ZSH_THEME="kolo"
 
 # Make utilities available
 PATH="$DOTFILES_DIR/bin:$PATH"
