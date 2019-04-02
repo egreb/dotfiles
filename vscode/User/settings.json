@@ -1,7 +1,7 @@
 // Place your settings in this file to overwrite the default settings
 {
   // EDITOR
-  "editor.fontSize": 14,
+  "editor.fontSize": 12,
   "editor.lineHeight": 18,
   "editor.letterSpacing": 0.5,
   "editor.tabSize": 4,
@@ -9,7 +9,6 @@
   "editor.renderWhitespace": "none",
   "editor.insertSpaces": false,
   "editor.quickSuggestionsDelay": 5,
-  "editor.formatOnPaste": true,
   "editor.cursorStyle": "line",
   "editor.renderIndentGuides": true,
   "editor.renderLineHighlight": "all",
@@ -19,8 +18,9 @@
   "editor.multiCursorModifier": "alt",
   "editor.snippetSuggestions": "top",
   "editor.fontFamily": "Hack",
-  "editor.formatOnSave": false,
-  // "editor.fontFamily": "Inconsolata, Monaco, Consolas, 'Courier New', Courier;",
+  "editor.formatOnSave": true,
+  "editor.fontLigatures": true,
+
   "editor.tokenColorCustomizations": {
     "textMateRules": [
       // Remove italics from function parameters.
@@ -75,11 +75,12 @@
   "workbench.editor.enablePreview": true,
   "workbench.editor.enablePreviewFromQuickOpen": true,
   "workbench.activityBar.visible": false,
-  "workbench.iconTheme": "material-icon-theme",
+  "workbench.iconTheme": "vs-nomo-dark",
   "workbench.startupEditor": "newUntitledFile",
-  "workbench.colorTheme": "One Dark Pro",
+
   // WINDOW
-  "window.zoomLevel": 0,
+  "window.zoomLevel": 1,
+
   // SEARCH
   "search.quickOpen.includeSymbols": true,
   "search.exclude": {
@@ -91,6 +92,7 @@
     "api/app": true,
     "**/public": true
   },
+
   // FILES
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
@@ -119,12 +121,15 @@
     ".functions": "shellscript",
     ".vimrc": "shellscript"
   },
+
   // EXPLORER
   "explorer.openEditors.visible": 0,
   "explorer.autoReveal": false,
   "explorer.confirmDragAndDrop": false,
+
   // TELEMETRY
   "telemetry.enableTelemetry": false,
+
   // TERMINAL
   "terminal.integrated.fontFamily": "Hack",
   "terminal.integrated.cursorStyle": "underline",
@@ -145,6 +150,7 @@
   "go.vetFlags": ["shadow"],
   "go.lintTool": "revive",
   "go.lintFlags": [],
+
   // PHP
   "php.suggest.basic": false,
   "php.validate.executablePath": "/usr/local/bin/php",
@@ -160,7 +166,8 @@
 
   // EMMET
   "emmet.includeLanguages": {
-    "javascript": "javascriptreact"
+    "javascript": "javascriptreact",
+    "gothml": "Golang HTML Template"
   },
   "emmet.triggerExpansionOnTab": true,
   "javascript.updateImportsOnFileMove.enabled": "always",
@@ -188,5 +195,9 @@
     "**/*.map",
     "**/.next/**",
     "**/vendor/**"
-  ]
+  ],
+  "javascript.format.enable": false,
+
+  // TSLINT
+  "tslint.autoFixOnSave": true
 }

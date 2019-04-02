@@ -69,7 +69,11 @@ fi
 
 # NPM
 export PATH=~/.npm-global/bin:$PATH
+export PATH=~/.npm-packages/bin:$PATH
 
 #PHP
 export PATH="/usr/local/opt/php@7.2/bin:$PATH"
 export PATH="/usr/local/opt/php@7.2/sbin:$PATH"
+
+# DOTNOT
+export PATH=/usr/local/share/dotnet/:$PATH
