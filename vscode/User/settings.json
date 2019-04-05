@@ -4,8 +4,8 @@
   "editor.fontSize": 12,
   "editor.lineHeight": 18,
   "editor.letterSpacing": 0.5,
-  "editor.tabSize": 4,
-  "editor.fontWeight": "400",
+  "editor.tabSize": 2,
+  "editor.fontWeight": "600",
   "editor.renderWhitespace": "none",
   "editor.insertSpaces": false,
   "editor.quickSuggestionsDelay": 5,
@@ -17,7 +17,7 @@
   "editor.mouseWheelZoom": false,
   "editor.multiCursorModifier": "alt",
   "editor.snippetSuggestions": "top",
-  "editor.fontFamily": "Hack",
+  "editor.fontFamily": "Fira Code",
   "editor.formatOnSave": true,
   "editor.fontLigatures": true,
 
@@ -69,14 +69,6 @@
       }
     ]
   },
-  // WORKBENCH
-  "workbench.editor.tabCloseButton": "off",
-  "workbench.editor.showTabs": true,
-  "workbench.editor.enablePreview": true,
-  "workbench.editor.enablePreviewFromQuickOpen": true,
-  "workbench.activityBar.visible": false,
-  "workbench.iconTheme": "vs-nomo-dark",
-  "workbench.startupEditor": "newUntitledFile",
 
   // WINDOW
   "window.zoomLevel": 1,
@@ -163,14 +155,16 @@
 
   // JAVASCRIPT
   "javascript.validate.enable": false,
+  "javascript.updateImportsOnFileMove.enabled": "always",
 
   // EMMET
   "emmet.includeLanguages": {
     "javascript": "javascriptreact",
-    "gothml": "Golang HTML Template"
+    "gothml": "Golang HTML Template",
+    "vue-html": "Vue-html"
   },
   "emmet.triggerExpansionOnTab": true,
-  "javascript.updateImportsOnFileMove.enabled": "always",
+
   // TODO
   "todohighlight.include": [
     "**/*.js",
@@ -199,5 +193,16 @@
   "javascript.format.enable": false,
 
   // TSLINT
-  "tslint.autoFixOnSave": true
+  "tslint.autoFixOnSave": true,
+
+  // WORKBENCH
+  // Keep this last for color themes sake
+  "workbench.editor.tabCloseButton": "off",
+  "workbench.editor.showTabs": true,
+  "workbench.editor.enablePreview": true,
+  "workbench.editor.enablePreviewFromQuickOpen": true,
+  "workbench.activityBar.visible": true,
+  "workbench.iconTheme": "vs-nomo-dark",
+  "workbench.startupEditor": "newUntitledFile",
+  "workbench.colorTheme": "Dracula"
 }
