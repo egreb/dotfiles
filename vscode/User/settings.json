@@ -1,8 +1,8 @@
 // Place your settings in this file to overwrite the default settings
 {
   // EDITOR
-  "editor.fontSize": 12,
-  "editor.lineHeight": 18,
+  "editor.fontSize": 14,
+  "editor.lineHeight": 22,
   "editor.letterSpacing": 0.5,
   "editor.tabSize": 2,
   "editor.fontWeight": "600",
@@ -71,7 +71,7 @@
   },
 
   // WINDOW
-  "window.zoomLevel": 1,
+  "window.zoomLevel": 0,
 
   // SEARCH
   "search.quickOpen.includeSymbols": true,
@@ -201,8 +201,8 @@
   "workbench.editor.showTabs": true,
   "workbench.editor.enablePreview": true,
   "workbench.editor.enablePreviewFromQuickOpen": true,
-  "workbench.activityBar.visible": true,
-  "workbench.iconTheme": "vs-nomo-dark",
+  "workbench.activityBar.visible": false,
+  "workbench.iconTheme": "material-icon-theme",
   "workbench.startupEditor": "newUntitledFile",
-  "workbench.colorTheme": "Dracula"
+  "workbench.colorTheme": "One Dark Pro"
 }
