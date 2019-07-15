@@ -28,4 +28,3 @@ ln -sfv "$DOTFILES_DIR/git/.gitignore_global" ~
 . "$DOTFILES_DIR/install/nvm.sh"
 . "$DOTFILES_DIR/install/zsh.sh"
 . "$DOTFILES_DIR/install/vscode.sh"
-. "$DOTFILES_DIR/install/node.sh"
