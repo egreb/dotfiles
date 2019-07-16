@@ -18,7 +18,7 @@ else
   return
 fi
 
-ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME="aphrodite"
 
 # Make utilities available
 PATH="$DOTFILES_DIR/bin:$PATH"
@@ -34,7 +34,10 @@ SAVEHIST=10000000
 setopt HIST_IGNORE_ALL_DUPS
 
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git fast-syntax-highlighting)
+plugins=(
+  git 
+  fast-syntax-highlighting
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -43,38 +46,8 @@ for DOTFILE in "$DOTFILES_DIR"/system/.{alias,functions}; do
   [ -f "$DOTFILE" ] && . "$DOTFILE"
 done
 
-#GO PATHS
-if [ ! is-macos ]; then
-  export GOROOT=$HOME/.go/1.11.1/go/bin
-fi
-export GOPATH=$HOME/go
-export GOBIN=$GOPATH/bin
-export PATH=$PATH:$GOPATH/bin
-
  #BINS
 export PATH=$PATH:~/.bin
 
-# GCLOUD
-if [ -f '/Users/simen/.bin/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/simen/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-if [ -f '/Users/simen/.bin/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/simen/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-
-if is-executable kubectl; then
-  # KUBERNETES
-  # Load the kubectl completion code for zsh[1] into the current shell                                                                                            130 ↵
-  source <(kubectl completion zsh)
-fi
-
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# NPM
-export PATH=~/.npm-global/bin:$PATH
-export PATH=~/.npm-packages/bin:$PATH
-
-#PHP
-export PATH="/usr/local/opt/php@7.2/bin:$PATH"
-export PATH="/usr/local/opt/php@7.2/sbin:$PATH"
-
-# DOTNOT
-export PATH=/usr/local/share/dotnet/:$PATH
-source ~/.purepower

@@ -32,23 +32,18 @@ ln -s "$SRC" "$DESTINATION" && echo "Linked!"
 
 extensions=(
 	ms-vscode.go # golang
-	casualjim.gotemplate # golang html syntax
-	kumar-harsh.graphql-for-vscode # graphql syntax hightlighting
-	wix.vscode-import-cost # js import cost
 	ms-vscode.sublime-keybindings # sublime keybindings
-	wayou.vscode-todo-highlight # highlight TODO: in the code
 	peterjausovec.vscode-docker # docker files syntax
-	waderyan.gitblame # gitblame
 	zyst.egoist-one # theme
 	dbaeumer.vscode-eslint # eslint
 	pkief.material-icon-theme # icons
 	zhuangtongfa.material-theme # theme
-	jpoissonnier.vscode-styled-components # styled components
-	octref.vetur # vue
-	eg2.tslint # tslint
-	adamvoss.yaml # yaml
 	esbenp.prettier-vscode # prettier
-	bungcip.better-toml # toml
+	ryannaddy.laravel-artisan # laravel artisan
+	felixfbecker.php-debug # php debug
+	neilbrayfield.php-docblocker # php docblocker
+	bmewburn.vscode-intelephense-client # php intellisense
+	kokororin.vscode-phpfmt # php formatting	
 )
 
 echo "installing extensions..."
