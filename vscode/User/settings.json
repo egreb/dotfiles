@@ -17,8 +17,14 @@
   "editor.mouseWheelZoom": false,
   "editor.multiCursorModifier": "alt",
   "editor.snippetSuggestions": "top",
-  "editor.fontFamily": "Fira Code",
+  "editor.fontFamily": "Eco Coding",
   "editor.formatOnSave": true,
+  "[svelte]": {
+    "editor.formatOnSave": true
+  },
+  "[javascript]": {
+    "editor.formatOnSave": true,
+  },
   "editor.fontLigatures": true,
 
   "editor.tokenColorCustomizations": {
@@ -92,8 +98,8 @@
     "**/.git/objects/**": true,
     "**/tmp/**": true,
     "**/vendor/**": true,
-    "api/app": true,
-    "**/public": true
+    "api/app": true
+    // "**/public": true
   },
   "files.exclude": {
     "**/.git": true,
@@ -123,7 +129,6 @@
   "telemetry.enableTelemetry": false,
 
   // TERMINAL
-  "terminal.integrated.fontFamily": "Hack",
   "terminal.integrated.cursorStyle": "underline",
 
   // GO
@@ -131,7 +136,7 @@
   "go.useCodeSnippetsOnFunctionSuggest": true,
   "go.liveErrors": {
     "enabled": true,
-    "delay": 500
+    "delay": 750
   },
   "go.addTags": {
     "tags": "json",
@@ -148,11 +153,6 @@
   "php.validate.executablePath": "/usr/local/bin/php",
   "php.validate.run": "onType",
 
-  // ESLINT
-  "eslint.autoFixOnSave": true,
-  "eslint.packageManager": "yarn",
-  "eslint.enable": true,
-
   // JAVASCRIPT
   "javascript.validate.enable": false,
   "javascript.updateImportsOnFileMove.enabled": "always",
@@ -161,7 +161,8 @@
   "emmet.includeLanguages": {
     "javascript": "javascriptreact",
     "gothml": "Golang HTML Template",
-    "vue-html": "Vue-html"
+    "vue-html": "Vue-html",
+    "svelte": "html"
   },
   "emmet.triggerExpansionOnTab": true,
 
@@ -192,8 +193,13 @@
   ],
   "javascript.format.enable": false,
 
-  // TSLINT
-  "tslint.autoFixOnSave": true,
+  // VETUR
+  "vetur.validation.template": false,
+  "vetur.grammar.customBlocks": {
+    "page-query": "graphql",
+    "static-query": "graphql"
+  },
+  "vetur.validation.script": false,
 
   // WORKBENCH
   // Keep this last for color themes sake
@@ -204,5 +210,22 @@
   "workbench.activityBar.visible": false,
   "workbench.iconTheme": "material-icon-theme",
   "workbench.startupEditor": "newUntitledFile",
-  "workbench.colorTheme": "One Dark Pro"
+  "terminal.integrated.rendererType": "dom",
+  "workbench.colorTheme": "Dracula Soft",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "php.validate.enable": false,
+  "emmet.excludeLanguages": [
+    "markdown",
+    "php"
+  ],
+  "go.useLanguageServer": true,
+
+
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    { "language": "typescript", "autoFix": true },
+    { "language": "typescriptreact", "autoFix": true }
+  ]
+
 }

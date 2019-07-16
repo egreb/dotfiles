@@ -18,7 +18,7 @@ else
   return
 fi
 
-ZSH_THEME="kolo"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Make utilities available
 PATH="$DOTFILES_DIR/bin:$PATH"
@@ -77,3 +77,4 @@ export PATH="/usr/local/opt/php@7.2/sbin:$PATH"
 
 # DOTNOT
 export PATH=/usr/local/share/dotnet/:$PATH
+source ~/.purepower
