@@ -1,5 +1,5 @@
+export LC_ALL=en_US.UTF-8
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
