@@ -18,7 +18,7 @@ else
   return
 fi
 
-ZSH_THEME="aphrodite"
+ZSH_THEME="frisk"
 
 # Make utilities available
 PATH="$DOTFILES_DIR/bin:$PATH"
@@ -51,3 +51,7 @@ export PATH=$PATH:~/.bin
 
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# az autocompletion
+autoload -U +X bashcompinit && bashcompinit
+source /usr/local/Cellar/azure-cli/2.0.67/etc/bash_completion.d/az

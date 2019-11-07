@@ -1,8 +1,8 @@
 // Place your settings in this file to overwrite the default settings
 {
   // EDITOR
-  "editor.fontSize": 15,
-  "editor.lineHeight": 22,
+  "editor.fontSize": 14,
+  "editor.lineHeight": 24,
   "editor.letterSpacing": 0.5,
   "editor.tabSize": 2,
   "editor.fontWeight": "600",
@@ -17,16 +17,21 @@
   "editor.mouseWheelZoom": false,
   "editor.multiCursorModifier": "alt",
   "editor.snippetSuggestions": "top",
-  "editor.fontFamily": "Menlo",
-  "editor.formatOnSave": true,
+  "editor.fontFamily": "Cascadia Code",
+  "editor.formatOnSave": false,
   "[svelte]": {
     "editor.formatOnSave": true
   },
   "[javascript]": {
     "editor.formatOnSave": true,
   },
+  "[typescriptreact]": {
+    "editor.formatOnSave": true,
+  },
+  "[typescript]": {
+    "editor.formatOnSave": true
+  },
   "editor.fontLigatures": true,
-
   "editor.tokenColorCustomizations": {
     "textMateRules": [
       // Remove italics from function parameters.
@@ -75,10 +80,8 @@
       }
     ]
   },
-
   // WINDOW
   "window.zoomLevel": 0,
-
   // SEARCH
   "search.quickOpen.includeSymbols": true,
   "search.exclude": {
@@ -90,7 +93,6 @@
     "api/app": true,
     "**/public": true
   },
-
   // FILES
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
@@ -119,7 +121,6 @@
     ".functions": "shellscript",
     ".vimrc": "shellscript"
   },
-
   // EXPLORER
   "explorer.openEditors.visible": 0,
   "explorer.autoReveal": false,
@@ -130,6 +131,8 @@
 
   // TERMINAL
   "terminal.integrated.cursorStyle": "underline",
+  "terminal.integrated.rendererType": "dom",
+  "terminal.integrated.fontFamily": "Fira Code",
 
   // GO
   "go.formatTool": "goreturns",
@@ -144,19 +147,18 @@
     "promptForTags": true,
     "transform": "snakecase"
   },
-  "go.vetFlags": ["shadow"],
+  "go.vetFlags": [
+    "shadow"
+  ],
   "go.lintTool": "revive",
   "go.lintFlags": [],
-
   // PHP
   "php.suggest.basic": false,
   "php.validate.executablePath": "/usr/local/bin/php",
   "php.validate.run": "onType",
-
   // JAVASCRIPT
   "javascript.validate.enable": false,
   "javascript.updateImportsOnFileMove.enabled": "always",
-
   // EMMET
   "emmet.includeLanguages": {
     "javascript": "javascriptreact",
@@ -166,41 +168,6 @@
   },
   "emmet.triggerExpansionOnTab": true,
 
-  // TODO
-  "todohighlight.include": [
-    "**/*.js",
-    "**/*.jsx",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.html",
-    "**/*.php",
-    "**/*.css",
-    "**/*.scss",
-    "**/*.go"
-  ],
-  "todohighlight.exclude": [
-    "**/node_modules/**",
-    "**/bower_components/**",
-    "**/dist/**",
-    "**/build/**",
-    "**/.vscode/**",
-    "**/.github/**",
-    "**/_output/**",
-    "**/*.min.*",
-    "**/*.map",
-    "**/.next/**",
-    "**/vendor/**"
-  ],
-  "javascript.format.enable": false,
-
-  // VETUR
-  "vetur.validation.template": false,
-  "vetur.grammar.customBlocks": {
-    "page-query": "graphql",
-    "static-query": "graphql"
-  },
-  "vetur.validation.script": false,
-
   // WORKBENCH
   // Keep this last for color themes sake
   "workbench.editor.tabCloseButton": "off",
@@ -208,10 +175,7 @@
   "workbench.editor.enablePreview": true,
   "workbench.editor.enablePreviewFromQuickOpen": true,
   "workbench.activityBar.visible": false,
-  "workbench.iconTheme": "material-icon-theme",
   "workbench.startupEditor": "newUntitledFile",
-  "terminal.integrated.rendererType": "dom",
-  "workbench.colorTheme": "Atom Material Theme",
   "typescript.updateImportsOnFileMove.enabled": "always",
   "php.validate.enable": false,
   "emmet.excludeLanguages": [
@@ -219,13 +183,18 @@
     "php"
   ],
   "go.useLanguageServer": true,
-
-
   "eslint.validate": [
     "javascript",
     "javascriptreact",
-    { "language": "typescript", "autoFix": true },
-    { "language": "typescriptreact", "autoFix": true }
-  ]
-
+    {
+      "language": "typescript",
+      "autoFix": true
+    },
+    {
+      "language": "typescriptreact",
+      "autoFix": true
+    }
+  ],
+  "workbench.colorTheme": "Dracula.min",
+  "tailwindCSS.emmetCompletions": true
 }

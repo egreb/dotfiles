@@ -6,7 +6,6 @@ alias g="git"
 alias rr="rm -rf"
 
 # Global aliases
-
 alias tree="tree -A"
 alias treed="tree -d"
 alias tree1="tree -d -L 1"
@@ -23,3 +22,7 @@ alias dockerDeleteImages="docker rmi $(docker images -a -q)"
 # Python
 alias python="python3"
 alias branchclean="branchclean.py"
+
+# Git
+alias gp="git push -u origin $(git symbolic-ref --short HEAD)"
+alias gpf="git push -u origin $(git symbolic-ref --short HEAD) --force-with-lease"
