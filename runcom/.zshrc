@@ -18,8 +18,8 @@ else
   return
 fi
 
-ZSH_THEME="aphrodite"
-
+#ZSH_THEME="frisk"
+ZSH_THEME="avit"
 # Make utilities available
 PATH="$DOTFILES_DIR/bin:$PATH"
 
@@ -35,7 +35,7 @@ setopt HIST_IGNORE_ALL_DUPS
 
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git 
+  git
   fast-syntax-highlighting
 )
 
@@ -51,3 +51,10 @@ export PATH=$PATH:~/.bin
 
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# npm global packages
+NPM_PACKAGES="${HOME}/.npm-packages"
+export PATH="$PATH:$NPM_PACKAGES/bin"
+# Preserve MANPATH if you already defined it somewhere in your config.
+# Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`.
+export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"

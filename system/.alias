@@ -23,3 +23,7 @@ alias dockerDeleteImages="docker rmi $(docker images -a -q)"
 # Python
 alias python="python3"
 alias branchclean="branchclean.py"
+
+# Git
+# alias gp="git push -u origin $(git symbolic-ref --short HEAD)"
+# alias gpf="git push -u origin $(git symbolic-ref --short HEAD) --force-with-lease"

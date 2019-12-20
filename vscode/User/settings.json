@@ -5,7 +5,7 @@
   "editor.lineHeight": 22,
   "editor.letterSpacing": 0.5,
   "editor.tabSize": 2,
-  "editor.fontWeight": "600",
+  "editor.fontWeight": "400",
   "editor.renderWhitespace": "none",
   "editor.insertSpaces": false,
   "editor.quickSuggestionsDelay": 5,
@@ -17,8 +17,8 @@
   "editor.mouseWheelZoom": false,
   "editor.multiCursorModifier": "alt",
   "editor.snippetSuggestions": "top",
-  "editor.fontFamily": "Menlo",
-  "editor.formatOnSave": true,
+  "editor.fontFamily": "Eco Coding",
+  "editor.formatOnSave": false,
   "[svelte]": {
     "editor.formatOnSave": true
   },
@@ -211,7 +211,6 @@
   "workbench.iconTheme": "material-icon-theme",
   "workbench.startupEditor": "newUntitledFile",
   "terminal.integrated.rendererType": "dom",
-  "workbench.colorTheme": "Atom Material Theme",
   "typescript.updateImportsOnFileMove.enabled": "always",
   "php.validate.enable": false,
   "emmet.excludeLanguages": [
@@ -219,13 +218,12 @@
     "php"
   ],
   "go.useLanguageServer": true,
-
-
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    { "language": "typescript", "autoFix": true },
-    { "language": "typescriptreact", "autoFix": true }
-  ]
-
+  "workbench.colorTheme": "BeardedTheme Vivid",
+  "tailwindCSS.emmetCompletions": true,
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "prettier.printWidth": 120,
+  "prettier.useTabs": true,
+  "prettier.jsxSingleQuote": true
 }
