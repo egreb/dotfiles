@@ -27,3 +27,6 @@ set -g fish_color_valid_path --underline
 # Install Starship
 starship init fish | source
 
+set NPM_PACKAGES "$HOME/.npm-packages"
+set PATH $PATH $NPM_PACKAGES/bin
+set MANPATH $NPM_PACKAGES/share/man $MANPATH
