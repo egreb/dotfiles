@@ -1,229 +1,172 @@
-// Place your settings in this file to overwrite the default settings
 {
-  // EDITOR
-  "editor.fontSize": 15,
+  // editor
+  "editor.fontFamily": "JetBrains Mono, Consolas, 'Courier New', monospace",
+  "editor.fontSize": 16,
+  "editor.fontWeight": "300",
   "editor.lineHeight": 22,
   "editor.letterSpacing": 0.5,
-  "editor.tabSize": 2,
-  "editor.fontWeight": "400",
-  "editor.renderWhitespace": "none",
-  "editor.insertSpaces": false,
-  "editor.quickSuggestionsDelay": 5,
-  "editor.cursorStyle": "line",
-  "editor.renderIndentGuides": true,
-  "editor.renderLineHighlight": "all",
-  "editor.minimap.enabled": false,
-  "editor.cursorBlinking": "solid",
-  "editor.mouseWheelZoom": false,
-  "editor.multiCursorModifier": "alt",
-  "editor.snippetSuggestions": "top",
-  "editor.fontFamily": "Eco Coding",
-  "editor.formatOnSave": false,
-  "[svelte]": {
-    "editor.formatOnSave": true
-  },
-  "[javascript]": {
-    "editor.formatOnSave": true,
-  },
   "editor.fontLigatures": true,
+  "editor.wordWrap": "on",
+  "editor.formatOnPaste": true,
+  "editor.cursorBlinking": "smooth",
+  "editor.suggestFontSize": 16,
+  "editor.suggestLineHeight": 28,
+  "editor.formatOnSave": true,
+  "editor.renderWhitespace": "all",
+  "editor.quickSuggestionsDelay": 0,
+  "editor.accessibilitySupport": "off",
+  "editor.guides.bracketPairs": true,
+  // disable 'peek' previews when using 'goto' definition
+  "editor.gotoLocation.multipleReferences": "goto",
+  "editor.gotoLocation.multipleDefinitions": "goto",
+  "editor.gotoLocation.multipleDeclarations": "goto",
+  "editor.gotoLocation.multipleImplementations": "goto",
+  "editor.gotoLocation.multipleTypeDefinitions": "goto",
 
-  "editor.tokenColorCustomizations": {
-    "textMateRules": [
-      // Remove italics from function parameters.
-      {
-        "scope": "variable.parameter.js",
-        "settings": {
-          "fontStyle": ""
-        }
-      },
-      // Render object destructuring mappings’ original property names as strings.
-      // Does not apply to non-mapped identifiers.
-      {
-        "scope": "variable.object.property.js",
-        "settings": {
-          "foreground": "#98c379"
-        }
-      },
-      // Render literal object keys as strings.
-      // Does not apply to shorthand properties.
-      {
-        "scope": "meta.object-literal.key.js",
-        "settings": {
-          "foreground": "#98c379"
-        }
-      },
-      // Render property accesses as strings.
-      {
-        "scope": "variable.other.object.property.js,variable.other.property.js,support.variable.property.dom.js",
-        "settings": {
-          "foreground": "#98c379"
-        }
-      },
-      // Highlight template interpolation tokens.
-      {
-        "scope": "punctuation.definition.template-expression.begin.js,punctuation.definition.template-expression.end.js",
-        "settings": {
-          "foreground": "#c678dd"
-        }
-      },
-      // Fix punctuation color inside template interpolation expressions.
-      {
-        "scope": "meta.template.expression.js",
-        "settings": {
-          "foreground": "#bbbbbb"
-        }
-      }
-    ]
-  },
+  // workbench
+  "workbench.startupEditor": "none",
+  "workbench.editor.showTabs": false,
+  "workbench.sideBar.location": "right",
+  "workbench.activityBar.visible": false,
+  "workbench.editor.enablePreview": false,
 
-  // WINDOW
-  "window.zoomLevel": 0,
+  // explorer
+  "explorer.confirmDelete": false,
 
-  // SEARCH
-  "search.quickOpen.includeSymbols": true,
+  // terminal
+  "terminal.integrated.fontSize": 13,
+  "terminal.integrated.lineHeight": 1.5,
+  "terminal.integrated.cursorBlinking": false,
+  "terminal.integrated.cursorStyle": "line",
+  "terminal.integrated.fontFamily": "Fira Code",
+
+  // zen mode
+  "zenMode.fullScreen": false,
+  "editor.minimap.enabled": false,
+  "editor.codeLens": false,
+
+  // new window settings
+  "window.newWindowDimensions": "offset",
+
+  // git settings
+  "diffEditor.renderSideBySide": false,
+  "gitlens.blame.heatmap.enabled": false,
+  "gitlens.blame.avatars": false,
+  "gitlens.blame.compact": false,
+  "gitlens.blame.separateLines": false,
+  "gitlens.changes.locations": ["overview"],
+  "gitlens.heatmap.locations": ["overview"],
+  "scm.diffDecorations": "none",
+  "scm.diffDecorationsGutterVisibility": "hover",
+  "scm.diffDecorationsGutterAction": "none",
+
+  // helpers
+  "editor.emptySelectionClipboard": false,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+
+  // theme
+  "workbench.colorTheme": "Tol",
+
+  // search settings
   "search.exclude": {
     "**/node_modules": true,
     "**/bower_components": true,
-    "**/tmp": true,
-    "**/vendor": true,
-    "**/.idea": true,
-    "api/app": true,
-    "**/public": true
+    "**/*.code-search": true,
+    "**/_site": true,
+    "_site": true,
+    "**/build": true,
+    "**/bin": true,
+    "**/*.svg": true
   },
 
-  // FILES
-  "files.insertFinalNewline": true,
-  "files.trimTrailingWhitespace": true,
-  "files.watcherExclude": {
-    "**/.git/objects/**": true,
-    "**/tmp/**": true,
-    "**/vendor/**": true,
-    "api/app": true
-    // "**/public": true
-  },
+  // file explorer settings
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
     "**/.hg": true,
+    "**/CVS": true,
     "**/.DS_Store": true,
-    "**/tmp": true,
-    "**/vendor": true,
-    // "**/dist": true,
     "**/node_modules": true,
-    "**/bower_components": true,
-    "**/public": false
-  },
-  "files.associations": {
-    "*.mustache": "html",
-    "*.jsx": "javascript",
-    ".functions": "shellscript",
-    ".vimrc": "shellscript"
+    "**/build": true,
+    "USE_GITIGNORE": true
   },
 
-  // EXPLORER
-  "explorer.openEditors.visible": 0,
-  "explorer.autoReveal": false,
-  "explorer.confirmDragAndDrop": false,
-
-  // TELEMETRY
-  "telemetry.enableTelemetry": false,
-
-  // TERMINAL
-  "terminal.integrated.cursorStyle": "underline",
-
-  // GO
-  "go.formatTool": "goreturns",
-  "go.useCodeSnippetsOnFunctionSuggest": true,
-  "go.liveErrors": {
-    "enabled": true,
-    "delay": 750
-  },
-  "go.addTags": {
-    "tags": "json",
-    "options": "json=omitempty",
-    "promptForTags": true,
-    "transform": "snakecase"
-  },
-  "go.vetFlags": ["shadow"],
-  "go.lintTool": "revive",
-  "go.lintFlags": [],
-
-  // PHP
-  "php.suggest.basic": false,
-  "php.validate.executablePath": "/usr/local/bin/php",
-  "php.validate.run": "onType",
-
-  // JAVASCRIPT
-  "javascript.validate.enable": false,
-  "javascript.updateImportsOnFileMove.enabled": "always",
-
-  // EMMET
-  "emmet.includeLanguages": {
-    "javascript": "javascriptreact",
-    "gothml": "Golang HTML Template",
-    "vue-html": "Vue-html",
-    "svelte": "html"
-  },
-  "emmet.triggerExpansionOnTab": true,
-
-  // TODO
-  "todohighlight.include": [
-    "**/*.js",
-    "**/*.jsx",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.html",
-    "**/*.php",
-    "**/*.css",
-    "**/*.scss",
-    "**/*.go"
+  // auto rename tag
+  "auto-rename-tag.activationOnLanguage": [
+    "html",
+    "xml",
+    "php",
+    "typescript-react",
+    "typescriptreact",
+    "tsx"
   ],
-  "todohighlight.exclude": [
-    "**/node_modules/**",
-    "**/bower_components/**",
-    "**/dist/**",
-    "**/build/**",
-    "**/.vscode/**",
-    "**/.github/**",
-    "**/_output/**",
-    "**/*.min.*",
-    "**/*.map",
-    "**/.next/**",
-    "**/vendor/**"
-  ],
-  "javascript.format.enable": false,
 
-  // VETUR
-  "vetur.validation.template": false,
-  "vetur.grammar.customBlocks": {
-    "page-query": "graphql",
-    "static-query": "graphql"
+  // sync settings
+  "settingsSync.keybindingsPerPlatform": false,
+
+  // language specific settings
+  // svelte
+  "[svelte]": {
+    "editor.defaultFormatter": "svelte.svelte-vscode"
   },
-  "vetur.validation.script": false,
-
-  // WORKBENCH
-  // Keep this last for color themes sake
-  "workbench.editor.tabCloseButton": "off",
-  "workbench.editor.showTabs": true,
-  "workbench.editor.enablePreview": true,
-  "workbench.editor.enablePreviewFromQuickOpen": true,
-  "workbench.activityBar.visible": false,
-  "workbench.iconTheme": "material-icon-theme",
-  "workbench.startupEditor": "newUntitledFile",
-  "terminal.integrated.rendererType": "dom",
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  "php.validate.enable": false,
-  "emmet.excludeLanguages": [
-    "markdown",
-    "php"
-  ],
-  "go.useLanguageServer": true,
-  "workbench.colorTheme": "BeardedTheme Vivid",
-  "tailwindCSS.emmetCompletions": true,
-  "[html]": {
+  "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "prettier.printWidth": 120,
-  "prettier.useTabs": true,
-  "prettier.jsxSingleQuote": true
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[csharp]": {
+    "editor.defaultFormatter": "ms-dotnettools.csharp"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "octref.vetur"
+  },
+
+  // VIM SETTINGS
+  "vim.easymotion": true,
+  "vim.incsearch": true,
+  "vim.useSystemClipboard": true,
+  "vim.useCtrlKeys": true,
+  "vim.hlsearch": true,
+  "vim.insertModeKeyBindings": [
+    {
+      "before": ["j", "j"],
+      "after": ["<Esc>"]
+    }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<leader>", "d"],
+      "after": ["d", "d"]
+    },
+    {
+      "before": ["<C-n>"],
+      "commands": [":nohl"]
+    }
+  ],
+  "vim.leader": "<space>",
+  "vim.handleKeys": {
+    "<C-a>": false,
+    "<C-f>": false
+  },
+  "vim.enableNeovim": true,
+  "vim.smartRelativeLine": true,
+
+  // misc
+  "omnisharp.organizeImportsOnFormat": true,
+  "breadcrumbs.enabled": false,
+  "go.toolsManagement.autoUpdate": true
 }

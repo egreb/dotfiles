@@ -1,0 +1,30 @@
+{
+  "insert twin.macro import": {
+    "prefix": "twimp",
+    "body": [
+      "import 'twin.macro'"
+    ]
+  },
+  "use translation hook": {
+    "prefix": "uset",
+    "body": [
+      "const {t} = useTranslation()"
+    ]
+  },
+  "usecl": {
+    "prefix": "usecl",
+    "description": "",
+    "body": [
+      "const queryClient = useQueryClient();",
+      ""
+    ]
+  },
+  "usetr": {
+    "prefix": "usetr",
+    "description": "",
+    "body": [
+      "const { t } = useTranslation();",
+      ""
+    ]
+  }
+}

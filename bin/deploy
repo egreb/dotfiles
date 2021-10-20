@@ -8,4 +8,4 @@ if [[ ! -z "$DIFF" ]]; then
 fi
 echo -e "Deploying branch \033[34m\033[1m${BRANCH}\033[0m\033[0m to test."
 
-az pipelines run --branch ${BRANCH} --name "Maintenance WebApp - Test (Manually)" >> /dev/null
+az pipelines run --branch ${BRANCH} --name "Maintenance WebApp - Test (Manually)">> /dev/null
