@@ -1,1 +1,0 @@
-/Users/sib/.fig/shell/post.fish
