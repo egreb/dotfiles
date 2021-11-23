@@ -1,9 +1,5 @@
-" Fundementals "
-" init autocmd
 autocmd!
-" set script encoding
 scriptencoding utf-8
-" stop loading config it it's on tiny or small
 if !1 | finish | endif
 
 set nocompatible
@@ -22,114 +18,49 @@ set scrolloff=10
 set expandtab
 set shell=fish
 set backupskip=/tmp/*,/private/tmp/*
-
-if has('nvim')
-	set inccommand=split
-endif
-
-" Suppress appending <PasteStart> and <PasteEnd> when pasting
-" set t_BE
-
-" Ignore case when searching
+set splitright
+set relativenumber
 set ignorecase
-" Be smart when using tabs ;)
 set smarttab
-" indents
-filetype plugin indent on
 set shiftwidth=2
 set tabstop=2
 set ai "autoindent
 set si "smartindent
 set nowrap "No wrap lines
 set backspace=start,eol,indent
-" Finding files
 set path+=**
 set wildignore+=*/node_modules/*
-
-" Turn off pase mode when leaving insert
-autocmd InsertLeave * set nopaste
-
-" Add asterisks in block comments
 set formatoptions+=r
-
-" end fundementals
-
-" Highlights "
 set cursorline
 
-" Set cursor line color on visual mode
-highlight Visual cterm=NONE ctermbg=236 ctermfg=NONE guibg=Grey40
+filetype plugin indent on
+autocmd InsertLeave * set nopaste
 
-highlight LineNr cterm=none ctermfg=240 guifg=#2b506e guibg=#000000
-
-augroup BgHighlight
-  autocmd!
-  autocmd WinEnter * set cul
-  autocmd WinLeave * set nocul
-augroup END
-
-if &term =~ "screen"
-  autocmd BufEnter * if bufname("") !~ "^?[A-Za-z0-9?]*://" | silent! exe '!echo -n "\ek[`hostname`:`basename $PWD`/`basename %`]\e\\"' | endif
-  autocmd VimLeave * silent!  exe '!echo -n "\ek[`hostname`:`basename $PWD`]\e\\"'
+if has('nvim')
+	set inccommand=split
 endif
 
-"}}}
+"--------------------------------------------------------------------------
+" Key maps
+"--------------------------------------------------------------------------
 
-" File types "{{{
-" ---------------------------------------------------------------------
-" JavaScript
-au BufNewFile,BufRead *.es6 setf javascript
-" TypeScript
-au BufNewFile,BufRead *.tsx setf typescriptreact
-" Markdown
-au BufNewFile,BufRead *.md set filetype=markdown
-" Flow
-au BufNewFile,BufRead *.flow set filetype=javascript
+let mapleader = "\<space>"
 
-set suffixesadd=.js,.es,.jsx,.json,.css,.less,.sass,.styl,.php,.py,.md
+nmap <leader>ve :edit ~/.config/nvim/init.vim<cr>
+nmap <leader>vc :edit ~/.config/nvim/coc-settings.json<cr>
+nmap <leader>vr :source ~/.config/nvim/init.vim<cr>
 
-autocmd FileType coffee setlocal shiftwidth=2 tabstop=2
-autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
-autocmd FileType yaml setlocal shiftwidth=2 tabstop=2
+nmap <leader>k :nohlsearch<CR>
+nmap <leader>Q :bufdo bdelete<cr>
 
-"}}}
+" Allow gf to open non-existent files
+map gf :edit <cfile><cr>
 
-" Imports "{{{
-" ---------------------------------------------------------------------
-runtime ./plug.vim
-if has("unix")
-  let s:uname = system("uname -s")
-  " Do Mac stuff
-  if s:uname == "Darwin\n"
-    runtime ./macos.vim
-  endif
-endif
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+call plug#begin(data_dir . '/plugins')
+source ~/.config/nvim/plugins/telescope.vim
+source ~/.config/nvim/plugins/coc.vim
+source ~/.config/nvim/plugins/go.vim
+source ~/.config/nvim/plugins/commenary.vim
+call plug#end()
 
-runtime ./maps.vim
-"}}}
-
-" Syntax theme "{{{
-" ---------------------------------------------------------------------
-
-" true color
-if exists("&termguicolors") && exists("&winblend")
-  syntax enable
-  set termguicolors
-  set winblend=0
-  set wildoptions=pum
-  set pumblend=5
-  set background=dark
-  " Use NeoSolarized
-  " let g:neosolarized_termtrans=1
-  " runtime ./colors/onedark.vim
-  colorscheme onedark
-endif
-
-"}}}
-
-" Extras "{{{
-" ---------------------------------------------------------------------
-set exrc
-"}}}
-
-" vim: set foldmethod=marker foldlevel=0:
