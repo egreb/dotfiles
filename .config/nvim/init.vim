@@ -62,5 +62,7 @@ source ~/.config/nvim/plugins/telescope.vim
 source ~/.config/nvim/plugins/coc.vim
 source ~/.config/nvim/plugins/go.vim
 source ~/.config/nvim/plugins/commenary.vim
+source ~/.config/nvim/plugins/seoul256.vim
 call plug#end()
 
+colo seoul256
