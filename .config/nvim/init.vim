@@ -47,7 +47,6 @@ endif
 let mapleader = "\<space>"
 
 nmap <leader>ve :edit ~/.config/nvim/init.vim<cr>
-nmap <leader>vc :edit ~/.config/nvim/coc-settings.json<cr>
 nmap <leader>vr :source ~/.config/nvim/init.vim<cr>
 
 nmap <leader>k :nohlsearch<CR>
@@ -59,8 +58,6 @@ map gf :edit <cfile><cr>
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 call plug#begin(data_dir . '/plugins')
 source ~/.config/nvim/plugins/telescope.vim
-source ~/.config/nvim/plugins/coc.vim
-source ~/.config/nvim/plugins/go.vim
 source ~/.config/nvim/plugins/commenary.vim
 source ~/.config/nvim/plugins/seoul256.vim
 call plug#end()
