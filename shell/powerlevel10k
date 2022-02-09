@@ -4,3 +4,11 @@
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+
+# battery settings
+POWERLEVEL9K_BATTERY_CHARGING_FOREGROUND='red'
+POWERLEVEL9K_BATTERY_CHARGED_FOREGROUND='blue'
+POWERLEVEL9K_BATTERY_DISCONNECTED='blue'
+POWERLEVEL9K_BATTERY_LOW_THRESHOLD='10'
+POWERLEVEL9K_BATTERY_LOW_COLOR='red'
+POWERLEVEL9K_BATTERY_VERBOSE=false
