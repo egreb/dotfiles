@@ -1,0 +1,18 @@
+alias dev="~/dev"
+alias gri="git ls-files --ignored --exclude-standard | xargs -0 git rm -r" # fucked up .gitignore? run gri
+alias fix="git diff --name-only | uniq | xargs code"                       # open code to merge conflicts
+alias gs="git status"
+alias gst="git status"
+alias gp="git push"
+alias reload="source ~/.zshrc"
+alias dsa="docker container stop $(docker container ls -aq)"
+alias stop-containers="docker container stop $(docker container ls -aq)"
+alias rmf="rm -rf"
+alias vim="nvim"
+alias a="php artisan"
+
+function t() {
+  # Defaults to 3 levels deep, do more with `t 5` or `t 1`
+  # pass additional args after
+  tree -I '.git|node_modules|bower_components|.DS_Store' --dirsfirst --filelimit 15 -L ${1:-3} -aC $2
+}

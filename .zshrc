@@ -1,38 +1,40 @@
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
-ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="avit"
+# powerlevel10k
+if [ -f ~/.dotfiles/shell/powerlevel10k ]; then
+	source ~/.dotfiles/shell/powerlevel10k
+else
+	print "powerlevel10k config not found"
+fi
 
-alias dev="~/dev"
-alias gri="git ls-files --ignored --exclude-standard | xargs -0 git rm -r" # fucked up .gitignore? run gri
-alias fix="git diff --name-only | uniq | xargs code" # open code to merge conflicts
-alias gs="git status"
-alias reload="source ~/.zshrc"
+# HISTORY
+if [ -f ~/.dotfiles/shell/history ]; then
+	source ~/.dotfiles/shell/history
+else
+	print "404: history config file not found"
+fi
 
-# brew install tree
-function t() {
-  # Defaults to 3 levels deep, do more with `t 5` or `t 1`
-  # pass additional args after
-  tree -I '.git|node_modules|bower_components|.DS_Store' --dirsfirst --filelimit 15 -L ${1:-3} -aC $2
-}
+# aliases
+if [ -f ~/.dotfiles/shell/alias ]; then
+	source ~/.dotfiles/shell/alias
+else 
+	print "404: alias file not found"
+fi
 
-# Make utilities available
-PATH="$DOTFILES_DIR/bin:$PATH"
+# zsh / oh-my-zsh config
+if [ -f ~/.dotfiles/shell/zsh ]; then
+	source ~/.dotfiles/shell/zsh
+else 
+	print "404: zsh / oh-my-zsh config file not found"
+fi
 
-# Path to your oh-my-zsh installation.
-export ZSH=~/.oh-my-zsh
+# paths
+if [ -f ~/.dotfiles/shell/paths ]; then
+	source ~/.dotfiles/shell/paths
+else
+	print "404: paths file not found"
+fi
 
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(
-  git
-  fast-syntax-highlighting
-  node
-  golang
-  npm
-  zsh-syntax-highlighting
-  zsh-autosuggestions
-)
-
-source $ZSH/oh-my-zsh.sh
-
-# FZF
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

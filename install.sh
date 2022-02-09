@@ -16,14 +16,12 @@ if is-executable git -a -d "$DOTFILES_DIR/.git"; then
 fi
 
 # Bunch of symlinks
+ln -sfv "$DOTFILES_DIR/.zshrc" ~
 ln -sfv "$DOTFILES_DIR/git/.gitconfig" ~
 ln -sfv "$DOTFILES_DIR/git/.gitignore_global" ~
 ln -sfv "$DOTFILES_DIR/.config/nvim" ~/.config/nvim
 ln -sfv "$DOTFILES_DIR/.config/kitty" ~/.config/kitty
 ln -sfv "$DOTFILES_DIR/.config/fish" ~/.config/fish
-
-# install dependencies
-# starship prompt
-sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+ln -sfv "$DOTFILES_DIR/.p10k.zsh" ~
 
 

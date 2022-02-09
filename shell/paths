@@ -1,0 +1,17 @@
+# Make .dotfiles utilities available
+PATH="$DOTFILES_DIR/bin:$PATH"
+
+# GO
+export GOPATH=/Users/sib/go
+export PATH="$PATH:/usr/local/go/bin/"
+export PATH="$PATH:$(go env GOPATH)/bin"
+
+# npm version manager 
+export N_PREFIX=$HOME/.n
+export PATH=$N_PREFIX/bin:$PATH
+
+# FZF
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# composer
+export PATH="$PATH:~/.composer/vendor/bin"
