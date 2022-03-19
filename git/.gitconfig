@@ -8,8 +8,8 @@
 	process = git-lfs filter-process
 [core]
 	excludesfile = ~/.gitignore_global
-	editor = vim
-    ignoreCase = false
+	editor = nvim
+        ignoreCase = false
 
 [alias]
 	co = checkout
