@@ -10,6 +10,7 @@ alias stop-containers="docker container stop $(docker container ls -aq)"
 alias rmf="rm -rf"
 alias vim="nvim"
 alias a="php artisan"
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 function t() {
   # Defaults to 3 levels deep, do more with `t 5` or `t 1`

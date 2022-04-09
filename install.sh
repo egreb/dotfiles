@@ -10,18 +10,38 @@ DOTFILES_EXTRA_DIR="$HOME/.extra"
 PATH="$DOTFILES_DIR/bin:$PATH"
 
 # update dotfiles itself
-if is-executable git -a -d "$DOTFILES_DIR/.git"; then
-	git --work-tree="$DOTFILES_DIR" --git-dir="$DOTFILES_DIR/.git"
-	pull origin master
+echo "update dotfiles repo"
+
+if [ -d "$DOTFILES_DIR/.git" ] 
+then
+	git --work-tree="$DOTFILES_DIR" --git-dir="$DOTFILES_DIR/.git" pull origin master
+	echo "repo updated";
+fi
+
+if ! is-dir ~/.config
+then 
+	echo ".config does not exist, creating folder"
+	mkdir ~/.config
 fi
 
 # Bunch of symlinks
+echo "Install symlinks.."
 ln -sfv "$DOTFILES_DIR/.zshrc" ~
 ln -sfv "$DOTFILES_DIR/git/.gitconfig" ~
 ln -sfv "$DOTFILES_DIR/git/.gitignore_global" ~
-ln -sfv "$DOTFILES_DIR/.config/nvim" ~/.config/nvim
-ln -sfv "$DOTFILES_DIR/.config/kitty" ~/.config/kitty
-ln -sfv "$DOTFILES_DIR/.config/fish" ~/.config/fish
-ln -sfv "$DOTFILES_DIR/.p10k.zsh" ~
+ln -sfv "$DOTFILES_DIR/.config/nvim" ~/.config
+ln -sfv "$DOTFILES_DIR/.config/kitty" ~/.config
+ln -sfv "$DOTFILES_DIR/.tmux.conf" ~
+ln -sfv "$DOTFILES_DIR/.tmux.conf.osx" ~
 
+if ! is-executable brew 
+then 
+	echo "installing brew..."
+fi
+
+# make sure brew is installed
+if ! is-executable brew 
+then
+	echo "aborting, 'brew' command was not found.."
+fi
 

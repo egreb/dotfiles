@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+npm_packages=(
+  "typescript"
+  "prettier"
+  "intelephense"
+  "diagnostic-languageserver"
+  "pnpm"
+  "typescript-language-server"
+  "bash-language-server"
+)
+
+npm i -g ${npm_packages[@]}
