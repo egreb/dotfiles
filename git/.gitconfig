@@ -54,8 +54,8 @@
 [fetch]
   prune = true
   
- [url "ssh://git@github.com/"]
-	insteadOf = https://github.com/
+# [url "ssh://git@github.com/"]
+#	insteadOf = https://github.com/
 [include]
 	path = /Users/sib/.gitconfig.local
 [dotfiles]
