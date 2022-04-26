@@ -1,0 +1,9 @@
+theme = "onedark"
+
+[editor]
+line-number = "relative"
+
+[editor.cursor-shape]
+normal = "block"
+insert = "underline"
+select = "bar"
