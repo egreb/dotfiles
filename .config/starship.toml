@@ -2,7 +2,7 @@
 add_newline = true
 
 # Replace the "❯" symbol in the prompt with "➜"
-[character]      # The name of the module we are configuring is "character"
+[character] # The name of the module we are configuring is "character"
 # symbol = "❯"     # The "symbol" segment is being set to "➜"
 
 # Disable the package module, hiding it from the prompt completely
@@ -13,12 +13,17 @@ disabled = true
 disabled = true
 
 [battery]
-full_symbol = ""
 charging_symbol = ""
 discharging_symbol = ""
+full_symbol = ""
 
 [[battery.display]]
-threshold = 40
 style = "bold red"
+threshold = 40
 
 #prompt_order=["battery","username","line_break","package","line_break","character"]
+[git_branch]
+always_show_remote = true
+
+[git_commit]
+tag_symbol = "🔖 "
