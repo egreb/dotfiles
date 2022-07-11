@@ -33,5 +33,4 @@ fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
 
-eval "$(starship init zsh)"
 export PATH="/opt/homebrew/opt/node@16/bin:$PATH"
