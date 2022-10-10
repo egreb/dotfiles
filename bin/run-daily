@@ -13,25 +13,15 @@ npm_packages=(
   "prettier"
   "intelephense"
   "diagnostic-languageserver"
-  "pnpm"
   "typescript-language-server"
   "bash-language-server"
-  "yarn"
   )
 
-if is-executable npm 
+if is-executable npm
   then
     echo "updating global npm packages"
     npm i -g ${npm_packages[@]}
   else
     echo "npm not found"
-fi
-
-if ! is-executable composer
-  then
-    echo "command 'composer' was not found.."
-  else
-    composer global self
-    composer global update -W
 fi
 

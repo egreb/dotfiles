@@ -9,7 +9,7 @@
 [core]
 	excludesfile = ~/.gitignore_global
 	editor = hx
-        ignoreCase = false
+  ignoreCase = false
 
 [alias]
 	co = checkout
@@ -53,7 +53,7 @@
 
 [fetch]
   prune = true
-  
+
 # [url "ssh://git@github.com/"]
 #	insteadOf = https://github.com/
 [include]
@@ -64,13 +64,9 @@
 	protocol = ssh
 [diff]
 	colorMoved = default
-	tool = vscode
-[difftool "vscode"]
-	cmd = "code --wait --diff  "
-
-[merge]
-	tool = vscode
-[mergetool "vscode"]
-	cmd = "code --wait "
 [init]
 	defaultBranch = main
+[push]
+	autoSetupRemote = true
+[pull]
+  rebase = false

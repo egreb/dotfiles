@@ -1,5 +1,5 @@
 # Make .dotfiles utilities available
-PATH="$DOTFILES_DIR/bin:$PATH"
+PATH="$HOME/.dotfiles/bin:$PATH"
 
 # GO
 export GOPATH=~/go
@@ -14,7 +14,7 @@ export PATH="$PATH:$NPM_PACKAGES/bin"
 # Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`.
 export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
 
-# n - a npm version manager 
+# n - a npm version manager
 export N_PREFIX=$HOME/.n
 
 # npm binaries
@@ -26,3 +26,6 @@ export PATH=$NPM_PACKAGES/bin:$PATH
 
 # composer
 export PATH="$PATH:~/.composer/vendor/bin"
+
+# nvim packer
+export PATH="$PATH:~./local/share/nvim/site"

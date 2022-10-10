@@ -34,3 +34,5 @@ fi
 [[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
 
 export PATH="/opt/homebrew/opt/node@16/bin:$PATH"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
