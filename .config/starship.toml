@@ -23,7 +23,7 @@ threshold = 40
 
 #prompt_order=["battery","username","line_break","package","line_break","character"]
 [git_branch]
-always_show_remote = true
+always_show_remote = false
 
 [git_commit]
 tag_symbol = "🔖 "
