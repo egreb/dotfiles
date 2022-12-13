@@ -14,9 +14,6 @@ export PATH="$PATH:$NPM_PACKAGES/bin"
 # Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`.
 export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
 
-# n - a npm version manager
-export N_PREFIX=$HOME/.n
-
 # npm binaries
 export PATH=$N_PREFIX/bin:$PATH
 export PATH=$NPM_PACKAGES/bin:$PATH
@@ -29,3 +26,10 @@ export PATH="$PATH:~/.composer/vendor/bin"
 
 # nvim packer
 export PATH="$PATH:~./local/share/nvim/site"
+
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+# deno
+export DENO_INSTALL="/Users/sib/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"

@@ -1,29 +1,75 @@
-# Don't print a new line at the start of the prompt
-add_newline = true
+format = """
+[](#3B4252)\
+$username\
+[](bg:#434C5E fg:#3B4252)\
+$directory\
+[](fg:#434C5E bg:#4C566A)\
+$git_branch\
+$git_status\
+[](fg:#4C566A bg:#43853d)\
+$golang\
+$nodejs\
+[](fg:#43853d bg:#06969A)\
+$docker_context\
+[](fg:#06969A bg:#33658A)\
+$time\
+[ ](fg:#33658A)\
+\n\\$ """
+command_timeout = 5000
+# Disable the blank line at the start of the prompt
+# add_newline = false
 
-# Replace the "❯" symbol in the prompt with "➜"
-[character] # The name of the module we are configuring is "character"
-# symbol = "❯"     # The "symbol" segment is being set to "➜"
+# You can also replace your username with a neat symbol like  to save some space
+[username]
+show_always = true
+style_user = "bg:#3B4252"
+style_root = "bg:#3B4252"
+format = '[$user ]($style)'
 
-# Disable the package module, hiding it from the prompt completely
-[package]
-disabled = true
+[directory]
+style = "bg:#434C5E"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
 
-[dotnet]
-disabled = true
+# Here is how you can shorten some long paths by text replacement
+# similar to mapped_locations in Oh My Posh:
+[directory.substitutions]
+"Documents" = " "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+# Keep in mind that the order matters. For example:
+# "Important Documents" = "  "
+# will not be replaced, because "Documents" was already substituted before.
+# So either put "Important Documents" before "Documents" or use the substituted version:
+# "Important  " = "  "
+[docker_context]
+symbol = " "
+style = "bg:#06969A"
+format = '[ $symbol $context ]($style) $path'
 
-[battery]
-charging_symbol = ""
-discharging_symbol = ""
-full_symbol = ""
-
-[[battery.display]]
-style = "bold red"
-threshold = 40
-
-#prompt_order=["battery","username","line_break","package","line_break","character"]
 [git_branch]
-always_show_remote = false
+symbol = ""
+style = "bg:#4C566A"
+format = '[ $symbol $branch ]($style)'
 
-[git_commit]
-tag_symbol = "🔖 "
+[git_status]
+style = "bg:#4C566A"
+format = '[$all_status$ahead_behind ]($style)'
+
+[golang]
+symbol = " "
+style = "bg:#86BBD8"
+format = '[ $symbol ($version) ]($style)'
+
+[nodejs]
+symbol = ""
+style = "bg:#43853d"
+format = '[ $symbol ($version) ]($style)'
+
+[time]
+disabled = false
+time_format = "%R" # Hour:Minute Format
+style = "bg:#33658A"
+format = '[ $time ]($style)'

@@ -25,3 +25,4 @@ function t() {
 }
 
 alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+alias fcb='g co $(g branch | fzf)'
