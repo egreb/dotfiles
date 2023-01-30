@@ -9,14 +9,13 @@ export ZSH=~/.oh-my-zsh
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
-  golang
-  docker
   npm
   yarn
   node
   vscode
   zsh-interactive-cd
   gh
+  tmux
 )
 
 source $ZSH/oh-my-zsh.sh

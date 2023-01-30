@@ -5,8 +5,6 @@ alias gs="git status"
 alias gst="git status"
 alias gp="git push"
 alias reload="source ~/.zshrc"
-alias dsa="docker container stop $(docker container ls -aq)"
-alias stop-containers="docker container stop $(docker container ls -aq)"
 alias rmf="rm -rf"
 alias vim="nvim"
 alias a="php artisan"
@@ -17,6 +15,8 @@ alias gfetch='g fetch --all'
 alias exal="exa -l"
 alias proj="cd ~/code/projects"
 alias pj="cd ~/code/projects"
+alias es="exa"
+alias el="exa -l"
 
 function t() {
   # Defaults to 3 levels deep, do more with `t 5` or `t 1`
@@ -26,3 +26,8 @@ function t() {
 
 alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 alias fcb='g co $(g branch | fzf)'
+
+if docker version >/dev/null 2>&1; then
+  alias dsa="docker container stop $(docker container ls -aq)"
+  alias stop-containers="docker container stop $(docker container ls -aq)"
+fi
