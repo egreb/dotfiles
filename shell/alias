@@ -24,6 +24,7 @@ alias vpr="open_pr"
 alias create_pr="gh pr create -w"
 alias cpr="create_pr"
 alias delete_merged="git branch -d $(git branch --merged | egrep -v '(^\*|master|main|dev)')"
+alias pm="pnpm"
 
 # alias for using fzf to switch git branch
 alias fcb='g co $(g branch | fzf)'
