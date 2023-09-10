@@ -1,58 +1,67 @@
-export LC_CTYPE=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi # Path to your oh-my-zsh installation.
 
-# HISTORY
-if [ -f ~/.dotfiles/shell/history ]; then
-	source ~/.dotfiles/shell/history
-else
-	print "404: history config file not found"
-fi
 
-# zsh / oh-my-zsh config
-if [ -f ~/.dotfiles/shell/zsh ]; then
-	source ~/.dotfiles/shell/zsh
-else
-	print "404: zsh / oh-my-zsh config file not found"
-fi
+# Path to your oh-my-zsh installation.
+export ZSH=~/.oh-my-zsh
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
-# paths
-if [ -f ~/.dotfiles/shell/paths ]; then
-	source ~/.dotfiles/shell/paths
-else
-	print "404: paths file not found"
-fi
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(
+  git
+  zsh-interactive-cd
+)
 
-# aliases
-if [ -f ~/.dotfiles/shell/alias ]; then
-	source ~/.dotfiles/shell/alias
-else
-	print "404: alias file not found"
-fi
+source $ZSH/oh-my-zsh.sh
+
+DISABLE_AUTO_TITLE=true
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-export PATH="/opt/homebrew/opt/node@16/bin:$PATH"
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 eval "$(fnm env --use-on-cd)"
+source ~/.fzf.zsh
 
-# pnpm
-export PNPM_HOME="/Users/sib/Library/pnpm"
-export PATH="$PNPM_HOME:$PATH"
-# pnpm end
-#
-# bit
-export PATH="$PATH:/Users/sib/bin"
-export PATH="$PATH:/Users/sib/.bin"
-# bit end
+# ALIAS
+alias t="tmux"
+alias tk="tmux kill-session -t"
+alias tl="tmux list-sessions"
+alias ta="tmux attach -t"
+alias tn="tmux new -s"
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/sib/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/sib/google-cloud-sdk/path.zsh.inc'; fi
+alias gs="git status"
+alias gst="git status"
+alias gp="git push"
+alias reload="source ~/.zshrc"
+alias vim="nvim"
+# easy switch worktree and change tmux window name
+function swt() {
+  foo=$(git worktree list | fzf)
+  dir=$(echo $foo | awk '{split($0,a); print $1}')
+  branch=$(echo $foo | awk '{split($0,a); print $3}')
 
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/sib/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/sib/google-cloud-sdk/completion.zsh.inc'; fi
+  tmux new-window -n $branch -c $dir
+}
 
-# opam configuration
-[[ ! -r /Users/sib/.opam/opam-init/init.zsh ]] || source /Users/sib/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
+alias l="exa -l --icons --git -a"
+alias lt="exa --tree --level=2 --long --icons --git"
+
+# Make .dotfiles utilities available
+PATH="$HOME/.dotfiles/bin:$PATH"
+
+export EDITOR=nvim
+export editor=nvim
+
+# GO
+export GOPATH=~/go
+export PATH="$PATH:/usr/local/go/bin/"
+export PATH="$PATH:$(go env GOPATH)/bin"
+
+# npm
+NPM_PACKAGES="${HOME}/.npm-packages"
+export PATH="$PATH:$NPM_PACKAGES/bin"
+
