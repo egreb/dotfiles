@@ -38,6 +38,7 @@ alias gst="git status"
 alias gp="git push"
 alias reload="source ~/.zshrc"
 alias vim="nvim"
+
 # easy switch worktree and change tmux window name
 function swt() {
   foo=$(git worktree list | fzf)
@@ -47,9 +48,25 @@ function swt() {
   tmux new-window -n $branch -c $dir
 }
 
+function gwa() {
+  BRANCH=$1
+
+  git worktree add $1 -b $1 >/dev/null 2>&1
+  worktree=$(git worktree list | fzf --query="$BRANCH" -1)
+  dir=$(echo $worktree | awk '{split($0,a); print $1}')
+
+  if tmux info &> /dev/null; then
+    tmux new-window -n $BRANCH -c $dir
+  else
+    cd $dir
+  fi
+}
+
 alias l="exa -l --icons --git -a"
 alias lt="exa --tree --level=2 --long --icons --git"
 alias pm="pnpm"
+alias vpr="gh pr view -w"
+alias cpr="gh pr create -w"
 
 # Make .dotfiles utilities available
 PATH="$HOME/.dotfiles/bin:$PATH"
