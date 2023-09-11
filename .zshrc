@@ -49,6 +49,7 @@ function swt() {
 
 alias l="exa -l --icons --git -a"
 alias lt="exa --tree --level=2 --long --icons --git"
+alias pm="pnpm"
 
 # Make .dotfiles utilities available
 PATH="$HOME/.dotfiles/bin:$PATH"
