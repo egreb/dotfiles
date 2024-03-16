@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+selected=$(tmux ls -F '#S' | fzf --prompt='Select session: ' --layout=reverse)
+selected_name=$(basename "$selected" | tr . _)
+tmux_running=$(pgrep tmux)
+
+if [[ -z "$TMUX" ]] && [[ -z $tmux_running ]]; then
+	tmux attach-session -t=$selected_name
+	exit 0
+fi
+tmux switch-client -t $selected_name

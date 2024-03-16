@@ -3,8 +3,7 @@
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi # Path to your oh-my-zsh installation.
-
+fi
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
@@ -38,15 +37,39 @@ alias gst="git status"
 alias gp="git push"
 alias reload="source ~/.zshrc"
 alias vim="nvim"
+alias gcbrun="gh pr comment -b '/gcbrun'"
+alias notify="noti gh pr checks --watch"
+alias 1c="git merge origin/main && git reset --soft origin/main"
+alias ts="tmux new-session -t $1"
+
+function squash() {
+  main_branch=$(basename $(git symbolic-ref --short refs/remotes/origin/HEAD))
+  git merge origin/$main_branch && git reset --soft origin/$main_branch
+}
+
+# switch tmux sessions using fzf
+function ss() {
+  if [ -z "$TMUX" ]; then
+    tmux attach-session -t "$(tmux ls -F '#S' | fzf --prompt='Select session: ')"
+  else
+    tmux switch-client -t "$(tmux ls -F '#S' | fzf --prompt='Select session: ')"
+  fi
+}
 
 # easy switch worktree and change tmux window name
 function swt() {
-  foo=$(git worktree list | fzf)
-  dir=$(echo $foo | awk '{split($0,a); print $1}')
-  branch=$(echo $foo | awk '{split($0,a); print $3}')
+  selected=$(git worktree list | fzf)
+  dir=$(echo $selected | awk '{split($0,a); print $1}')
+  branch=$(echo $selected | awk '{split($0,a); print $3}')
 
-  tmux new-window -n $branch -c $dir
+  if ! [ -z "$dir" ]; then
+    tmux new-window -n $branch -c $dir
+  fi
 }
+
+# easy switch worktree and change tmux window name
+# zle -N swt
+# bindkey '^W+l' swt
 
 function gwa() {
   BRANCH=$1
@@ -76,10 +99,17 @@ export editor=nvim
 
 # GO
 export GOPATH=~/go
-export PATH="$PATH:/usr/local/go/bin/"
 export PATH="$PATH:$(go env GOPATH)/bin"
+export PATH="$PATH:$(go env GOBIN)"
 
 # npm
 NPM_PACKAGES="${HOME}/.npm-packages"
 export PATH="$PATH:$NPM_PACKAGES/bin"
 
+PATH="$HOME/.bin:$PATH"
+
+# gcloud
+source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
+
+# syntax highlighting fish style
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
