@@ -1,60 +1,53 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# ENVIRONMENT
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$XDG_CONFIG_HOME/local/share"
+export XDG_CACHE_HOME="$XDG_CONFIG_HOME/cache"
 
-# Path to your oh-my-zsh installation.
-export ZSH=~/.oh-my-zsh
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# DOTFILES
+export DOTFILES="$HOME/.dotfiles"
 
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(
-  git
-  zsh-interactive-cd
-)
+# EDITOR
+export EDITOR="nvim"
+export VISUAL="nvim"
 
-source $ZSH/oh-my-zsh.sh
+# HISTORY
+export HISTFILE="$HOME/.zsh_history" # HISTORY FILEPATH
+export HISTSIZE=10000 # maximum events for internal history
+export SAVEHIST=10000 # maximum events in history file
 
-DISABLE_AUTO_TITLE=true
+# ALIASES
+source $DOTFILES/zsh/aliases.zsh
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# +------------+
+# | NAVIGATION |
+# +------------+
+setopt AUTO_CD              # Go to folder path without using cd.
 
-eval "$(fnm env --use-on-cd)"
-source ~/.fzf.zsh
+setopt AUTO_PUSHD           # Push the old directory onto the stack on cd.
+setopt PUSHD_IGNORE_DUPS    # Do not store duplicates in the stack.
+setopt PUSHD_SILENT         # Do not print the directory stack after pushd or popd.
 
-# ALIAS
-alias t="tmux"
-alias tk="tmux kill-session -t"
-alias tl="tmux list-sessions"
-alias ta="tmux attach -t"
-alias tn="tmux new -s"
+setopt CORRECT              # Spelling correction
+setopt CDABLE_VARS          # Change directory to a path stored in a variable.
+setopt EXTENDED_GLOB        # Use extended globbing syntax.
 
-alias gs="git status"
-alias gst="git status"
-alias gp="git push"
-alias reload="source ~/.zshrc"
-alias vim="nvim"
-alias gcbrun="gh pr comment -b '/gcbrun'"
-alias notify="noti gh pr checks --watch"
-alias 1c="git merge origin/main && git reset --soft origin/main"
-alias ts="tmux new-session -t $1"
+# +---------+
+# | HISTORY |
+# +---------+
+setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
+setopt SHARE_HISTORY             # Share history between all sessions.
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire a duplicate event first when trimming history.
+setopt HIST_IGNORE_DUPS          # Do not record an event that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS      # Delete an old recorded event if a new event is a duplicate.
+setopt HIST_FIND_NO_DUPS         # Do not display a previously found event.
+setopt HIST_IGNORE_SPACE         # Do not record an event starting with a space.
+setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history file.
+setopt HIST_VERIFY               # Do not execute immediately upon history expansion.
 
-function squash() {
-  main_branch=$(basename $(git symbolic-ref --short refs/remotes/origin/HEAD))
-  git merge origin/$main_branch && git reset --soft origin/$main_branch
-}
-
-# switch tmux sessions using fzf
-function ss() {
-  if [ -z "$TMUX" ]; then
-    tmux attach-session -t "$(tmux ls -F '#S' | fzf --prompt='Select session: ')"
-  else
-    tmux switch-client -t "$(tmux ls -F '#S' | fzf --prompt='Select session: ')"
-  fi
-}
+# ENABLE SHELL AUTOCOMPLETION
+autoload -U compinit; compinit
+_comp_options+=(globdots) # With hidden files
+source $DOTFILES/zsh/completions.zsh
 
 # easy switch worktree and change tmux window name
 function swt() {
@@ -85,31 +78,34 @@ function gwa() {
   fi
 }
 
-alias l="exa -l --icons --git -a"
-alias lt="exa --tree --level=2 --long --icons --git"
-alias pm="pnpm"
-alias vpr="gh pr view -w"
-alias cpr="gh pr create -w"
+# VI MODE
+bindkey -v
+export KEYTIMEOUT=1
 
-# Make .dotfiles utilities available
-PATH="$HOME/.dotfiles/bin:$PATH"
+# PROMPT/THEME
+fpath=($DOTFILES/zsh/prompt $fpath)
+source $DOTFILES/zsh/prompt/agkozak.theme
 
-export EDITOR=nvim
-export editor=nvim
+# SYNTAX HIGHLIGHTING
+source $DOTFILES/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# GO
-export GOPATH=~/go
-export PATH="$PATH:$(go env GOPATH)/bin"
-export PATH="$PATH:$(go env GOBIN)"
+# ZSH HISTORY SUBSTRING SEARCH
+# NB! Load this after syntax highlighting
+source $DOTFILES/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
 
-# npm
-NPM_PACKAGES="${HOME}/.npm-packages"
-export PATH="$PATH:$NPM_PACKAGES/bin"
+# INTERACTIVE CD
+source $DOTFILES/zsh/plugins/zsh-interactive-cd.zsh
 
-PATH="$HOME/.bin:$PATH"
+# FZF
+source $DOTFILES/zsh/fzf.zsh
 
-# gcloud
-source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
+# NODE ENV MANAGER
+eval "$(fnm env --use-on-cd)"
 
-# syntax highlighting fish style
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# bun completions
+# [ -s "/Users/sib/.bun/_bun" ] && source "/Users/sib/.bun/_bun"
+
+# PATH
+export PATH=${PATH}:$HOME/go/bin
