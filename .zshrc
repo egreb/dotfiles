@@ -47,7 +47,7 @@ setopt HIST_VERIFY               # Do not execute immediately upon history expan
 # ENABLE SHELL AUTOCOMPLETION
 autoload -U compinit; compinit
 _comp_options+=(globdots) # With hidden files
-source $DOTFILES/zsh/completions.zsh
+fpath=($DOTFILES/zsh/completions $fpath)
 
 # easy switch worktree and change tmux window name
 function swt() {
@@ -83,7 +83,6 @@ bindkey -v
 export KEYTIMEOUT=1
 
 # PROMPT/THEME
-fpath=($DOTFILES/zsh/prompt $fpath)
 source $DOTFILES/zsh/prompt/agkozak.theme
 
 # SYNTAX HIGHLIGHTING
@@ -102,10 +101,7 @@ source $DOTFILES/zsh/plugins/zsh-interactive-cd.zsh
 source $DOTFILES/zsh/fzf.zsh
 
 # NODE ENV MANAGER
-eval "$(fnm env --use-on-cd)"
-
-# bun completions
-# [ -s "/Users/sib/.bun/_bun" ] && source "/Users/sib/.bun/_bun"
+# eval "$(fnm env --use-on-cd)"
 
 # PATH
 export PATH=${PATH}:$HOME/go/bin
