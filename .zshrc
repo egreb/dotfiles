@@ -47,7 +47,8 @@ setopt HIST_VERIFY               # Do not execute immediately upon history expan
 # ENABLE SHELL AUTOCOMPLETION
 autoload -U compinit; compinit
 _comp_options+=(globdots) # With hidden files
-fpath=($DOTFILES/zsh/completions $fpath)
+# source $DOTFILES/zsh/completions.zsh
+fpath=($DOTFILES/zsh/completions/src $fpath)
 
 # easy switch worktree and change tmux window name
 function swt() {
@@ -101,7 +102,12 @@ source $DOTFILES/zsh/plugins/zsh-interactive-cd.zsh
 source $DOTFILES/zsh/fzf.zsh
 
 # NODE ENV MANAGER
-# eval "$(fnm env --use-on-cd)"
+eval "$(fnm env --use-on-cd)"
 
 # PATH
 export PATH=${PATH}:$HOME/go/bin
+export PATH=${PATH}:$HOME/.bin
+
+# Google cloud sdk components
+source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
+
