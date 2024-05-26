@@ -107,6 +107,7 @@ eval "$(fnm env --use-on-cd)"
 # PATH
 export PATH=${PATH}:$HOME/go/bin
 export PATH=${PATH}:$HOME/.bin
+export PATH=${PATH}:$HOME/.dotfiles/bin
 
 # Google cloud sdk components
 source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
