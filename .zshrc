@@ -81,10 +81,10 @@ function gwa() {
 
 # VI MODE
 bindkey -v
-export KEYTIMEOUT=1
+# export KEYTIMEOUT=1
 
 # PROMPT/THEME
-source $DOTFILES/zsh/prompt/agkozak.theme
+source $DOTFILES/zsh/themes/oxide.zsh-theme
 
 # SYNTAX HIGHLIGHTING
 source $DOTFILES/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
