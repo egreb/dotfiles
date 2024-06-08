@@ -31,6 +31,13 @@ console_title_template = '{{ .Shell }} in {{ .Folder }}'
       commit_icon = '@'
       fetch_status = true
 
+  [[blocks.segments]]
+    type = 'text'
+    style = 'plain'
+    foreground = 'green'
+    background = 'transparent'
+    template = "$([ $(jobs|wc -l|xargs) -gt 0 ] && echo '📝')"
+
 [[blocks]]
   type = 'rprompt'
   overflow = 'hidden'
