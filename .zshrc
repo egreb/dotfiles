@@ -84,7 +84,8 @@ bindkey -v
 # export KEYTIMEOUT=1
 
 # PROMPT/THEME
-source $DOTFILES/zsh/themes/oxide.zsh-theme
+# source $DOTFILES/zsh/themes/oxide.zsh-theme
+eval "$(oh-my-posh init zsh --config ~/.dotfiles/ohmyposh/zen.toml)"
 
 # SYNTAX HIGHLIGHTING
 source $DOTFILES/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

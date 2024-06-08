@@ -12,15 +12,15 @@ autoload -Uz vcs_info
 
 # Use True color (24-bit) if available.
 if [[ "${terminfo[colors]}" -ge 256 ]]; then
-    oxide_turquoise="%F{73}"
+    oxide_pink="%F{205}"
     oxide_orange="%F{179}"
     oxide_red="%F{167}"
-    oxide_limegreen="%F{107}"
+    oxide_blue="%F{39}"
 else
-    oxide_turquoise="%F{cyan}"
+    oxide_pink="%F{magenta}"
     oxide_orange="%F{yellow}"
     oxide_red="%F{red}"
-    oxide_limegreen="%F{green}"
+    oxide_blue="%F{blue}"
 fi
 
 # Reset color.
@@ -28,9 +28,9 @@ oxide_reset_color="%f"
 
 # VCS style formats.
 FMT_UNSTAGED="%{$oxide_reset_color%} %{$oxide_orange%}●"
-FMT_STAGED="%{$oxide_reset_color%} %{$oxide_limegreen%}✚"
-FMT_ACTION="(%{$oxide_limegreen%}%a%{$oxide_reset_color%})"
-FMT_VCS_STATUS="on %{$oxide_turquoise%} %b%u%c%{$oxide_reset_color%}"
+FMT_STAGED="%{$oxide_reset_color%} %{$oxide_blue%}✚"
+FMT_ACTION="(%{$oxide_blue%}%a%{$oxide_reset_color%})"
+FMT_VCS_STATUS="on %{$oxide_pink%} %b%u%c%{$oxide_reset_color%}"
 
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
@@ -53,4 +53,4 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 add-zsh-hook precmd vcs_info
 
 # Oxide prompt style.
-PROMPT=$'\n%{$oxide_limegreen%}%~%{$oxide_reset_color%} ${vcs_info_msg_0_}\n%(?.%{%F{white}%}.%{$oxide_red%})%(!.#.❯)%{$oxide_reset_color%} '
+PROMPT=$'\n%{$oxide_blue%}%~%{$oxide_reset_color%} ${vcs_info_msg_0_}\n%(?.%{%F{white}%}.%{$oxide_red%})%(!.#.❯)%{$oxide_reset_color%} '
