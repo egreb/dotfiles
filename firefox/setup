@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$(dirname "$0")"
+DIRECTORY="$HOME/Library/Application Support/Firefox/Profiles/xsqcvw1d.default-release-1692270492681/"
+
+# check if folder exists
+
+if [ ! -d "$DIRECTORY" ]; then
+	echo "Missing firefox profile directory, creating.."
+	mkdir -p "$DIRECTORY"
+fi
+
+if [ ! -d "$DIRECTORY" ]; then
+	echo "$DIRECTORY still missing, fix script.."
+	exit 1
+fi
+
+cp -R "$SCRIPT_DIR/chrome" "$DIRECTORY"
+echo "'chrome' folder copied to $DIRECTORY"
