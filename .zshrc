@@ -1,3 +1,6 @@
+alias vim=nvim
+alias vi=nvim
+
 # ENVIRONMENT
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$XDG_CONFIG_HOME/local/share"
@@ -7,8 +10,8 @@ export XDG_CACHE_HOME="$XDG_CONFIG_HOME/cache"
 export DOTFILES="$HOME/.dotfiles"
 
 # EDITOR
-export EDITOR="nvim"
-export VISUAL="nvim"
+export EDITOR=nvim
+export VISUAL=nvim
 
 # HISTORY
 export HISTFILE="$HOME/.zsh_history" # HISTORY FILEPATH
@@ -17,6 +20,7 @@ export SAVEHIST=10000 # maximum events in history file
 
 # ALIASES
 source $DOTFILES/zsh/aliases.zsh
+source $DOTFILES/zsh/functions.zsh
 
 # +------------+
 # | NAVIGATION |
@@ -50,37 +54,9 @@ _comp_options+=(globdots) # With hidden files
 # source $DOTFILES/zsh/completions.zsh
 fpath=($DOTFILES/zsh/completions/src $fpath)
 
-# easy switch worktree and change tmux window name
-function swt() {
-  selected=$(git worktree list | fzf)
-  dir=$(echo $selected | awk '{split($0,a); print $1}')
-  branch=$(echo $selected | awk '{split($0,a); print $3}')
-
-  if ! [ -z "$dir" ]; then
-    tmux new-window -n $branch -c $dir
-  fi
-}
-
-# easy switch worktree and change tmux window name
-# zle -N swt
-# bindkey '^W+l' swt
-
-function gwa() {
-  BRANCH=$1
-
-  git worktree add $1 -b $1 >/dev/null 2>&1
-  worktree=$(git worktree list | fzf --query="$BRANCH" -1)
-  dir=$(echo $worktree | awk '{split($0,a); print $1}')
-
-  if tmux info &> /dev/null; then
-    tmux new-window -n $BRANCH -c $dir
-  else
-    cd $dir
-  fi
-}
 
 # VI MODE
-bindkey -v
+# bindkey -v
 # export KEYTIMEOUT=1
 
 # PROMPT/THEME
@@ -88,13 +64,13 @@ bindkey -v
 eval "$(oh-my-posh init zsh --config ~/.dotfiles/ohmyposh/zen.toml)"
 
 # SYNTAX HIGHLIGHTING
-source $DOTFILES/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source $DOTFILES/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # ZSH HISTORY SUBSTRING SEARCH
 # NB! Load this after syntax highlighting
-source $DOTFILES/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
+# source $DOTFILES/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+# bindkey '^[[A' history-substring-search-up
+# bindkey '^[[B' history-substring-search-down
 
 # INTERACTIVE CD
 source $DOTFILES/zsh/plugins/zsh-interactive-cd.zsh
@@ -109,7 +85,17 @@ eval "$(fnm env --use-on-cd)"
 export PATH=${PATH}:$HOME/go/bin
 export PATH=${PATH}:$HOME/.bin
 export PATH=${PATH}:$HOME/.dotfiles/bin
+export PATH=${PATH}:$HOME/.deno/bin
 
 # Google cloud sdk components
-source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
+# source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
+# export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+
+# pnpm
+export PNPM_HOME="/Users/sib/.config/local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
 
