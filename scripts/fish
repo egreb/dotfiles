@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# get the latest version
+sudo apt-add-repository ppa:fish-shell/release-3
+
+# update and install fish
+sudo apt update && sudo apt install fish
+
+# make fish the default shell
+chsh -s /usr/bin/fish
+
+echo "Remember to logout for the shell changes to take effect!"
