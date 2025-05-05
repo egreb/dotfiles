@@ -9,6 +9,9 @@ export XDG_CACHE_HOME="$XDG_CONFIG_HOME/cache"
 # DOTFILES
 export DOTFILES="$HOME/.dotfiles"
 
+# NOTES
+export ZK_NOTEBOOK_DIR=~/notes
+
 # EDITOR
 export EDITOR=nvim
 export VISUAL=nvim
