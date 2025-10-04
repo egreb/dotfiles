@@ -6,17 +6,12 @@ if [[ -z $selected ]]; then
     exit 0
 fi
 
-full_path=$(echo "$selected" | awk '{print $1}')
+full_path="$selected"
 root_dir=$(basename "$(git worktree list | awk 'NR==1{print $1}')")
 branch=$(git -C "$full_path" rev-parse --abbrev-ref HEAD)
-selected_name="$root_dir--$branch"
-tmux_running=$(pgrep tmux)
+selected_name="${root_dir}__${branch}"
 
-echo "$full_path"
-echo "$root_dir"
-echo "$branch"
-echo "$selected_name"
-echo "$tmux_running"
+tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
     tmux new-session -s "$selected_name" -c "$full_path"
