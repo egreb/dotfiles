@@ -1,0 +1,17 @@
+shell-integration = fish
+theme = vague
+
+# vertical padding
+window-padding-y = 6,0                    
+font-family = "IosevkaTerm Nerd Font Mono"   
+font-size = 22
+# Disable ligatures
+# font-feature = -calt
+# font-feature = -liga
+# font-feature = -dlig
+
+macos-option-as-alt = true
+window-theme = ghostty
+macos-titlebar-proxy-icon = "hidden"
+title = " "
+macos-icon = chalkboard

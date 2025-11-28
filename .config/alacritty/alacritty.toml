@@ -1,0 +1,59 @@
+
+# [env]
+# TERM = "xterm-256color"
+# TERM = "alacritty"
+
+[cursor.style]
+shape = "Block"
+
+[cursor.vi_mode_style]
+shape = "Beam"
+
+[font]
+size = 21.0
+
+[font.normal]
+family = "IosevkaTerm Nerd Font Mono"
+style = "Regular"
+
+[font.bold]
+family = "IosevkaTerm Nerd Font Mono"
+style = "Bold"
+
+[font.italic]
+family = "IosevkaTerm Nerd Font Mono"
+style = "Italic"
+
+[font.bold_italic]
+family = "IosevkaTerm Nerd Font Mono"
+style = "Bold Italic"
+
+[mouse]
+hide_when_typing = true
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[selection]
+save_to_clipboard = true
+
+[window]
+decorations = "none"
+option_as_alt = "OnlyLeft"
+opacity = 1.0
+
+[window.padding]
+y = 10
+x = 10
+
+[colors]
+transparent_background_colors = true
+
+[general]
+import = ["/Users/sib/.config/alacritty/themes/tokyo-night.toml"]
+
+[terminal]
+
+[terminal.shell]
+program = "/opt/homebrew/bin/fish"

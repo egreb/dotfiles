@@ -1,0 +1,5 @@
+require 'egreb.options'
+require 'egreb.lazy'
+require 'egreb.keymaps'
+require 'egreb.autocommands'
+require 'egreb.lsp'

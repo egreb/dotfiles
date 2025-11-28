@@ -1,0 +1,105 @@
+[user]
+	name = Simen Berge
+	email = bergesimen@gmail.com
+
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	required = true
+	clean = git-lfs clean -- %f
+	process = git-lfs filter-process
+[core]
+	editor = nvim
+	ignoreCase = false
+	excludesfile = ~/.gitignore_global
+[worktree]
+	path = ..
+[branch]
+	sort = -committerdate
+[tag]
+	sort = version:refname
+[alias]
+	l = "!. ~/.dotfiles/git/.githelpers && pretty_git_log"
+	aa = add .
+	aA = add -A
+	co = checkout
+	br = branch
+	ci = commit
+	c = commit
+	ca = commit -a
+	caa = commit -a --amend
+	df = diff
+	lg = log -p --pretty=fuller --abbrev-commit
+	lgg = log --pretty=fuller --abbrev-commit --stat
+	up = pull --rebase
+	st = status
+	s = status
+	p = push --follow-tags
+	pu = pull
+	r = reset
+	squash = "!f(){ git reset --soft HEAD~${1} && git commit --edit -m\"$(git log --format=%B --reverse HEAD..HEAD@{1})\"; };f"
+	fpl = push --force-with-lease
+	save = !git add -A && git commit -m 'chore: savepoint'
+	unsave = !git reset --soft HEAD~1
+	wl = worktree list
+	wa = worktree add
+	wr = worktree remove
+	d = icdiff
+[color]
+	ui = auto
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+[color "status"]
+	added = yellow
+	changed = green
+	untracked = cyan
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[column]
+	ui = auto
+[fetch]
+	prune = true
+	pruneTags = true
+	all = true
+# [url "ssh://git@github.com/"]
+#	insteadOf = https://github.com/
+[include]
+	path = /Users/sib/.gitconfig.local
+[dotfiles]
+	managed = true
+[hub]
+	protocol = ssh
+[diff]
+	algorithm = histogram
+        colorMoved = plain
+        mnemonicPrefix = true
+        renames = true
+[init]
+	defaultBranch = main
+[push]
+	default = simple
+	autoSetupRemote = true
+	followTags = true
+[pull]
+	rebase = true
+[commit]
+	verbose = true
+[merge]
+	tool = "nvimdiff"
+	conflictstyle = zdiff3
+[mergetool "nvimdiff"]
+	layout = "LOCAL,BASE,REMOTE / MERGED"
+[help]
+	autocorrect = prompt
+[includeIf "gitdir:~/Developer/code/work/cybr/"]
+	path = ~/Developer/code/work/cybr/.gitconfig
+

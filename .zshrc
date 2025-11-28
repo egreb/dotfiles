@@ -21,10 +21,6 @@ export HISTFILE="$HOME/.zsh_history" # HISTORY FILEPATH
 export HISTSIZE=10000 # maximum events for internal history
 export SAVEHIST=10000 # maximum events in history file
 
-# ALIASES
-source $DOTFILES/zsh/aliases.zsh
-source $DOTFILES/zsh/functions.zsh
-
 # +------------+
 # | NAVIGATION |
 # +------------+
@@ -54,51 +50,3 @@ setopt HIST_VERIFY               # Do not execute immediately upon history expan
 # ENABLE SHELL AUTOCOMPLETION
 autoload -U compinit; compinit
 _comp_options+=(globdots) # With hidden files
-# source $DOTFILES/zsh/completions.zsh
-fpath=($DOTFILES/zsh/completions/src $fpath)
-
-
-# VI MODE
-# bindkey -v
-# export KEYTIMEOUT=1
-
-# PROMPT/THEME
-# source $DOTFILES/zsh/themes/oxide.zsh-theme
-eval "$(oh-my-posh init zsh --config ~/.dotfiles/ohmyposh/zen.toml)"
-
-# SYNTAX HIGHLIGHTING
-# source $DOTFILES/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# ZSH HISTORY SUBSTRING SEARCH
-# NB! Load this after syntax highlighting
-# source $DOTFILES/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
-# bindkey '^[[A' history-substring-search-up
-# bindkey '^[[B' history-substring-search-down
-
-# INTERACTIVE CD
-source $DOTFILES/zsh/plugins/zsh-interactive-cd.zsh
-
-# FZF
-source $DOTFILES/zsh/fzf.zsh
-
-# NODE ENV MANAGER
-eval "$(fnm env --use-on-cd)"
-
-# PATH
-export PATH=${PATH}:$HOME/go/bin
-export PATH=${PATH}:$HOME/.bin
-export PATH=${PATH}:$HOME/.dotfiles/bin
-export PATH=${PATH}:$HOME/.deno/bin
-
-# Google cloud sdk components
-# source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
-# export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
-
-# pnpm
-export PNPM_HOME="/Users/sib/.config/local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-
