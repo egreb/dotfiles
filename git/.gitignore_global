@@ -1,9 +1,0 @@
-*~
-._*
-.DS_STore
-.idea
-.vscode
-node_modules
-bower_components
-npm-debug.log
-yarn-error.log
