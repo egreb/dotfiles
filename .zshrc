@@ -1,54 +1,51 @@
+eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
+
 alias vim=nvim
 alias vi=nvim
-
-# ENVIRONMENT
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$XDG_CONFIG_HOME/local/share"
-export XDG_CACHE_HOME="$XDG_CONFIG_HOME/cache"
-
-# DOTFILES
-export DOTFILES="$HOME/.dotfiles"
 
 # NOTES
 export ZK_NOTEBOOK_DIR=~/notes
 
 # EDITOR
 export EDITOR=nvim
-export VISUAL=nvim
 
 # HISTORY
-export HISTFILE="$HOME/.zsh_history" # HISTORY FILEPATH
-export HISTSIZE=10000 # maximum events for internal history
-export SAVEHIST=10000 # maximum events in history file
+export HISTFILE=~/.history # HISTORY FILEPATH
 
-# +------------+
-# | NAVIGATION |
-# +------------+
-setopt AUTO_CD              # Go to folder path without using cd.
 
-setopt AUTO_PUSHD           # Push the old directory onto the stack on cd.
-setopt PUSHD_IGNORE_DUPS    # Do not store duplicates in the stack.
-setopt PUSHD_SILENT         # Do not print the directory stack after pushd or popd.
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
 
-setopt CORRECT              # Spelling correction
-setopt CDABLE_VARS          # Change directory to a path stored in a variable.
-setopt EXTENDED_GLOB        # Use extended globbing syntax.
+bindkey -s ^f "tmux-sessionizer\n"
 
-# +---------+
-# | HISTORY |
-# +---------+
-setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
-setopt SHARE_HISTORY             # Share history between all sessions.
-setopt HIST_EXPIRE_DUPS_FIRST    # Expire a duplicate event first when trimming history.
-setopt HIST_IGNORE_DUPS          # Do not record an event that was just recorded again.
-setopt HIST_IGNORE_ALL_DUPS      # Delete an old recorded event if a new event is a duplicate.
-setopt HIST_FIND_NO_DUPS         # Do not display a previously found event.
-setopt HIST_IGNORE_SPACE         # Do not record an event starting with a space.
-setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history file.
-setopt HIST_VERIFY               # Do not execute immediately upon history expansion.
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:~/dotfiles/bin
 
-# ENABLE SHELL AUTOCOMPLETION
-autoload -U compinit; compinit
-_comp_options+=(globdots) # With hidden files
+new_tmux () {
+  session_dir=$(zoxide query --list | fzf)
+  session_name=$(basename "$session_dir")
 
-eval "$(starship init zsh)"
+  if tmux has-session -t $session_name 2>/dev/null; then
+    if [ -n "$TMUX" ]; then
+      tmux switch-client -t "$session_name"
+    else
+      tmux attach -t "$session_name"
+    fi
+    notification="tmux attached to $session_name"
+  else
+    if [ -n "$TMUX" ]; then
+      tmux new-session -d -c "$session_dir" -s "$session_name" && tmux switch-client -t "$session_name"
+      notification="new tmux session INSIDE TMUX: $session_name"
+    else
+      tmux new-session -c "$session_dir" -s "$session_name"
+      notification="new tmux session: $session_name"
+    fi
+  fi
+
+  if [-s "$session_name" ]; then
+    notify-send "$notification"
+  fi
+}
+
+alias tm=new_tmux
