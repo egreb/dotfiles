@@ -50,3 +50,5 @@ setopt HIST_VERIFY               # Do not execute immediately upon history expan
 # ENABLE SHELL AUTOCOMPLETION
 autoload -U compinit; compinit
 _comp_options+=(globdots) # With hidden files
+
+eval "$(starship init zsh)"
