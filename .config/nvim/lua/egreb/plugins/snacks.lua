@@ -1,5 +1,8 @@
 return {
 	'folke/snacks.nvim',
+	dependencies = {
+		'echasnovski/mini.icons',
+	},
 	priority = 1000,
 	lazy = false,
 	opts = {
@@ -9,13 +12,19 @@ return {
 		notifier = { enabled = true },
 		picker = {
 			enabled = true,
-			hidden = true,
+			hidden = false,
 			ignored = false,
 			preview = false,
 			cwd = vim.fn.getcwd(),
 			preset = 'ivy',
-			layout = {
-				position = 'bottom',
+			sources = {
+				explorer = {
+					layout = {
+						layout = {
+							position = 'right',
+						},
+					},
+				},
 			},
 		},
 		explorer = {
@@ -44,6 +53,13 @@ return {
 	},
 
 	keys = {
+		{
+			'<C-n>',
+			function()
+				Snacks.explorer()
+			end,
+			desc = 'Explorer',
+		},
 		{
 			'<leader>nn',
 			function()
