@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+selected=$(git worktree list | grep -v '(bare)' | awk '{print $1}' | fzf --prompt="Select worktree: ")
+
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+full_path="$selected"
+root_dir=$(basename "$(git worktree list | awk 'NR==1{print $1}')")
+branch=$(git -C "$full_path" rev-parse --abbrev-ref HEAD)
+selected_name="${root_dir}__${branch}"
+
+tmux_running=$(pgrep tmux)
+
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    tmux new-session -s "$selected_name" -c "$full_path"
+    exit 0
+fi
+
+if ! tmux has-session -t="$selected_name" 2>/dev/null; then
+    tmux new-session -ds "$selected_name" -c "$full_path"
+fi
+
+if [[ -z $TMUX ]]; then
+    tmux attach-session -t "$selected_name"
+else
+    tmux switch-client -t "$selected_name"
+fi
