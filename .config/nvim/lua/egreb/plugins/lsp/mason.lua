@@ -11,6 +11,7 @@ return {
 				'emmet_ls',
 				'jsonls',
 				'bashls',
+				'denols',
 			},
 		},
 		dependencies = {

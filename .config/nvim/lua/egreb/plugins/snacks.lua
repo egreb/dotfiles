@@ -98,7 +98,6 @@ return {
 		{
 			'<leader>tt',
 			function(opts)
-				vim.o.shell = '/opt/homebrew/bin/fish'
 				Snacks.terminal.toggle(_, opts)
 			end,
 			'[T]oggle [T]erminal',

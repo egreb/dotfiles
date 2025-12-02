@@ -10,23 +10,7 @@ shape = "Block"
 shape = "Beam"
 
 [font]
-size = 21.0
-
-[font.normal]
-family = "IosevkaTerm Nerd Font Mono"
-style = "Regular"
-
-[font.bold]
-family = "IosevkaTerm Nerd Font Mono"
-style = "Bold"
-
-[font.italic]
-family = "IosevkaTerm Nerd Font Mono"
-style = "Italic"
-
-[font.bold_italic]
-family = "IosevkaTerm Nerd Font Mono"
-style = "Bold Italic"
+size = 14.0
 
 [mouse]
 hide_when_typing = true
@@ -50,10 +34,3 @@ x = 10
 [colors]
 transparent_background_colors = true
 
-[general]
-import = ["/Users/sib/.config/alacritty/themes/tokyo-night.toml"]
-
-[terminal]
-
-[terminal.shell]
-program = "/opt/homebrew/bin/fish"
