@@ -1,3 +1,12 @@
 # my dotfiles
 
-Just copy the files to where you want em :)
+## Requirements
+
+- Stow
+
+## Setup
+
+```bash
+cd dotfiles_repo
+stow .
+```
