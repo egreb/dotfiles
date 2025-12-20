@@ -12,6 +12,7 @@ return {
 				'jsonls',
 				'bashls',
 				'denols',
+				'vue_ls',
 			},
 		},
 		dependencies = {
