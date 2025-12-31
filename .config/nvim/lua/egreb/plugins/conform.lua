@@ -30,6 +30,7 @@ return { -- Autoformat
 		end,
 		formatters_by_ft = {
 			html = { 'prettier' },
+			svg = { 'prettier' },
 			css = { 'prettier' },
 			json = { 'prettier' },
 			javascript = { 'prettier' },
@@ -40,6 +41,7 @@ return { -- Autoformat
 			templ = { 'goimports', 'gofmt' },
 			yaml = { 'yamllint' },
 			yml = { 'yamllint' },
+			vue = { 'prettier' },
 		},
 	},
 }
