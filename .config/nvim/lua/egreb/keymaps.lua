@@ -101,3 +101,12 @@ map({ 'n' }, '<leader>fw', function()
 		ignored = false,
 	}
 end, { desc = 'Visual selection or word' })
+map({ 'n' }, '<leader>fs', function()
+	Snacks.picker.lsp_symbols {
+		filter = {
+			default = {
+				'Function',
+			},
+		},
+	}
+end, { desc = '[F]ind [S]ymbols' })
