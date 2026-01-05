@@ -1,7 +1,7 @@
 [user]
 	name = Simen Berge
 	email = bergesimen@gmail.com
-
+	signingkey = ~/.ssh/id_rsa.pub
 [filter "lfs"]
 	smudge = git-lfs smudge -- %f
 	required = true
@@ -93,6 +93,9 @@
 	rebase = true
 [commit]
 	verbose = true
+	gpgsign = true
+[gpg]
+	format = ssh
 [merge]
 	tool = "nvimdiff"
 	conflictstyle = zdiff3
