@@ -11,7 +11,6 @@ return {
 				'emmet_ls',
 				'jsonls',
 				'bashls',
-				'denols',
 				'vue_ls',
 			},
 		},
