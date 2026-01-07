@@ -1,11 +1,8 @@
 return {
-	'mcncl/alabaster.nvim',
+	'serhez/teide.nvim',
 	lazy = false,
 	priority = 1000,
 	config = function()
-		require('alabaster').setup {
-			style = 'dark', -- "light" or "dark"
-		}
-		vim.cmd.colorscheme 'alabaster'
+		vim.cmd [[colorscheme teide-dimmed]]
 	end,
 }
