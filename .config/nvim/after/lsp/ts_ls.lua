@@ -8,7 +8,7 @@ local vue_plugin = {
 }
 
 return {
-	filetypes = { 'html', 'typescriptreact', 'javascriptreact', 'vue' },
+	filetypes = { 'html', 'typescript', 'javascript', 'typescriptreact', 'javascriptreact', 'vue' },
 	init_options = {
 		plugins = {
 			vue_plugin,
