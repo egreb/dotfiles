@@ -1,11 +1,6 @@
-# vertical padding
 theme = tinde_dimmed
-font-family = "IosevkaTerm Nerd Font Mono"   
-font-size = 14
-# Disable ligatures
-# font-feature = -calt
-# font-feature = -liga
-# font-feature = -dlig
+font-family = "Maple Mono NF"   
+font-size = 13
 macos-option-as-alt = true
 background-opacity = 0.95
 gtk-titlebar = false
