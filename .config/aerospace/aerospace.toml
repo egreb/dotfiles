@@ -1,0 +1,287 @@
+config-version = 2
+
+# Available commands: https://nikitabobko.github.io/AeroSpace/commands
+after-login-command = []
+
+# Available commands : https://nikitabobko.github.io/AeroSpace/commands
+after-startup-command = []
+
+#start-at-login = true
+
+# Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+# See: https://nikitabobko.github.io/AeroSpace/guide#layouts
+accordion-padding = 20
+
+# Possible values: tiles|accordion
+default-root-container-layout = 'accordion'
+
+default-root-container-orientation = 'auto'
+
+# Hooks
+exec-on-workspace-change = ['/bin/bash', '-c',
+    'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+
+on-focus-changed = ['exec-and-forget sketchybar --trigger aerospace_mode_changed']
+on-mode-changed = ['exec-and-forget sketchybar --trigger aerospace_mode_changed']
+
+# See https://nikitabobko.github.io/AeroSpace/guide#key-mapping
+key-mapping.preset = 'qwerty'
+
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+# enable this to show apps per workspace
+#on-focus-changed = ['exec-and-forget sketchybar --trigger custom_space_windows_change', 'move-mouse window-lazy-center']
+#on-focus-changed = ['move-mouse window-lazy-center']
+
+# Gaps between windows (inner-*) and between monitor edges (outer-*).
+# Possible values:
+# - Constant:     gaps.outer.top = 8
+# - Per monitor:  gaps.outer.top = [{ monitor.main = 16 }, { monitor."some-pattern" = 32 }, 24]
+#                 In this example, 24 is a default value when there is no match.
+#                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
+#                 See:
+#                 https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
+[gaps]
+inner.horizontal = 8
+inner.vertical = 8
+outer.left = 8
+outer.bottom = 8
+outer.top = [
+{ monitor."built-in" = 12 },
+{ monitor."main" = 42 },
+42
+]
+outer.right = 8
+
+# See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
+[mode.main.binding]
+
+# You can uncomment this line to open up terminal with alt + enter shortcut
+# See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
+# alt-enter = 'exec-and-forget open -n /System/Applications/Utilities/Terminal.app'
+
+cmd-m = []
+#cmd-w = ['close', 'exec-and-forget sketchybar --trigger custom_space_windows_change']
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#layout
+ctrl-alt-cmd-period = 'layout tiles horizontal vertical'
+ctrl-alt-cmd-comma = 'layout accordion horizontal vertical'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#focus
+# cmd-shift-h = 'focus left'
+# cmd-shift-j = 'focus down'
+# cmd-shift-k = 'focus up'
+# cmd-shift-l = 'focus right'
+ctrl-alt-cmd-h = 'focus left'
+ctrl-alt-cmd-j = 'focus down'
+ctrl-alt-cmd-k = 'focus up'
+ctrl-alt-cmd-l = 'focus right'
+
+ctrl-alt-cmd-shift-h = 'swap left'
+ctrl-alt-cmd-shift-cmd-j = 'swap down'
+ctrl-alt-cmd-shift-cmd-k = 'swap up'
+ctrl-alt-cmd-shift-cmd-l = 'swap right'
+
+cmd-shift-f = 'fullscreen'
+
+ctrl-alt-cmd-o = 'focus-back-and-forth'
+#disable macos hide command
+cmd-h = []
+
+#cmd-shift-m = 'focus-monitor main'
+#cmd-shift-s = 'focus-monitor secondary'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#move
+ctrl-alt-cmd-left = 'move left'
+ctrl-alt-cmd-down = 'move down'
+ctrl-alt-cmd-up = 'move up'
+ctrl-alt-cmd-right = 'move right'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#resize
+# change this layout
+#alt-shift-j = 'resize smart -50'
+#alt-shift-k = 'resize smart +50'
+#alt-shift-h = 'resize smart-opposite -50'
+#alt-shift-l = 'resize smart-opposite +50'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#workspace
+ctrl-alt-cmd-1 = 'workspace main'
+ctrl-alt-cmd-2 = 'workspace terminal'
+ctrl-alt-cmd-3 = 'workspace misc'
+ctrl-alt-cmd-n = 'workspace notes'
+ctrl-alt-cmd-s = 'workspace social'
+ctrl-alt-cmd-c = 'workspace chromium'
+ctrl-alt-cmd-m = 'workspace music'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
+ctrl-alt-cmd-shift-1 = 'exec-and-forget aerospace move-node-to-workspace --focus-follows-window main && sketchybar --trigger custom_space_windows_change'
+ctrl-alt-cmd-shift-2 = 'exec-and-forget aerospace move-node-to-workspace --focus-follows-window terminal && sketchybar --trigger custom_space_windows_change'
+ctrl-alt-cmd-shift-3 = 'exec-and-forget aerospace move-node-to-workspace --focus-follows-window misc && sketchybar --trigger custom_space_windows_change'
+ctrl-alt-cmd-shift-n = 'exec-and-forget aerospace move-node-to-workspace --focus-follows-window notes && sketchybar --trigger custom_space_windows_change'
+ctrl-alt-cmd-shift-s = 'exec-and-forget aerospace move-node-to-workspace --focus-follows-window social && sketchybar --trigger custom_space_windows_change'
+ctrl-alt-cmd-shift-c = 'exec-and-forget aerospace move-node-to-workspace --focus-follows-window chromium && sketchybar --trigger custom_space_windows_change'
+ctrl-alt-cmd-shift-m = 'exec-and-forget aerospace move-node-to-workspace --focus-follows-window music && sketchybar --trigger custom_space_windows_change'
+
+cmd-space = 'exec-and-forget app-launcher'
+cmd-shift-w = 'exec-and-forget terminal-picker change-wallpaper'
+ctrl-alt-cmd-f = 'exec-and-forget open -a "Finder"'
+
+#cmd-shift-space = 'exec-and-forget ~/bin/terminal-picker ~/bin/clipboard-manager'
+#cmd-space = 'exec-and-forget ~/bin/terminal-picker ~/bin/app-launcher'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
+ctrl-alt-cmd-enter = 'workspace-back-and-forth'
+# See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
+ctrl-alt-cmd-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#mode
+ctrl-alt-cmd-shift-semicolon = ['mode service', 'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=service']
+
+ctrl-alt-cmd-r = ['mode resize', 'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=resize']
+
+[mode.resize.binding]
+h = 'resize smart -50'
+l = 'resize smart +50'
+j = 'resize smart-opposite -50'
+k = 'resize smart-opposite +50'
+enter = ['mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main']
+esc = ['mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main']
+q = ['mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main']
+space = ['mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main']
+
+# 'service' binding mode declaration.
+# See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
+[mode.service.binding]
+esc = ['reload-config', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main']
+r = ['flatten-workspace-tree', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main'] # reset layout
+#s = ['layout sticky tiling', 'mode main'] # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
+f = ['layout floating tiling', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main'] # Toggle between floating and tiling layout
+backspace = ['close-all-windows-but-current', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main']
+
+ctrl-alt-cmd-h = ['join-with left', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main']
+ctrl-alt-cmd-j = ['join-with down', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main']
+ctrl-alt-cmd-k = ['join-with up', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main']
+ctrl-alt-cmd-l = ['join-with right', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main']
+enter = 'mode main'
+q = 'mode main'
+
+[exec.env-vars]
+PATH = '${HOME}/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/run/current-system/sw/bin/:${PATH}:'
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'wezterm-gui'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'org.whispersystems.signal-desktop'
+run = 'move-node-to-workspace chats'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.MobileSMS'
+run = 'move-node-to-workspace chats'
+
+[[on-window-detected]]
+if.app-id = 'net.whatsapp.WhatsApp'
+run = 'move-node-to-workspace chats'
+
+[[on-window-detected]]
+if.app-id = 'com.viber.osx'
+run = 'move-node-to-workspace chats'
+
+[[on-window-detected]]
+if.app-id = 'com.github.wez.wezterm'
+run = 'move-node-to-workspace terminal'
+
+[[on-window-detected]]
+if.app-id = 'com.mitchellh.ghostty'
+run = 'move-node-to-workspace terminal'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.spotify.client'
+run = 'move-node-to-workspace misc'
+
+[[on-window-detected]]
+if.app-id = 'com.spotify.client'
+run = 'move-node-to-workspace misc'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Safari'
+run = 'move-node-to-workspace work'
+
+[[on-window-detected]]
+if.app-id = 'com.vivaldi.Vivaldi'
+run = 'move-node-to-workspace personal'
+
+[[on-window-detected]]
+if.app-id = 'com.brave.Browser'
+if.window-title-regex-substring = 'private'
+run = 'move-node-to-workspace personal'
+
+[[on-window-detected]]
+if.app-id = 'com.brave.Browser'
+if.window-title-regex-substring = 'work'
+run = 'move-node-to-workspace work'
+
+[[on-window-detected]]
+if.app-id = 'com.brave.Browser'
+if.window-title-regex-substring = 'Bitwarden'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'WhatsApp Web'
+run = 'move-node-to-workspace chats'
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'YouTube'
+run = 'move-node-to-workspace misc'
+
+[[on-window-detected]]
+if.app-id = 'com.alienator88.Pearcleaner'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.iCal'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.getcoldturkey.blocker'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.window-title-regex-substring = 'WireGuard'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.window-title-regex-substring = 'LuLu Alert'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'net.kovidgoyal.calibre'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.iWork.Numbers'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.window-title-regex-substring = 'file-search'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'kitty'
+run = 'layout floating'
+
+[workspace-to-monitor-force-assignment]
+    'personal' = 'main'
+    'chats' = 'main'
+    'terminal' = 'main'
+    'work' = 'main'
+    'misc' = 'main'
+    'q' = 'secondary'
