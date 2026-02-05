@@ -37,12 +37,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		keymap.set('n', '<leader>d', vim.diagnostic.open_float, opts) -- show diagnostics for line
 
 		opts.desc = 'Go to previous diagnostic'
-		keymap.set('n', '[d', function()
+		keymap.set('n', '[x', function()
 			vim.diagnostic.jump { count = -1, float = true }
 		end, opts) -- jump to previous diagnostic in buffer
 
 		opts.desc = 'Go to next diagnostic'
-		keymap.set('n', ']d', function()
+		keymap.set('n', ']x', function()
 			vim.diagnostic.jump { count = 1, float = true }
 		end, opts) -- jump to next diagnostic in buffer
 

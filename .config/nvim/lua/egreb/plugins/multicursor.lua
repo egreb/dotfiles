@@ -13,23 +13,23 @@ return {
 		set('n', '<c-leftrelease>', mc.handleMouseRelease)
 
 		set('x', 'I', mc.insertVisual)
-		set({ 'n', 'v' }, '[n', function()
+		set({ 'n', 'v' }, '[d', function()
 			mc.lineAddCursor(-1)
 		end)
-		set({ 'n', 'v' }, ']n', function()
+		set({ 'n', 'v' }, ']d', function()
 			mc.lineAddCursor(1)
 		end)
 		--
 		-- Add or skip adding a new cursor by matching word/selection
-		set({ 'n', 'v' }, '[N', function()
+		set({ 'n', 'v' }, '[D', function()
 			mc.matchAddCursor(1)
 		end, {
-			desc = 'Add Cursor [P]revious match',
+			desc = 'Add Cursor previous match',
 		})
-		set({ 'n', 'v' }, ']N', function()
+		set({ 'n', 'v' }, ']D', function()
 			mc.matchAddCursor(-1)
 		end, {
-			desc = 'Add Cursor [N]ext match',
+			desc = 'Add Cursor next match',
 		})
 		-- set({ 'n', 'v' }, '<leader>ls', function()
 		--   mc.matchSkipCursor(1)
