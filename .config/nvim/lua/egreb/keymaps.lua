@@ -20,11 +20,11 @@ map('n', ']b', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
 map('n', '<leader>bb', '<cmd>e #<cr>', { desc = 'Switch to Other Buffer' })
 map('n', '<leader>`', '<cmd>e #<cr>', { desc = 'Switch to Other Buffer' })
 map('n', '<leader>bd', function()
-	-- @Snacks
-	Snacks.bufdelete()
+  -- @Snacks
+  Snacks.bufdelete()
 end, { desc = 'Delete Buffer' })
 map('n', '<leader>bo', function()
-	Snacks.bufdelete.other()
+  Snacks.bufdelete.other()
 end, { desc = 'Delete Other Buffers' })
 map('n', '<leader>bD', '<cmd>:bd<cr>', { desc = 'Delete Buffer and Window' })
 
@@ -34,79 +34,77 @@ map('n', '<leader>bD', '<cmd>:bd<cr>', { desc = 'Delete Buffer and Window' })
 -- Picker keymaps
 -- find files
 map({ 'n' }, '<C-p>', function()
-	Snacks.picker.pick {
-		source = 'files',
-		-- cwd = vim.fn.getcwd(),
-		cwd = true,
-		hidden = true,
-		ignored = false,
-	}
+  Snacks.picker.pick {
+    source = 'files',
+    -- cwd = vim.fn.getcwd(),
+    cwd = true,
+    hidden = true,
+    ignored = false,
+  }
 end, { desc = '[F]ind [F]iles' })
 map({ 'n' }, '<leader>ff', function()
-	Snacks.picker.pick {
-		source = 'files',
-		-- cwd = vim.fn.getcwd(),
-		cwd = true,
-		hidden = true,
-		ignored = false,
-	}
+  Snacks.picker.pick {
+    source = 'files',
+    -- cwd = vim.fn.getcwd(),
+    cwd = true,
+    hidden = true,
+    ignored = false,
+  }
 end, { desc = '[F]ind [F]iles' })
 -- grep files
 map({ 'n' }, '<leader>fg', function()
-	Snacks.picker.grep {
-		cwd = true,
-		hidden = true,
-		ignored = false,
-	}
+  Snacks.picker.grep {
+    cwd = true,
+    hidden = true,
+    ignored = false,
+  }
 end, { desc = '[G]rep [F]iles' })
 -- resume previous search
 map({ 'n' }, '<leader>fr', function()
-	Snacks.picker.resume { cwd = true }
+  Snacks.picker.resume { cwd = true }
 end, { desc = '[R]esume [S]earch' })
 
 -- list buffers
 map({ 'n' }, '<leader><leader>', function()
-	Snacks.picker.buffers { cwd = true }
+  Snacks.picker.buffers { cwd = true }
 end, { desc = '[F]ind [B]uffers' })
 
 -- search history
 map({ 'n' }, '<leader>f.', function()
-	Snacks.picker.recent {
-		cwd = true,
-		hidden = true,
-		ignored = false,
-	}
+  Snacks.picker.recent {
+    cwd = true,
+    hidden = true,
+    ignored = false,
+    filter = { cwd = true },
+  }
 end, { desc = 'Search [H]istory' })
 -- diagnostics
 map({ 'n' }, '<leader>fd', function()
-	Snacks.picker.diagnostics {
-		cwd = true,
-		hidden = true,
-		ignored = false,
-	}
+  Snacks.picker.diagnostics {
+    cwd = true,
+    hidden = true,
+    ignored = false,
+  }
 end, { desc = 'Find [D]iagnostic' })
 -- old files
 map({ 'n' }, '<leader>fo', function()
-	Snacks.picker.recent {
-		cwd = true,
-		hidden = true,
-		ignored = false,
-	}
+  Snacks.picker.recent {
+    hidden = true,
+    ignored = false,
+    filter = { cwd = true },
+  }
 end, { desc = '[O]ld Files' })
 -- search word under cursor
 map({ 'n' }, '<leader>fw', function()
-	Snacks.picker.grep_word {
-		cwd = true,
-		hidden = true,
-		ignored = false,
-	}
+  Snacks.picker.grep_word {
+    cwd = true,
+    hidden = true,
+    ignored = false,
+  }
 end, { desc = 'Visual selection or word' })
+map({ 'n' }, '<leader>fb', function()
+  Snacks.picker.lines { pattern = vim.fn.expand '<cword>' }
+end, { desc = '[F]ind in [B]uffer' })
 map({ 'n' }, '<leader>fs', function()
-	Snacks.picker.lsp_symbols {
-		filter = {
-			default = {
-				'Function',
-			},
-		},
-	}
+  Snacks.picker.lsp_symbols {}
 end, { desc = '[F]ind [S]ymbols' })
