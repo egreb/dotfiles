@@ -12,6 +12,7 @@ return {
 				'jsonls',
 				'bashls',
 				'vue_ls',
+				'gopls',
 			},
 		},
 		dependencies = {
@@ -38,6 +39,7 @@ return {
 			ensure_installed = {
 				'prettier', -- prettier formatter
 				'stylua', -- lua formatter
+				'goimports',
 			},
 		},
 		dependencies = {
