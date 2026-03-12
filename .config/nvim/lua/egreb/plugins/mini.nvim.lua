@@ -18,7 +18,7 @@ return { -- Collection of various small independent plugins/modules
 		require('mini.surround').setup {}
 		-- require('mini.indentscope').setup {}
 		require('mini.move').setup {}
-		require('mini.pick').setup {}
+		-- require('mini.pick').setup {}
 		-- require('mini.pairs').setup {}
 		require('mini.jump').setup {}
 	end,
