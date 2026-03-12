@@ -48,6 +48,7 @@ return {
 				'xml',
 				'yaml',
 				'go',
+				'sql',
 			},
 		},
 		config = function(_, opts)
@@ -83,6 +84,19 @@ return {
 			if #install > 0 then
 				TS.install(install, { summary = true })
 			end
+
+			-- enable treesitter highlighting, indentation, and folding
+			-- (the main branch no longer handles this; it must be done via nvim builtins)
+			vim.api.nvim_create_autocmd('FileType', {
+				group = vim.api.nvim_create_augroup('egreb_treesitter_start', { clear = true }),
+				callback = function(ev)
+					local lang = vim.treesitter.language.get_lang(vim.bo[ev.buf].filetype)
+					if lang and vim.treesitter.query.get(lang, 'highlights') then
+						vim.treesitter.start(ev.buf)
+						vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+					end
+				end,
+			})
 		end,
 	},
 
