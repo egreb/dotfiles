@@ -39,8 +39,6 @@ return { -- Autoformat
 			javascriptreact = { 'prettier' },
 			go = { 'goimports', 'gofmt' },
 			templ = { 'goimports', 'gofmt' },
-			yaml = { 'yamllint' },
-			yml = { 'yamllint' },
 			vue = { 'prettier' },
 		},
 	},
