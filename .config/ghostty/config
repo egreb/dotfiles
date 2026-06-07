@@ -1,6 +1,7 @@
-theme = tinde_dimmed
-font-family = "Maple Mono NF"   
-font-size = 13
+theme = Catppuccin Frappe
+font-family = "JetBrainsMono Nerd Font"
+font-size = 16
+font-thicken = true
 macos-option-as-alt = true
-background-opacity = 0.95
+background-blur = true
 gtk-titlebar = false
