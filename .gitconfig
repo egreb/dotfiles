@@ -1,3 +1,12 @@
+[core]
+	editor = nvim
+	ignoreCase = false
+	excludesfile = ~/.gitignore_global
+	pager = delta
+[delta]
+	navigate = true
+[interactive]
+	diffFilter = delta --color-only
 [user]
 	name = Simen Berge
 	email = bergesimen@gmail.com
@@ -7,10 +16,6 @@
 	required = true
 	clean = git-lfs clean -- %f
 	process = git-lfs filter-process
-[core]
-	editor = nvim
-	ignoreCase = false
-	excludesfile = ~/.gitignore_global
 [worktree]
 	path = ..
 [branch]
@@ -79,10 +84,7 @@
 [hub]
 	protocol = ssh
 [diff]
-	algorithm = histogram
-        colorMoved = plain
-        mnemonicPrefix = true
-        renames = true
+	tool = nvimdiff
 [init]
 	defaultBranch = main
 [push]
@@ -97,10 +99,11 @@
 [gpg]
 	format = ssh
 [merge]
-	tool = "nvimdiff"
+	tool = nvimdiff
 	conflictstyle = zdiff3
-[mergetool "nvimdiff"]
-	layout = "LOCAL,BASE,REMOTE / MERGED"
+[mergetool]
+	keepBackup = false
+	prompt = false
 [help]
 	autocorrect = prompt
 [includeIf "gitdir:~/Developer/code/work/cybr/"]
