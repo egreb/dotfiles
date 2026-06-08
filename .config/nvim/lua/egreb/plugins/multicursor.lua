@@ -47,6 +47,7 @@ return {
         -- Default <esc> handler.
       end
     end)
+    set({ 'n', 'x' }, 'ga', mc.addCursorOperator, { desc = 'Add cursors over motion' })
 
     -- Customize how cursors look.
     local hl = vim.api.nvim_set_hl
