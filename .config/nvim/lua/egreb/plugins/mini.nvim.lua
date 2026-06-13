@@ -21,5 +21,8 @@ return { -- Collection of various small independent plugins/modules
     -- require('mini.pick').setup {}
     -- require('mini.pairs').setup {}
     require('mini.jump').setup {}
+
+    -- Icon provider used by render-markdown.nvim (headings, callouts, etc.)
+    require('mini.icons').setup {}
   end,
 }
