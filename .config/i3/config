@@ -1,0 +1,322 @@
+# ~/.config/i3/config — friendly starter config
+# Docs: https://i3wm.org/docs/userguide.html
+# Reload after edits:  $mod+Shift+c   |   Restart i3 in place:  $mod+Shift+r
+
+### ─────────────────────────────────────────────────────────────────────────
+### Basics
+### ─────────────────────────────────────────────────────────────────────────
+
+# Use the Super/Windows key as the modifier (Mod1 = Alt, Mod4 = Super).
+set $mod Mod4
+
+# Your terminal and app launcher.
+set $term ghostty
+set $menu rofi -show drun
+
+# Font for window titles and the bar (Nerd Font, like your ghostty setup).
+font pango:JetBrainsMono Nerd Font 11
+
+# Use Mouse+$mod to drag floating windows.
+floating_modifier $mod
+
+### ─────────────────────────────────────────────────────────────────────────
+### Launching things
+### ─────────────────────────────────────────────────────────────────────────
+
+# Open a terminal.
+bindsym $mod+Return exec $term
+
+# App launcher (rofi). $mod+d is the classic i3 muscle memory.
+bindsym $mod+d exec $menu
+
+# Close the focused window.
+bindsym $mod+Shift+q kill
+
+### ─────────────────────────────────────────────────────────────────────────
+### Focus  (hjkl, matching your aerospace setup)
+### ─────────────────────────────────────────────────────────────────────────
+
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# Arrow keys do the same, if you prefer them.
+bindsym $mod+Left  focus left
+bindsym $mod+Down  focus down
+bindsym $mod+Up    focus up
+bindsym $mod+Right focus right
+
+### ─────────────────────────────────────────────────────────────────────────
+### Move windows  (Shift + the focus keys)
+### ─────────────────────────────────────────────────────────────────────────
+
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+bindsym $mod+Shift+Left  move left
+bindsym $mod+Shift+Down  move down
+bindsym $mod+Shift+Up    move up
+bindsym $mod+Shift+Right move right
+
+### ─────────────────────────────────────────────────────────────────────────
+### Layouts & splitting
+### ─────────────────────────────────────────────────────────────────────────
+
+# Split orientation for the NEXT window you open.
+bindsym $mod+b split h
+bindsym $mod+v split v
+
+# Switch layout of the current container.
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Fullscreen the focused window.
+bindsym $mod+f fullscreen toggle
+
+# Toggle the focused window between tiling and floating.
+bindsym $mod+Shift+space floating toggle
+
+# Swap focus between tiling and floating windows.
+bindsym $mod+space focus mode_toggle
+
+# Focus the parent / child container.
+bindsym $mod+a focus parent
+bindsym $mod+Shift+a focus child
+
+### ─────────────────────────────────────────────────────────────────────────
+### Workspaces
+### ─────────────────────────────────────────────────────────────────────────
+
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Pin workspaces to monitors (multi-monitor).
+# The external (DP-1) is the main screen: workspaces 1–5 start there when it's
+# plugged in, with 6–10 on the laptop panel (eDP-1). The trailing `eDP-1` is a
+# fallback — when DP-1 is unplugged, those workspaces move to the laptop.
+workspace $ws1  output DP-1 eDP-1
+workspace $ws2  output DP-1 eDP-1
+workspace $ws3  output DP-1 eDP-1
+workspace $ws4  output DP-1 eDP-1
+workspace $ws5  output DP-1 eDP-1
+workspace $ws6  output eDP-1
+workspace $ws7  output eDP-1
+workspace $ws8  output eDP-1
+workspace $ws9  output eDP-1
+workspace $ws10 output eDP-1
+
+# Switch to workspace.
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+# Move the focused window to a workspace.
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+# Jump back to the previously focused workspace (like aerospace's focus-back-and-forth).
+bindsym $mod+o workspace back_and_forth
+
+# Cycle workspaces with Tab.
+bindsym $mod+Tab workspace next
+bindsym $mod+Shift+Tab workspace prev
+
+# Multi-monitor: move focus between monitors, and send windows across them.
+bindsym $mod+Ctrl+h focus output left
+bindsym $mod+Ctrl+l focus output right
+bindsym $mod+Ctrl+Shift+h move container to output left
+bindsym $mod+Ctrl+Shift+l move container to output right
+
+### ─────────────────────────────────────────────────────────────────────────
+### Resize mode  ($mod+r, then hjkl/arrows; Enter or Escape to leave)
+### ─────────────────────────────────────────────────────────────────────────
+
+mode "resize" {
+        bindsym h resize shrink width 5 px or 5 ppt
+        bindsym j resize grow height 5 px or 5 ppt
+        bindsym k resize shrink height 5 px or 5 ppt
+        bindsym l resize grow width 5 px or 5 ppt
+
+        bindsym Left  resize shrink width 5 px or 5 ppt
+        bindsym Down  resize grow height 5 px or 5 ppt
+        bindsym Up    resize shrink height 5 px or 5 ppt
+        bindsym Right resize grow width 5 px or 5 ppt
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+### ─────────────────────────────────────────────────────────────────────────
+### Session control
+### ─────────────────────────────────────────────────────────────────────────
+
+# Reload the config file in place.
+bindsym $mod+Shift+c reload
+# Restart i3 in place (keeps your windows; picks up config changes).
+bindsym $mod+Shift+r restart
+# Lock the screen.
+bindsym $mod+Shift+x exec i3lock -c 303446
+# Exit i3 (logs you out), with a confirmation prompt.
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Exit i3 and end your session?' -B 'Yes, exit' 'i3-msg exit'"
+
+### ─────────────────────────────────────────────────────────────────────────
+### Media & brightness keys
+### ─────────────────────────────────────────────────────────────────────────
+
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute        exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute     exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+bindsym XF86MonBrightnessUp   exec --no-startup-id brightnessctl set 5%+
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
+
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+
+# Screenshot the selected region to the clipboard (Print key).
+bindsym Print exec --no-startup-id maim -s | xclip -selection clipboard -t image/png
+
+### ─────────────────────────────────────────────────────────────────────────
+### Gaps & borders  (requires i3-gaps, which is built into i3 >= 4.22)
+### ─────────────────────────────────────────────────────────────────────────
+
+# Thin borders, no title bar text — cleaner look.
+default_border pixel 2
+default_floating_border pixel 2
+
+# Inner/outer gaps, like your aerospace setup.
+gaps inner 8
+gaps outer 4
+
+# Only show gaps/borders when there's more than one window.
+smart_gaps on
+smart_borders on
+
+### ─────────────────────────────────────────────────────────────────────────
+### Colors — Catppuccin Frappé
+### ─────────────────────────────────────────────────────────────────────────
+
+set $rosewater #f2d5cf
+set $flamingo  #eebebe
+set $pink      #f4b8e4
+set $mauve     #ca9ee6
+set $red       #e78284
+set $maroon    #ea999c
+set $peach     #ef9f76
+set $yellow    #e5c890
+set $green     #a6d189
+set $teal      #81c8be
+set $sky       #99d1db
+set $sapphire  #85c1dc
+set $blue      #8caaee
+set $lavender  #babbf1
+set $text      #c6d0f5
+set $subtext1  #b5bfe2
+set $subtext0  #a5adce
+set $overlay2  #949cbb
+set $overlay1  #838ba7
+set $overlay0  #737994
+set $surface2  #626880
+set $surface1  #51576d
+set $surface0  #414559
+set $base      #303446
+set $mantle    #292c3c
+set $crust     #232634
+
+# class                 border    backgr.   text     indicator child_border
+client.focused          $blue     $blue     $crust   $rosewater $blue
+client.focused_inactive $surface0 $surface0 $text    $surface0  $surface0
+client.unfocused        $base     $base     $overlay0 $base     $base
+client.urgent           $red      $red      $crust   $red       $red
+client.placeholder      $base     $base     $text    $base      $base
+client.background       $base
+
+### ─────────────────────────────────────────────────────────────────────────
+### Status bar
+### ─────────────────────────────────────────────────────────────────────────
+
+bar {
+        status_command i3status
+        position top
+        tray_output primary
+
+        colors {
+                background $base
+                statusline $text
+                separator  $surface1
+
+                # class            border    backgr.   text
+                focused_workspace  $blue     $blue     $crust
+                active_workspace   $surface0 $surface0 $text
+                inactive_workspace $base     $base     $overlay0
+                urgent_workspace   $red      $red      $crust
+                binding_mode       $peach    $peach    $crust
+        }
+}
+
+### ─────────────────────────────────────────────────────────────────────────
+### Autostart
+### ─────────────────────────────────────────────────────────────────────────
+
+# Display layout (multi-monitor). i3 doesn't arrange outputs — X does. We let
+# autorandr pick the right layout: it stores a profile per monitor combination
+# (which outputs, resolutions, positions, and which one is primary) and applies
+# the matching one. This line covers login/restart; autorandr's udev+systemd
+# hooks (installed by the apt package) also re-apply automatically on hotplug,
+# which fixes the "primary/tray stuck on an unplugged output" undock case.
+#
+# One-time setup (see installs/autorandr.sh):
+#   1. Dock + arrange:  xrandr --output DP-1 --primary --auto --right-of eDP-1
+#      then save:        autorandr --save docked
+#   2. Undock (laptop only), then save:  autorandr --save mobile
+# After that, --change selects docked/mobile by what's connected.
+exec_always --no-startup-id autorandr --change
+
+# Compositor — gives you transparency/blur and reduces tearing.
+exec --no-startup-id picom
+
+# Notification daemon.
+exec --no-startup-id dunst
+
+# Network applet in the tray.
+exec --no-startup-id nm-applet
+
+# Set a wallpaper (drop a file at ~/.config/i3/wallpaper.jpg, or change this).
+exec --no-startup-id feh --bg-fill ~/.config/i3/wallpaper.jpg
+
+# Caps Lock → Ctrl is set at the X server level (installs/keyboard.sh writes
+# /etc/X11/xorg.conf.d/00-keyboard.conf via localectl). Doing it there instead
+# of `setxkbmap` here means it survives suspend/resume and keyboard re-plugging,
+# which a per-session setxkbmap does not. To change it, edit that file or re-run
+# `sudo localectl set-x11-keymap us pc105 "" <option>` (e.g. caps:escape).

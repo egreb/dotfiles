@@ -1,4 +1,9 @@
-eval (/opt/homebrew/bin/brew shellenv)
+for brew_path in /opt/homebrew/bin/brew /home/linuxbrew/.linuxbrew/bin/brew /usr/local/bin/brew
+    if test -x $brew_path
+        eval ($brew_path shellenv)
+        break
+    end
+end
 
 set -U fish_greeting # disable fish greeting
 set -U fish_key_bindings fish_vi_key_bindings

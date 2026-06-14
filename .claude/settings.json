@@ -1,0 +1,24 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "curl -s -H \"Title: Claude finished on $(hostname -s)\" -H \"Tags: white_check_mark\" -d \"Session done\" ntfy.sh/claude-fd57c5e036dc1b5c"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "curl -s -H \"Title: Claude needs input on $(hostname -s)\" -H \"Priority: high\" -H \"Tags: bell\" -d \"Waiting for you\" ntfy.sh/claude-fd57c5e036dc1b5c"
+          }
+        ]
+      }
+    ]
+  }
+}

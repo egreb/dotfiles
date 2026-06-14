@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<!--
+  i3 keybindings cheat sheet — Catppuccin Frappé
+  AUTO-MAINTAINED: keep this in sync with ~/.config/i3/config.
+  Open with:  xdg-open ~/.config/i3/keybindings.html
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>i3 keybindings</title>
+<style>
+  :root {
+    --base: #303446; --mantle: #292c3c; --crust: #232634;
+    --surface0: #414559; --surface1: #51576d;
+    --text: #c6d0f5; --subtext0: #a5adce; --overlay0: #737994;
+    --blue: #8caaee; --mauve: #ca9ee6; --green: #a6d189;
+    --peach: #ef9f76; --red: #e78284; --yellow: #e5c890;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 2rem;
+    background: var(--base); color: var(--text);
+    font-family: "JetBrainsMono Nerd Font", ui-monospace, monospace;
+    font-size: 14px; line-height: 1.5;
+  }
+  h1 { color: var(--mauve); font-size: 1.6rem; margin: 0 0 .25rem; }
+  .sub { color: var(--subtext0); margin: 0 0 2rem; }
+  .sub code { color: var(--peach); }
+  .grid {
+    columns: 3 340px; column-gap: 1.5rem;
+  }
+  section {
+    break-inside: avoid; margin: 0 0 1.5rem;
+    background: var(--mantle); border: 1px solid var(--surface0);
+    border-radius: 10px; padding: 1rem 1.25rem;
+  }
+  h2 {
+    color: var(--blue); font-size: .95rem; text-transform: uppercase;
+    letter-spacing: .08em; margin: 0 0 .75rem;
+    border-bottom: 1px solid var(--surface0); padding-bottom: .5rem;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: .25rem 0; vertical-align: top; }
+  td.keys { white-space: nowrap; padding-right: 1rem; }
+  td.desc { color: var(--subtext0); }
+  kbd {
+    background: var(--surface0); color: var(--text);
+    border: 1px solid var(--surface1); border-bottom-width: 2px;
+    border-radius: 5px; padding: .05rem .4rem;
+    font-size: .82em; font-family: inherit;
+  }
+  .mod { color: var(--green); }
+</style>
+</head>
+<body>
+  <h1>i3 keybindings</h1>
+  <p class="sub"><span class="mod">$mod</span> = <kbd>Super</kbd> (Windows key). Source of truth: <code>~/.config/i3/config</code></p>
+
+  <div class="grid">
+
+    <section>
+      <h2>Launch &amp; window</h2>
+      <table>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>Enter</kbd></td><td class="desc">Open terminal (Ghostty)</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>d</kbd></td><td class="desc">App launcher (rofi)</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>Shift</kbd>+<kbd>q</kbd></td><td class="desc">Close window</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>f</kbd></td><td class="desc">Fullscreen toggle</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Focus</h2>
+      <table>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>h/j/k/l</kbd></td><td class="desc">Focus left / down / up / right</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>←↓↑→</kbd></td><td class="desc">Focus (arrow keys)</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>a</kbd></td><td class="desc">Focus parent container</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>Shift</kbd>+<kbd>a</kbd></td><td class="desc">Focus child container</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>space</kbd></td><td class="desc">Toggle focus tiling/floating</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>Ctrl</kbd>+<kbd>h/l</kbd></td><td class="desc">Focus other monitor (left/right)</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Move</h2>
+      <table>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>Shift</kbd>+<kbd>h/j/k/l</kbd></td><td class="desc">Move window left/down/up/right</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>Shift</kbd>+<kbd>←↓↑→</kbd></td><td class="desc">Move window (arrow keys)</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>Shift</kbd>+<kbd>space</kbd></td><td class="desc">Toggle floating</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+drag</td><td class="desc">Drag floating window</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>h/l</kbd></td><td class="desc">Move window to other monitor (left/right)</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Layout &amp; split</h2>
+      <table>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>b</kbd></td><td class="desc">Split next window horizontal</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>v</kbd></td><td class="desc">Split next window vertical</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>s</kbd></td><td class="desc">Stacking layout</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>w</kbd></td><td class="desc">Tabbed layout</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>e</kbd></td><td class="desc">Toggle split layout</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>r</kbd></td><td class="desc">Resize mode (hjkl/arrows, Esc to exit)</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Workspaces</h2>
+      <table>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>1…0</kbd></td><td class="desc">Switch to workspace 1–10</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>Shift</kbd>+<kbd>1…0</kbd></td><td class="desc">Send window to workspace 1–10</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>o</kbd></td><td class="desc">Back-and-forth (previous workspace)</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>Tab</kbd></td><td class="desc">Next workspace</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>Shift</kbd>+<kbd>Tab</kbd></td><td class="desc">Previous workspace</td></tr>
+        <tr><td class="keys">1–5 / 6–10</td><td class="desc">Pinned to external (DP-1) / laptop (eDP-1)</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Session</h2>
+      <table>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>Shift</kbd>+<kbd>c</kbd></td><td class="desc">Reload config</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>Shift</kbd>+<kbd>r</kbd></td><td class="desc">Restart i3 in place</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>Shift</kbd>+<kbd>x</kbd></td><td class="desc">Lock screen</td></tr>
+        <tr><td class="keys"><kbd>$mod</kbd>+<kbd>Shift</kbd>+<kbd>e</kbd></td><td class="desc">Exit i3 (with confirm)</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Media &amp; screenshot</h2>
+      <table>
+        <tr><td class="keys"><kbd>Vol +/-</kbd></td><td class="desc">Raise / lower volume</td></tr>
+        <tr><td class="keys"><kbd>Mute</kbd></td><td class="desc">Toggle mute</td></tr>
+        <tr><td class="keys"><kbd>Mic Mute</kbd></td><td class="desc">Toggle mic mute</td></tr>
+        <tr><td class="keys"><kbd>Bright +/-</kbd></td><td class="desc">Screen brightness</td></tr>
+        <tr><td class="keys"><kbd>Play/Next/Prev</kbd></td><td class="desc">Media control (playerctl)</td></tr>
+        <tr><td class="keys"><kbd>Print</kbd></td><td class="desc">Region screenshot → clipboard</td></tr>
+      </table>
+    </section>
+
+  </div>
+</body>
+</html>

@@ -1,51 +1,12 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
-SETUVAR --export CLAUDE_CONFIG_DIR:/Users/sib/\x2eclaude\x2dwork
+SETUVAR --export CLAUDE_CONFIG_DIR:/home/simen/\x2eclaude\x2dwork
 SETUVAR DELTA_FEATURES:diff\x2dso\x2dfancy
 SETUVAR --export EDITOR:nvim
 SETUVAR --export FZF_DEFAULT_OPTS:\x2d\x2dcolor\x3dbg\x2b\x3a\x23363A4F\x2cbg\x3a\x2324273A\x2cspinner\x3a\x23F4DBD6\x2chl\x3a\x23ED8796\x20\x2d\x2dcolor\x3dfg\x3a\x23CAD3F5\x2cheader\x3a\x23ED8796\x2cinfo\x3a\x23C6A0F6\x2cpointer\x3a\x23F4DBD6\x20\x2d\x2dcolor\x3dmarker\x3a\x23B7BDF8\x2cfg\x2b\x3a\x23CAD3F5\x2cprompt\x3a\x23C6A0F6\x2chl\x2b\x3a\x23ED8796\x20\x2d\x2dcolor\x3dselected\x2dbg\x3a\x23494D64\x20\x2d\x2dcolor\x3dborder\x3a\x236E738D\x2clabel\x3a\x23CAD3F5
 SETUVAR --export PHP_INI_SCAN_DIR:/Users/sib/\x2econfig/herd\x2dlite/bin\x3a/Users/sib/\x2econfig/herd\x2dlite/bin\x3a/Users/sib/\x2econfig/herd\x2dlite/bin\x3a/Users/sib/\x2econfig/herd\x2dlite/bin\x3a/Users/sib/\x2econfig/herd\x2dlite/bin\x3a/Users/sib/\x2econfig/herd\x2dlite/bin\x3a/Users/sib/\x2econfig/herd\x2dlite/bin\x3a
-SETUVAR --export ZK_NOTEBOOK_DIR:/Users/sib/notes
-SETUVAR __fish_initialized:3800
-SETUVAR fish_color_autosuggestion:\x1d
-SETUVAR fish_color_cancel:\x1d
-SETUVAR fish_color_command:\x1d
-SETUVAR fish_color_comment:\x1d
-SETUVAR fish_color_cwd:\x1d
-SETUVAR fish_color_cwd_root:red
-SETUVAR fish_color_end:\x1d
-SETUVAR fish_color_error:\x1d
-SETUVAR fish_color_escape:\x1d
-SETUVAR fish_color_gray:6e738d
-SETUVAR fish_color_history_current:\x2d\x2dbold
-SETUVAR fish_color_host:\x1d
-SETUVAR fish_color_host_remote:\x1d
-SETUVAR fish_color_keyword:\x1d
-SETUVAR fish_color_match:\x2d\x2dbackground\x3dbrblue
-SETUVAR fish_color_normal:\x1d
-SETUVAR fish_color_operator:\x1d
-SETUVAR fish_color_option:\x1d
-SETUVAR fish_color_param:\x1d
-SETUVAR fish_color_quote:\x1d
-SETUVAR fish_color_redirection:\x1d
-SETUVAR fish_color_search_match:\x1d
-SETUVAR fish_color_selection:\x1d
-SETUVAR fish_color_status:ed8796
-SETUVAR fish_color_user:\x1d
-SETUVAR fish_color_valid_path:\x2d\x2dunderline
+SETUVAR --export ZK_NOTEBOOK_DIR:/home/simen/notes
+SETUVAR __fish_initialized:4300
 SETUVAR fish_greeting:\x1d
 SETUVAR fish_key_bindings:fish_vi_key_bindings
-SETUVAR fish_pager_color_background:\x1d
-SETUVAR fish_pager_color_completion:\x1d
-SETUVAR fish_pager_color_description:\x1d
-SETUVAR fish_pager_color_prefix:\x1d
-SETUVAR fish_pager_color_progress:\x1d
-SETUVAR fish_pager_color_secondary_background:\x1d
-SETUVAR fish_pager_color_secondary_completion:\x1d
-SETUVAR fish_pager_color_secondary_description:\x1d
-SETUVAR fish_pager_color_secondary_prefix:\x1d
-SETUVAR fish_pager_color_selected_background:\x1d
-SETUVAR fish_pager_color_selected_completion:\x1d
-SETUVAR fish_pager_color_selected_description:\x1d
-SETUVAR fish_pager_color_selected_prefix:\x1d
-SETUVAR fish_user_paths:/Users/sib/dotfiles/bin\x1e/Users/sib/\x2econfig/herd\x2dlite/bin\x1e/Users/sib/\x2elocal/share/nvim/mason/bin\x1e/opt/homebrew/opt/ruby/bin\x1e/Users/sib/\x2elocal/bin\x1e/Users/sib/go/bin\x1e/Users/sib/\x2edotfiles/bin\x1e/Users/sib/\x2econfig/bin\x1e/opt/homebrew/opt/openjdk/bin\x1e/Applications/Ghostty\x2eapp/Contents/MacOS
+SETUVAR fish_user_paths:/home/simen/\x2elocal/bin\x1e/home/linuxbrew/\x2elinuxbrew/bin\x1e/home/simen/dotfiles/bin\x1e/Users/sib/dotfiles/bin\x1e/Users/sib/\x2econfig/herd\x2dlite/bin\x1e/Users/sib/\x2elocal/share/nvim/mason/bin\x1e/opt/homebrew/opt/ruby/bin\x1e/Users/sib/\x2elocal/bin\x1e/Users/sib/go/bin\x1e/Users/sib/\x2edotfiles/bin\x1e/Users/sib/\x2econfig/bin\x1e/opt/homebrew/opt/openjdk/bin\x1e/Applications/Ghostty\x2eapp/Contents/MacOS
