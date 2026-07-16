@@ -49,6 +49,8 @@ return {
         'yaml',
         'go',
         'sql',
+        'gotmpl',
+        'css',
       },
     },
     config = function(_, opts)
@@ -78,6 +80,9 @@ return {
 
       -- setup treesitter
       TS.setup(opts)
+
+      -- gohtmltmpl has no parser of its own; use gotmpl (injects html)
+      vim.treesitter.language.register('gotmpl', 'gohtmltmpl')
 
       -- install missing parsers
       local install = opts.ensure_installed or {}

@@ -41,6 +41,22 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 vim.opt.smoothscroll = true
+
+-- .html files containing Go template actions get their own filetype,
+-- so they're formatted by djlint instead of plain html tooling (which
+-- mangles {{ ... }} blocks). Plain .html falls through to 'html'.
+vim.filetype.add {
+  pattern = {
+    ['.*%.html'] = {
+      function(_, bufnr)
+        local lines = table.concat(vim.api.nvim_buf_get_lines(bufnr, 0, 20, false), '\n')
+        if lines:find '{{.-}}' then
+          return 'gohtmltmpl'
+        end
+      end,
+    },
+  },
+}
 -- vim.opt.foldtext       = ""
 -- vim.wo.foldmethod      = 'expr'
 -- vim.wo.foldexpr        = 'v:lua.vim.treesitter.foldexpr()'

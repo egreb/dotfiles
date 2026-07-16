@@ -41,6 +41,12 @@ return { -- Autoformat
       go = { 'goimports', 'gofmt' },
       templ = { 'goimports', 'gofmt' },
       vue = { 'prettier' },
+      gohtmltmpl = { 'djlint' },
+    },
+    formatters = {
+      djlint = {
+        prepend_args = { '--profile', 'golang', '--indent', '2' },
+      },
     },
   },
 }

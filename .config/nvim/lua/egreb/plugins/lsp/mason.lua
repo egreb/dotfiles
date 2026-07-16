@@ -40,6 +40,7 @@ return {
         'prettier', -- prettier formatter
         'stylua', -- lua formatter
         'goimports',
+        'djlint', -- go template (html) formatter
       },
     },
     dependencies = {
