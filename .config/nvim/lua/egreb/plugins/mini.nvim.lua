@@ -2,6 +2,7 @@ return { -- Collection of various small independent plugins/modules
   'echasnovski/mini.nvim',
   name = 'mini',
   version = false,
+  event = 'VeryLazy',
   config = function()
     -- Better Around/Inside textobjects
     --
@@ -22,7 +23,8 @@ return { -- Collection of various small independent plugins/modules
     -- require('mini.pairs').setup {}
     require('mini.jump').setup {}
 
-    -- Icon provider used by render-markdown.nvim (headings, callouts, etc.)
-    require('mini.icons').setup {}
+    -- NOTE: mini.icons is intentionally NOT set up here; the standalone
+    -- 'echasnovski/mini.icons' plugin (a dependency of oil/snacks/render-markdown)
+    -- owns icons, so setting it up here would be a duplicate.
   end,
 }

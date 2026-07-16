@@ -1,6 +1,8 @@
 return {
   {
     'williamboman/mason-lspconfig.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
+    cmd = 'Mason',
     opts = {
       -- list of servers for mason to install
       ensure_installed = {
@@ -35,6 +37,7 @@ return {
   },
   {
     'WhoIsSethDaniel/mason-tool-installer.nvim',
+    event = 'VeryLazy',
     opts = {
       ensure_installed = {
         'prettier', -- prettier formatter
@@ -43,6 +46,13 @@ return {
         'djlint', -- go template (html) formatter
       },
     },
+    config = function(_, opts)
+      local mti = require 'mason-tool-installer'
+      mti.setup(opts)
+      -- The plugin normally runs its install check from a VimEnter autocmd;
+      -- VeryLazy fires after VimEnter, so trigger it explicitly.
+      mti.run_on_start()
+    end,
     dependencies = {
       'williamboman/mason.nvim',
     },

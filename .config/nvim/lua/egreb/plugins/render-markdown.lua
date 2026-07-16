@@ -5,7 +5,7 @@ return {
   ft = { 'markdown' },
   dependencies = {
     'nvim-treesitter/nvim-treesitter', -- markdown + markdown_inline already installed
-    'echasnovski/mini.nvim', -- provides mini.icons (enabled in mini.nvim.lua)
+    'echasnovski/mini.icons', -- icon provider (headings, callouts, etc.)
   },
   ---@module 'render-markdown'
   ---@type render.md.UserConfig
