@@ -51,6 +51,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 		opts.desc = 'Restart LSP'
 		keymap.set('n', '<leader>rs', ':LspRestart<CR>', opts) -- mapping to restart lsp if necessary
+
+		opts.desc = 'Toggle inlay hints'
+		keymap.set('n', '<leader>ih', function()
+			local filter = { bufnr = ev.buf }
+			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(filter), filter)
+		end, opts) -- toggle [I]nlay [H]ints for this buffer
 	end,
 })
 

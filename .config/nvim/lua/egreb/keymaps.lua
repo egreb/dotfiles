@@ -54,13 +54,22 @@ map({ 'n' }, '<leader>ff', function()
   }
 end, { desc = '[F]ind [F]iles' })
 -- grep files
-map({ 'n' }, '<leader>fg', function()
+map({ 'n' }, '<leader>fG', function()
   Snacks.picker.grep {
     cwd = true,
     hidden = true,
     ignored = false,
   }
 end, { desc = '[G]rep [F]iles' })
+-- grep files, literal (no regex) — for paths/patterns with {}, (), [], etc.
+map({ 'n' }, '<leader>fg', function()
+  Snacks.picker.grep {
+    cwd = true,
+    hidden = true,
+    ignored = false,
+    regex = false,
+  }
+end, { desc = '[G]rep [F]iles (literal)' })
 -- resume previous search
 map({ 'n' }, '<leader>fr', function()
   Snacks.picker.resume { cwd = true }

@@ -21,12 +21,12 @@ return {
     end)
     --
     -- Add or skip adding a new cursor by matching word/selection
-    set({ 'n', 'v' }, '[D', function()
+    set({ 'n', 'v' }, '[m', function()
       mc.matchAddCursor(1)
     end, {
       desc = 'Add Cursor previous match',
     })
-    set({ 'n', 'v' }, ']D', function()
+    set({ 'n', 'v' }, ']m', function()
       mc.matchAddCursor(-1)
     end, {
       desc = 'Add Cursor next match',

@@ -22,6 +22,16 @@ return { -- Collection of various small independent plugins/modules
     -- require('mini.pairs').setup {}
     require('mini.jump').setup {}
 
+    -- Git diff signs in the gutter (add/change/delete hunks).
+    -- style = 'sign' forces gutter signs; the default would tint line numbers since `number` is on.
+    -- Also adds hunk mappings: gh (apply), gH (reset), [h/]h (prev/next hunk), gh (textobject).
+    require('mini.diff').setup {
+      view = {
+        style = 'sign',
+        signs = { add = '▎', change = '▎', delete = '▁' },
+      },
+    }
+
     -- Icon provider used by render-markdown.nvim (headings, callouts, etc.)
     require('mini.icons').setup {}
   end,
