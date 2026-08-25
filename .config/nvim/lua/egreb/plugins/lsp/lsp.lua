@@ -4,7 +4,15 @@ return {
   event = { 'BufReadPre', 'BufNewFile' },
   dependencies = {
     { 'antosha417/nvim-lsp-file-operations', config = true },
-    { 'folke/lazydev.nvim', opts = {} },
+    {
+      'folke/lazydev.nvim',
+      opts = {
+        library = {
+          -- load snacks types when `Snacks` is mentioned, for the global set in snacks/init.lua
+          { path = 'snacks.nvim', words = { 'Snacks' } },
+        },
+      },
+    },
   },
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config

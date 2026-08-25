@@ -30,3 +30,25 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.formatoptions:remove({ "c", "r", "o" })
 	end,
 })
+
+-- follow the macOS light/dark appearance
+--  Ghostty swaps its own theme via `theme = light:...,dark:...`, but it has no way
+--  to tell nvim, so ask macOS directly. Checked on focus rather than on a timer:
+--  flipping appearance always means leaving and re-entering the terminal.
+local function sync_appearance()
+	vim.system({ 'defaults', 'read', '-g', 'AppleInterfaceStyle' }, { text = true }, function(obj)
+		local want = (obj.stdout or ''):match('Dark') and 'dark' or 'light'
+		vim.schedule(function()
+			if vim.o.background ~= want then
+				vim.o.background = want
+				vim.cmd.colorscheme('rose-pine')
+			end
+		end)
+	end)
+end
+
+vim.api.nvim_create_autocmd({ 'VimEnter', 'FocusGained' }, {
+	desc = 'Match colorscheme to the macOS light/dark appearance',
+	group = vim.api.nvim_create_augroup('egreb-appearance', { clear = true }),
+	callback = sync_appearance,
+})
