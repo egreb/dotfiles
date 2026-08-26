@@ -46,3 +46,17 @@ vim.opt.smoothscroll = true
 -- vim.wo.foldexpr        = 'v:lua.vim.treesitter.foldexpr()'
 -- vim.opt.foldlevel      = 99
 -- vim.opt.foldlevelstart = 1
+
+vim.diagnostic.config {
+  virtual_text = {
+    prefix = '●',
+    spacing = 2,
+    source = 'if_many', -- show source (e.g. gopls) only when several are attached
+    current_line = false, -- virtual_lines below takes over on the current line
+  },
+  -- full, wrapped message rendered below the line the cursor is on
+  virtual_lines = { current_line = true },
+  underline = true,
+  severity_sort = true,
+  float = { border = 'rounded', source = true },
+}
