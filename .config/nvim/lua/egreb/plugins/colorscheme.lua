@@ -10,14 +10,18 @@ return {
       styles = {
         bold = false,
         italic = false,
-        transparency = true,
+        transparency = false,
       },
-      -- Lift moon's whole surface ladder one step so the background isn't a
-      -- cave. Must match `background` in ~/.config/ghostty/themes/rose-pine-moon-lifted,
-      -- otherwise transparency leaves a seam around floats and inlay hints.
+      -- Opaque surfaces keep each variant readable regardless of terminal colors.
       palette = {
+        dawn = {
+          muted = '#716b80',
+          subtle = '#655f75',
+        },
         moon = {
           base = '#2a273f',
+          muted = '#aaa6bf',
+          subtle = '#c0bcd1',
           surface = '#393552',
           overlay = '#44415a',
           highlight_low = '#393552',

@@ -1,0 +1,42 @@
+# name: 'Solarized Classic'
+# Higher-contrast accents and secondary text for the cream background.
+# preferred_background: fdf6e3
+
+[light]
+fish_color_normal 40565e
+
+fish_color_command 1769aa
+fish_color_builtin 1769aa
+fish_color_function 1769aa
+
+fish_color_keyword 586900
+fish_color_quote 586900
+
+fish_color_param 40565e
+fish_color_option 806000
+
+fish_color_redirection 18756e
+fish_color_operator 18756e
+fish_color_escape a62669
+
+fish_color_end 806000
+fish_color_error b52b28 --bold
+
+# Keep comments and suggestions readable while separating them from normal text.
+fish_color_comment 52676f
+
+fish_color_autosuggestion 52676f
+
+fish_color_selection 40565e --background=eee8d5
+fish_color_search_match 40565e --background=eee8d5
+
+fish_color_cwd 18756e
+fish_color_user 1769aa
+fish_color_host 40565e
+fish_color_host_remote a33c12
+fish_color_status b52b28
+
+fish_pager_color_prefix 1769aa --bold
+fish_pager_color_completion 40565e
+fish_pager_color_description 52676f
+fish_pager_color_selected_background --background=eee8d5

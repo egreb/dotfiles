@@ -1,10 +1,51 @@
 #!/usr/bin/env bash
 
-selected_name=$(tmux ls -F '#S' | fzf --prompt='Select session: ' --layout=reverse)
+source "$HOME/bin/claude-tmux-lib.sh"
+
+# Prefix each tmux session with a Claude state icon. A session is mapped to the
+# directories of its panes; it gets the most urgent icon across those dirs (only
+# where a Claude instance is actually running). See claude-tmux-lib.sh.
+selected_name=$(
+    {
+        claude_present_records                              # present\t<cwd>
+        claude_state_records                               # <state>\t<path>
+        tmux list-panes -a -F "pane"$'\t'"#{session_name}"$'\t'"#{pane_current_path}" 2>/dev/null
+        tmux ls -F "sess"$'\t'"#S" 2>/dev/null
+    } | awk -F'\t' \
+            -v ready="$CLAUDE_TMUX_ICON_READY" \
+            -v feedback="$CLAUDE_TMUX_ICON_FEEDBACK" \
+            -v working="$CLAUDE_TMUX_ICON_WORKING" \
+            -v blank="$CLAUDE_TMUX_ICON_BLANK" '
+        $1 == "present" && NF == 2 { present[$2] = 1; next }
+        $1 == "pane"    && NF == 3 { paths[$2] = paths[$2] "\n" $3; next }
+        $1 == "sess"    && NF == 2 { order[++n] = $2; next }
+        NF == 2                    { state[$2] = $1; next }   # ready / needs-feedback
+        END {
+            for (i = 1; i <= n; i++) {
+                s = order[i]; best = 0
+                m = split(paths[s], pp, "\n")
+                for (j = 1; j <= m; j++) {
+                    p = pp[j]
+                    if (p == "" || !present[p]) continue
+                    if (state[p] == "needs-feedback") c = 3
+                    else if (state[p] == "ready")     c = 2
+                    else                              c = 1
+                    if (c > best) best = c
+                }
+                icon = (best == 3 ? feedback : (best == 2 ? ready : (best == 1 ? working : blank)))
+                printf "%s %s\t%s\n", icon, s, s
+            }
+        }
+    ' | fzf --prompt='Select session: ' --layout=reverse \
+            --delimiter='\t' --with-nth=1 --nth=1 | awk -F'\t' '{print $2}'
+)
+
+[[ -z $selected_name ]] && exit 0
+
 tmux_running=$(pgrep tmux)
 
 if [[ -z "$TMUX" ]] && [[ -z $tmux_running ]]; then
-	tmux attach-session -t=$selected_name
+	tmux attach-session -t="$selected_name"
 	exit 0
 fi
-tmux switch-client -t $selected_name
+tmux switch-client -t "$selected_name"

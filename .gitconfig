@@ -106,6 +106,8 @@
 	prompt = false
 [help]
 	autocorrect = prompt
-[includeIf "gitdir:~/Developer/code/work/cybr/"]
+[includeIf "gitdir:~/Developer/work/"]
 	path = ~/Developer/code/work/cybr/.gitconfig
+[includeIf "gitdir:~/sandboxes/"]
+	path = ~/sandboxes.gitconfig
 

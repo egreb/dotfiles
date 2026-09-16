@@ -2,11 +2,11 @@
 -- change to 'all' to show them at every call site
 local inlay_hints = {
   parameterNames = { enabled = 'literals', suppressWhenArgumentMatchesName = true },
-  parameterTypes = { enabled = true },
-  variableTypes = { enabled = true },
-  propertyDeclarationTypes = { enabled = true },
-  functionLikeReturnTypes = { enabled = true },
-  enumMemberValues = { enabled = true },
+  parameterTypes = { enabled = false },
+  variableTypes = { enabled = false },
+  propertyDeclarationTypes = { enabled = false },
+  functionLikeReturnTypes = { enabled = false },
+  enumMemberValues = { enabled = false },
 }
 
 return {

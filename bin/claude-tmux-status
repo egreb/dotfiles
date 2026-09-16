@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+#
+# Record Claude Code session state so the tmux sessionizer can show an icon
+# next to each project. Invoked from Claude Code hooks with a state word:
+#
+#   ready           -> Claude finished its turn, waiting for you   (Stop)
+#   needs-feedback  -> Claude is blocked on a prompt/permission    (Notification)
+#   clear           -> Claude is working / session gone -> no icon (UserPromptSubmit,
+#                                                                    SessionStart, SessionEnd)
+#
+# The hook JSON is read from stdin to find the project cwd. State is written to
+# one file per project under $statedir, named by a hash of the canonical path,
+# with contents "<state>\t<canonical-path>".
+
+set -euo pipefail
+
+state="${1:-clear}"
+statedir="${CLAUDE_TMUX_STATUS_DIR:-$HOME/.cache/claude-tmux-status}"
+mkdir -p "$statedir"
+
+# Drop state left behind by crashed/abandoned sessions (older than 24h).
+find "$statedir" -type f -mmin +1440 -delete 2>/dev/null || true
+
+# Find the project directory from the hook JSON (fall back to $PWD).
+input="$(cat 2>/dev/null || true)"
+cwd=""
+if command -v jq >/dev/null 2>&1; then
+    cwd="$(printf '%s' "$input" | jq -r '.cwd // empty' 2>/dev/null || true)"
+fi
+if [[ -z "$cwd" ]]; then
+    cwd="$(printf '%s' "$input" | sed -n 's/.*"cwd"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -n1)"
+fi
+[[ -z "$cwd" ]] && cwd="$PWD"
+
+# Canonicalize to the physical path so it matches what the sessionizer lists.
+canonical="$(cd "$cwd" 2>/dev/null && pwd -P || printf '%s' "$cwd")"
+key="$(printf '%s' "$canonical" | shasum | cut -d' ' -f1)"
+file="$statedir/$key"
+
+case "$state" in
+    ready)          printf 'ready\t%s\n' "$canonical" >"$file" ;;
+    needs-feedback) printf 'needs-feedback\t%s\n' "$canonical" >"$file" ;;
+    *)              rm -f "$file" ;;
+esac

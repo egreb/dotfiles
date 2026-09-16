@@ -1,9 +1,36 @@
 #!/usr/bin/env bash
 
+source "$HOME/bin/claude-tmux-lib.sh"
+
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/dotfiles ~/Developer/work ~/Developer/private ~/.config -mindepth 1 -maxdepth 2 -type d | fzf)
+    # Prefix each project with a Claude state icon (only when a Claude instance
+    # is actually running there); see claude-tmux-lib.sh for the semantics.
+    selected=$(
+        {
+            claude_present_records                          # present\t<cwd>
+            claude_state_records                            # <state>\t<path>
+            find ~/dotfiles ~/Developer/work ~/Developer/private ~/.config \
+                -mindepth 1 -maxdepth 2 -type d 2>/dev/null
+        } | awk -F'\t' \
+                -v ready="$CLAUDE_TMUX_ICON_READY" \
+                -v feedback="$CLAUDE_TMUX_ICON_FEEDBACK" \
+                -v working="$CLAUDE_TMUX_ICON_WORKING" \
+                -v blank="$CLAUDE_TMUX_ICON_BLANK" '
+            NF == 2 && $1 == "present" { present[$2] = 1; next }
+            NF == 2                    { state[$2] = $1; next }
+            /^\// {                                         # directory line
+                icon = blank
+                if (present[$0]) {                          # only if claude is live
+                    if (state[$0] == "needs-feedback")  icon = feedback
+                    else if (state[$0] == "ready")      icon = ready
+                    else                                icon = working
+                }
+                printf "%s %s\t%s\n", icon, $0, $0
+            }
+        ' | fzf --delimiter='\t' --with-nth=1 --nth=1 --reverse | awk -F'\t' '{print $2}'
+    )
 fi
 
 if [[ -z $selected ]]; then

@@ -1,0 +1,19 @@
+gui:
+  theme:
+    # Reuse Ghostty's Solarized colors, including its soft selection background.
+    activeBorderColor:
+      - '#586900'
+      - bold
+    inactiveBorderColor:
+      - '#52676f'
+    searchingActiveBorderColor:
+      - '#1769aa'
+      - bold
+    optionsTextColor:
+      - '#1769aa'
+    selectedLineBgColor:
+      - '#eee8d5'
+    selectedRangeBgColor:
+      - '#eee8d5'
+    defaultFgColor:
+      - '#40565e'

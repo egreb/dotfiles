@@ -1,0 +1,12 @@
+WRN 2026-09-11T17:54:33.277 ?.98817    server_start:197: Failed to start server: operation not permitted: /var/folders/37/xd8gkyz97fj17bgwk4_51pr80000gn/T/nvim.sib/CrFNbF/nvim-v2.98817.0
+WRN 2026-09-12T17:44:01.695 ?.36570    server_start:197: Failed to start server: operation not permitted: /var/folders/37/xd8gkyz97fj17bgwk4_51pr80000gn/T/nvim.sib/U8iXRa/nvim.36570.0
+WRN 2026-09-12T17:44:17.987 ?.36917    server_start:197: Failed to start server: operation not permitted: /var/folders/37/xd8gkyz97fj17bgwk4_51pr80000gn/T/nvim.sib/0qYKR4/nvim.36917.0
+WRN 2026-09-12T17:44:23.450 ?.37406    server_start:197: Failed to start server: operation not permitted: /var/folders/37/xd8gkyz97fj17bgwk4_51pr80000gn/T/nvim.sib/J8TrnU/nvim.37406.0
+WRN 2026-09-12T17:44:23.500 ?.37404    server_start:197: Failed to start server: operation not permitted: /var/folders/37/xd8gkyz97fj17bgwk4_51pr80000gn/T/nvim.sib/455IFu/nvim.37404.0
+WRN 2026-09-12T17:44:55.903 ?.38100    server_start:197: Failed to start server: operation not permitted: /var/folders/37/xd8gkyz97fj17bgwk4_51pr80000gn/T/nvim.sib/Rks2ha/nvim-v2.38100.0
+WRN 2026-09-12T17:45:12.544 ?.38605    server_start:197: Failed to start server: operation not permitted: /var/folders/37/xd8gkyz97fj17bgwk4_51pr80000gn/T/nvim.sib/D1SRdf/nvim-v2.38605.0
+WRN 2026-09-12T17:46:23.624 ?.39634    server_start:197: Failed to start server: operation not permitted: /var/folders/37/xd8gkyz97fj17bgwk4_51pr80000gn/T/nvim.sib/IbmPUN/nvim-v2.39634.0
+WRN 2026-09-12T17:46:41.542 ?.39809    server_start:197: Failed to start server: operation not permitted: /var/folders/37/xd8gkyz97fj17bgwk4_51pr80000gn/T/nvim.sib/VTEmus/nvim-v2.39809.0
+WRN 2026-09-12T17:46:59.967 ?.40142    server_start:197: Failed to start server: operation not permitted: /var/folders/37/xd8gkyz97fj17bgwk4_51pr80000gn/T/nvim.sib/yFPNd3/nvim-v2.40142.0
+WRN 2026-09-12T17:47:10.748 ?.40478    server_start:197: Failed to start server: operation not permitted: /var/folders/37/xd8gkyz97fj17bgwk4_51pr80000gn/T/nvim.sib/Q1Ck0e/nvim-v2.40478.0
+WRN 2026-09-12T17:47:41.804 ?.40825    server_start:197: Failed to start server: operation not permitted: /var/folders/37/xd8gkyz97fj17bgwk4_51pr80000gn/T/nvim.sib/BpyCoB/nvim-v2.40825.0

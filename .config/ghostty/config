@@ -1,7 +1,34 @@
-theme = light:Rose Pine Dawn,dark:rose-pine-moon-lifted
-font-family = "FantasqueSansM Nerd Font Mono"
+font-family = "JetBrainsMono Nerd Font"
 font-size = 22
 font-thicken = true
 macos-option-as-alt = true
 background-blur = true
 gtk-titlebar = false
+
+background = #fdf6e3
+foreground = #40565e
+
+cursor-color = #40565e
+cursor-text = #fdf6e3
+
+selection-background = #eee8d5
+selection-foreground = #40565e
+
+palette = 0=#073642
+palette = 1=#b52b28
+palette = 2=#586900
+palette = 3=#806000
+palette = 4=#1769aa
+palette = 5=#a62669
+palette = 6=#18756e
+# ANSI white text must remain readable on the light background.
+palette = 7=#40565e
+
+palette = 8=#002b36
+palette = 9=#a33c12
+palette = 10=#40565e
+palette = 11=#40565e
+palette = 12=#52676f
+palette = 13=#555ab0
+palette = 14=#52676f
+palette = 15=#40565e
