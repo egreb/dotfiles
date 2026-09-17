@@ -1,0 +1,11 @@
+workspace_root: ~/sandboxes
+projects_file: ~/.config/sbx/projects.yaml
+git_cache_root: ~/.cache/sbx/git
+agent: claude
+claude_theme: light
+host_shell: fish
+tmux_socket: sbx-v1
+# Optional; omitted means tmux loads your normal user config.
+# tmux_config: ~/.tmux.conf
+# Must be Docker's native executable, not this wrapper.
+docker_sbx_bin: /opt/homebrew/bin/sbx

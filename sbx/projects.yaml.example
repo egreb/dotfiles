@@ -1,0 +1,8 @@
+projects:
+  - name: backend
+    repo: git@github.com:YOUR_ORG/backend.git
+    branch: main
+    # before_bootstrap: make generate
+  - name: frontend
+    repo: git@github.com:YOUR_ORG/frontend.git
+    branch: main
