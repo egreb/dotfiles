@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Open the work vault in v2 without changing the calling shell's directory.
+set -euo pipefail
+
+usage() {
+    echo "Usage: notes [today|yesterday|search|new]"
+    echo "Opens ~/vaults/work. Without an action, opens the note picker."
+}
+
+case "${1:-}" in
+    -h|--help) usage; exit 0 ;;
+esac
+
+action=quick_switch
+if (($#)); then
+    case "$1" in
+        today|yesterday|search|new) action="$1"; shift ;;
+        *) usage >&2; exit 2 ;;
+    esac
+fi
+if (($#)); then
+    usage >&2
+    exit 2
+fi
+
+exec env NVIM_APPNAME=nvim-v2 nvim -c "Obsidian workspace work" -c "Obsidian $action"
