@@ -34,6 +34,7 @@ require("tree-sitter-manager").setup({
 		"markdown",
 		"markdown_inline",
 		"query",
+		"sql",
 		"tsx",
 		"typescript",
 		"vim",
