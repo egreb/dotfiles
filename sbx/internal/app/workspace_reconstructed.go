@@ -87,6 +87,7 @@ func (app *App) updateProjectGitCache(ctx context.Context, p config.Project) err
 		return e
 	}
 	cache := filepath.Join(app.config.GitCacheRoot, p.Name+".git")
+	replace := false
 	if _, e := os.Stat(cache); e == nil {
 		origin, e := app.runner.Output(ctx, "git", []string{"-C", cache, "remote", "get-url", "origin"}, process.Options{})
 		if e != nil {
@@ -95,7 +96,22 @@ func (app *App) updateProjectGitCache(ctx context.Context, p config.Project) err
 		if strings.TrimSpace(origin) != p.Repo {
 			return fmt.Errorf("cache origin mismatch for %s", p.Name)
 		}
-		return app.runner.Run(ctx, "git", []string{"-C", cache, "fetch", "--prune", "origin"}, process.Options{})
+		// Fetch negotiation trusts existing tips, so it cannot repair missing
+		// objects underneath an unchanged branch. Check every ref first.
+		if e = app.checkGitCache(ctx, cache); e == nil {
+			if e = app.runner.Run(ctx, "git", []string{"-C", cache, "fetch", "--atomic", "--prune", "origin"}, process.Options{}); e != nil {
+				return e
+			}
+			e = app.checkGitCache(ctx, cache)
+		}
+		if e == nil {
+			return nil
+		}
+		if ctx.Err() != nil {
+			return ctx.Err()
+		}
+		app.note("- rebuilding damaged Git cache for %s", p.Name)
+		replace = true
 	} else if !os.IsNotExist(e) {
 		return e
 	}
@@ -104,8 +120,37 @@ func (app *App) updateProjectGitCache(ctx context.Context, p config.Project) err
 		return e
 	}
 	defer os.RemoveAll(temp)
-	if e = app.runner.Run(ctx, "git", []string{"clone", "--mirror", "--", p.Repo, temp}, process.Options{}); e != nil {
+	if e = app.runner.Run(ctx, "git", []string{"clone", "--mirror", "--no-local", "--", p.Repo, temp}, process.Options{}); e != nil {
 		return e
 	}
+	if e = app.checkGitCache(ctx, temp); e != nil {
+		return fmt.Errorf("new mirror failed integrity check: %w", e)
+	}
+	if replace {
+		// Keep the old mirror for diagnosis, and leave it untouched if the
+		// upstream clone or verification fails.
+		backup, err := os.MkdirTemp(app.config.GitCacheRoot, "."+p.Name+"-damaged-")
+		if err != nil {
+			return err
+		}
+		old := filepath.Join(backup, "mirror.git")
+		if err = os.Rename(cache, old); err != nil {
+			os.Remove(backup)
+			return err
+		}
+		if err = os.Rename(temp, cache); err != nil {
+			if restoreErr := os.Rename(old, cache); restoreErr != nil {
+				return fmt.Errorf("install mirror: %w; restore failed: %v (old mirror: %s)", err, restoreErr, old)
+			}
+			os.Remove(backup)
+			return err
+		}
+		app.note("- preserved damaged mirror at %s", old)
+		return nil
+	}
 	return os.Rename(temp, cache)
+}
+
+func (app *App) checkGitCache(ctx context.Context, cache string) error {
+	return app.runner.Run(ctx, "git", []string{"-C", cache, "fsck", "--full", "--no-dangling"}, process.Options{})
 }

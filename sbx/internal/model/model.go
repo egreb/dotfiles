@@ -10,6 +10,7 @@ type Project struct {
 }
 type Workspace struct {
 	Name, Path   string
+	LastUsed     int64
 	AgentSession *Session
 	Projects     []Project
 }

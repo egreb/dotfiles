@@ -210,7 +210,7 @@ Commands:
   add [project]          Clone a configured project into the current workspace
   project [name]          Open/switch a host project session
   split [project|agent]  Open a workspace session beside the current pane
-  delete [--yes] [name]  Delete all resources for a workspace
+  delete [--yes] [name]  Pick a workspace to delete; confirm by typing its name
   list                    List managed workspaces
   tui [--current] [--split]
                           Browse, optionally selecting a side-by-side session

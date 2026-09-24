@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Reconstructed integration suite: local Git, fake Docker CLI/tools, isolated tmux."""
-import fcntl, json, os, pathlib, pty, re, select, struct, subprocess, tempfile, termios, time
+import fcntl, json, os, pathlib, pty, re, select, socket as sockets, struct, subprocess, tempfile, termios, time
 P=pathlib.Path
 binary=str(P(os.environ.get('WORKFLOW','dist/sbx')).resolve())
 with tempfile.TemporaryDirectory(prefix='sbx-recovery-test-') as tmp:
@@ -22,11 +22,12 @@ p=pathlib.Path(os.environ['SBX_FAKE_STATE']);args=sys.argv[1:]
 with (p/'calls.jsonl').open('a') as f:f.write(json.dumps(args)+'\\n')
 cmd=args[0]
 if cmd=='ls':
+ if args!=['ls','--quiet']:sys.exit('unsupported ls arguments: '+repr(args))
  for x in p.glob('*.sandbox'):print(x.stem)
 elif cmd=='create':
  name=args[args.index('--name')+1];(p/(name+'.sandbox')).touch()
  if name=='agentfail':sys.exit(7)
-elif cmd=='rm':(p/(args[1]+'.sandbox')).unlink(missing_ok=True)
+elif cmd=='rm':(p/(args[-1]+'.sandbox')).unlink(missing_ok=True)
 elif cmd=='run':time.sleep(120)
 elif cmd=='exec':pass
 elif cmd=='version':print('fake native')
@@ -94,9 +95,9 @@ else:sys.exit(2)
   env['TMUX']=sp+',1,0';env['TMUX_PANE']=pane
   sbx('project','backend');sbx('project','backend')
   windows=tmux('list-windows','-t','alpha--backend','-F','#{window_index}:#{window_name}:#{window_panes}').stdout.strip()
-  assert windows=='1:neovim:1\n2:lazygit:1\n3:hunk:1',windows
+  assert windows=='1:neovim:1\n2:shell:1',windows
   assert tmux('show-options','-qv','-t','alpha','@sbx-last-session').stdout.strip()=='alpha--backend'
-  print('PASS project sessions, three tool windows, idempotent reuse',flush=True)
+  print('PASS project sessions, Neovim and shell windows, idempotent reuse',flush=True)
   # Split from the original agent pane without changing its last-session choice.
   tmux('switch-client','-t','alpha');sbx('split','frontend')
   panes=tmux('list-panes','-t','alpha:','-F','#{pane_id}').stdout.splitlines();side=next(x for x in panes if x!=pane)
@@ -166,10 +167,72 @@ else:sys.exit(2)
   # Failure after native create must roll back resources reserved by this command.
   assert sbx('new','--all','--no-open','agentfail',ok=False).returncode
   assert not (work/'agentfail').exists() and not (state/'agentfail.sandbox').exists()
-  sbx('new','--all','--no-open','beta');sbx('delete','--yes','alpha')
+  sbx('new','--all','--no-open','beta')
+  # Delete from the normal tree picker, including its current workspace.
+  sbx('new','--all','--no-open','picker-delete')
+  time.sleep(1.1);tmux('switch-client','-t','beta');time.sleep(1.1)
+  tmux('switch-client','-t','picker-delete')
+  drain_terminal();os.write(master,b'\x13o');terminal_until(b'sbx sessions')
+  os.write(master,b'D');terminal_until(b'Delete workspace picker-delete?')
+  os.write(master,b'n');time.sleep(.2)
+  assert (work/'picker-delete').is_dir(), 'cancel deleted workspace'
+  os.write(master,b'D');terminal_until(b'Delete workspace picker-delete?')
+  os.write(master,b'y');terminal_until(b'Create a new workspace?')
+  assert not (work/'picker-delete').exists(), 'picker delete failed'
+  os.write(master,b'n');time.sleep(.3)
+  active=tmux('list-clients','-F','#{session_name}').stdout.strip()
+  assert active=='beta', 'did not return to last used workspace: '+active
+  print('PASS tree picker deletion cancellation, current-workspace deletion, and last-used fallback',flush=True)
+  # A host dev server that ignores terminal hangup and graceful termination.
+  server=root/'server.py'
+  server.write_text("import socket,signal,pathlib,time,sys\nsignal.signal(signal.SIGHUP,signal.SIG_IGN)\nsignal.signal(signal.SIGTERM,signal.SIG_IGN)\ns=socket.socket();s.bind(('127.0.0.1',0));s.listen()\npathlib.Path(sys.argv[1]).write_text(str(s.getsockname()[1]))\ntime.sleep(120)\n")
+  import shlex
+  for workspace in ['alpha','beta']:
+   tmux('new-window','-d','-t',workspace,'python3 '+shlex.quote(str(server))+' '+shlex.quote(str(root/(workspace+'.port'))))
+  for _ in range(100):
+   if all((root/(w+'.port')).exists() for w in ['alpha','beta']):break
+   time.sleep(.05)
+  alpha_port=int((root/'alpha.port').read_text());beta_port=int((root/'beta.port').read_text())
+  tmux('switch-client','-t','alpha')
+  drain_terminal();os.write(master,b'\x13D');terminal_until(b'Delete workspace: alpha')
+  os.write(master,b'\r');terminal_until(b'Type the workspace name:')
+  assert (work/'alpha').is_dir() and (state/'alpha.sandbox').exists()
+  os.write(master,b'wrong-name\r');time.sleep(.2)
+  assert (work/'alpha').is_dir() and (state/'alpha.sandbox').exists()
+  drain_terminal();os.write(master,b'\x13D');terminal_until(b'Delete workspace: alpha')
+  os.write(master,b'\r');terminal_until(b'Type the workspace name:')
+  os.write(master,b'alpha\r')
+  for _ in range(160):
+   if not (work/'alpha').exists():break
+   time.sleep(.05)
+  assert not (work/'alpha').exists(), 'current workspace deletion did not complete'
+  print('PASS delete popup from current workspace, wrong-name cancellation, exact-name confirmation',flush=True)
+  with sockets.socket() as probe:probe.bind(('127.0.0.1',alpha_port))
+  with sockets.create_connection(('127.0.0.1',beta_port),timeout=1):pass
+  sbx('delete','--yes','beta')
+  with sockets.socket() as probe:probe.bind(('127.0.0.1',beta_port))
+  sbx('new','--all','--no-open','beta')
+  print('PASS deletion releases host server port and preserves other workspace processes',flush=True)
   assert not (work/'alpha').exists() and (work/'beta').is_dir()
+  assert not (state/'alpha.sandbox').exists() and (state/'beta.sandbox').exists()
   assert 'alpha' not in tmux('list-sessions','-F','#{session_name}').stdout
   print('PASS failed creation rollback and exact workspace deletion',flush=True)
+  # The last workspace must leave the popup alive for creation, too.
+  client.wait(timeout=3)
+  client=subprocess.Popen(['tmux','-L',socket,'attach-session','-t','beta'],env=env,stdin=slave,stdout=slave,stderr=slave)
+  for _ in range(30):
+   if tmux('list-clients').stdout.strip():break
+   time.sleep(.05)
+  drain_terminal();os.write(master,b'\x13o');terminal_until(b'sbx sessions')
+  os.write(master,b'D');terminal_until(b'Delete workspace beta?')
+  os.write(master,b'y');terminal_until(b'Create a new workspace?')
+  assert not (work/'beta').exists()
+  os.write(master,b'y');terminal_until(b'New workspace')
+  os.write(master,b'\x1b');time.sleep(.3)
+  active=tmux('list-clients','-F','#{session_name}').stdout.strip()
+  assert active.startswith('sbx-picker-'), 'last deletion did not preserve a host shell: '+active
+  assert tmux('show-options','-qv','-t',active,'@sbx-managed').stdout.strip()!='1'
+  print('PASS last-workspace deletion, creation prompt, and usable shell after canceled creation',flush=True)
  finally:
   tmux('kill-server',ok=False)
   if client:

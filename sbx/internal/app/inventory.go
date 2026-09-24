@@ -53,6 +53,11 @@ func (app *App) Inventory(ctx context.Context) (model.Inventory, error) {
 			}
 			workspace.Projects = append(workspace.Projects, project)
 		}
+		for _, session := range sessionsByName {
+			if session.WorkspaceName == name && session.LastUsed > workspace.LastUsed {
+				workspace.LastUsed = session.LastUsed
+			}
+		}
 		inventory.Workspaces = append(inventory.Workspaces, workspace)
 	}
 	sort.SliceStable(inventory.Workspaces, func(left, right int) bool {

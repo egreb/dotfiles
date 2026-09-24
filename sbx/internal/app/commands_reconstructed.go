@@ -4,17 +4,20 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"os/signal"
 	"path/filepath"
 	"sbx/internal/model"
 	"sbx/internal/process"
+	"sbx/internal/tui"
 	"strings"
+	"syscall"
 )
 
 func (app *App) nativeSandboxNamedExists(ctx context.Context, name string, quiet bool) (bool, error) {
 	if e := app.needNative(); e != nil {
 		return false, e
 	}
-	out, e := app.runner.Output(ctx, app.native, []string{"ls", "--format", "{{.Name}}"}, process.Options{QuietErr: quiet})
+	out, e := app.runner.Output(ctx, app.native, []string{"ls", "--quiet"}, process.Options{QuietErr: quiet})
 	if e != nil {
 		return false, e
 	}
@@ -114,15 +117,15 @@ func (app *App) cmdDelete(args []string) error {
 		}
 	}
 	if name == "" {
-		names, e := app.workspaceCandidates()
-		if e != nil {
-			return e
+		action, err := tui.Run(app, app.In, app.Out, tui.Options{Title: "Delete workspace", DeleteMode: true})
+		if err != nil {
+			return err
 		}
-		rows, ok, e := app.chooseWithFZF(context.Background(), "Delete workspace > ", names, false)
-		if e != nil || !ok {
-			return e
+		if action.Kind != tui.ActionDelete {
+			return nil
 		}
-		name = rows[0]
+		// Interactive selection always requires confirmation, even with --yes.
+		return app.cmdDelete([]string{action.Selection.Workspace})
 	}
 	if e := validateName(name); e != nil {
 		return e
@@ -141,6 +144,10 @@ func (app *App) cmdDelete(args []string) error {
 			return nil
 		}
 	}
+	// Removing the active workspace closes the invoking terminal or popup.
+	// Finish cleanup even when tmux sends a terminal hangup during deletion.
+	signal.Ignore(syscall.SIGHUP)
+	defer signal.Reset(syscall.SIGHUP)
 	if e = app.needNative(); e != nil {
 		return e
 	}
@@ -149,13 +156,22 @@ func (app *App) cmdDelete(args []string) error {
 	if e != nil {
 		return e
 	}
+	sessions := []tmuxSession{}
+	for _, session := range app.listTmuxSessions(ctx) {
+		if session.Managed && session.WorkspaceName == name && session.Workspace == path {
+			sessions = append(sessions, session)
+		}
+	}
+	if e = app.stopWorkspaceJobs(ctx, sessions); e != nil {
+		return e
+	}
 	if exists {
-		if e = app.runner.Run(ctx, app.native, []string{"rm", name}, process.Options{}); e != nil {
+		if e = app.runner.Run(ctx, app.native, []string{"rm", "--force", name}, process.Options{}); e != nil {
 			return e
 		}
 	}
-	for _, s := range app.listTmuxSessions(ctx) {
-		if s.Managed && s.WorkspaceName == name && s.Workspace == path {
+	for _, s := range sessions {
+		if app.tmuxSessionExists(ctx, s.Name) {
 			if e = app.tmuxRun(ctx, "kill-session", "-t", "="+s.Name); e != nil {
 				return e
 			}

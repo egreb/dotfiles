@@ -11,6 +11,7 @@ import (
 )
 
 type tmuxSession struct {
+	LastUsed       int64
 	Name           string
 	Managed        bool
 	WorkspaceName  string
@@ -157,7 +158,7 @@ func (app *App) initializeProjectWindows(ctx context.Context, session, directory
 		}
 	}
 	hostCommand := fmt.Sprintf("exec %s -l", process.ShellQuote(app.config.HostShell))
-	for i, tool := range [][2]string{{"neovim", "env NVIM_APPNAME=nvim-v2 nvim"}, {"lazygit", "lazygit"}, {"hunk", "hunk diff"}} {
+	for i, tool := range [][2]string{{"neovim", "env NVIM_APPNAME=nvim-v2 nvim"}, {"shell", ""}} {
 		window := fmt.Sprintf("%s%d", target, i+1)
 		if i > 0 {
 			if err := app.tmuxRun(ctx, "new-window", "-d", "-t", window, "-n", tool[0], "-c", directory, hostCommand); err != nil {
@@ -169,6 +170,9 @@ func (app *App) initializeProjectWindows(ctx context.Context, session, directory
 		}
 		if err := app.tmuxRun(ctx, "rename-window", "-t", window, tool[0]); err != nil {
 			return err
+		}
+		if tool[1] == "" {
+			continue
 		}
 		if err := app.tmuxRun(ctx, "send-keys", "-t", window, "-l", tool[1]); err != nil {
 			return err

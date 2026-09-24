@@ -57,6 +57,8 @@ func (app *App) cmdTUI(args []string) error {
 		return app.activateSelection(context.Background(), action.Selection)
 	case tui.ActionNew:
 		return app.cmdNew(nil)
+	case tui.ActionDeleteConfirmed:
+		return app.deleteFromPicker(action.Selection.Workspace)
 	case tui.ActionDelete:
 		return app.cmdDelete([]string{action.Selection.Workspace})
 	default:
@@ -69,7 +71,7 @@ func (app *App) cmdPopup(args []string) error {
 		return errors.New("popup requires a workflow command")
 	}
 	action := args[0]
-	if action != "add" && action != "new" && action != "open" && action != "project" && action != "tui" {
+	if action != "add" && action != "new" && action != "open" && action != "project" && action != "tui" && action != "delete" {
 		return fmt.Errorf("unsupported popup command: %s", action)
 	}
 	err := app.runner.Run(context.Background(), app.Self, append([]string{action}, args[1:]...), process.Options{})

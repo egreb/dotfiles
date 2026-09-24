@@ -55,3 +55,22 @@ func TestDashboardFilterAndStalePreview(t *testing.T) {
 		t.Fatalf("scoped rows: %+v", m.rows)
 	}
 }
+
+func TestDeletePickerSelectsWholeWorkspaces(t *testing.T) {
+	m := dashboard{options: Options{DeleteMode: true}, inventory: model.Inventory{Workspaces: []model.Workspace{{Name: "alpha", Projects: []model.Project{{Name: "backend"}, {Name: "frontend"}}}, {Name: "beta"}}}}
+	m.filter()
+	if len(m.rows) != 2 {
+		t.Fatalf("expected one row per workspace: %+v", m.rows)
+	}
+	updated, _ := m.Update(tea.KeyPressMsg{Code: tea.KeyEscape})
+	if updated.(dashboard).action.Kind != ActionNone {
+		t.Fatal("escape requested deletion")
+	}
+	m.query = "beta"
+	m.filter()
+	updated, _ = m.Update(tea.KeyPressMsg{Code: tea.KeyEnter})
+	action := updated.(dashboard).action
+	if action.Kind != ActionDelete || action.Selection.Workspace != "beta" || action.Selection.Project != "" {
+		t.Fatalf("wrong deletion selection: %+v", action)
+	}
+}

@@ -13,6 +13,7 @@ import (
 	"sbx/internal/config"
 	"sbx/internal/process"
 	"strings"
+	"syscall"
 )
 
 func validateName(name string) error {
@@ -123,13 +124,27 @@ func (app *App) assertSafeWorkspace(workspace, name string) (string, error) {
 }
 
 func (app *App) cloneProjectFromCache(ctx context.Context, project config.Project, destination string) error {
+	if err := os.MkdirAll(app.config.GitCacheRoot, 0755); err != nil {
+		return err
+	}
+	// Hold the lock through cloning so another sbx cannot fetch or replace
+	// the mirror while Git is reading it. The OS releases it on process exit.
+	lock, err := os.OpenFile(filepath.Join(app.config.GitCacheRoot, project.Name+".lock"), os.O_CREATE|os.O_RDWR, 0600)
+	if err != nil {
+		return err
+	}
+	defer lock.Close()
+	if err := syscall.Flock(int(lock.Fd()), syscall.LOCK_EX|syscall.LOCK_NB); err != nil {
+		return fmt.Errorf("cannot lock Git cache for %s (another sbx may be using it; retry): %w", project.Name, err)
+	}
+	defer syscall.Flock(int(lock.Fd()), syscall.LOCK_UN)
 	if err := app.updateProjectGitCache(ctx, project); err != nil {
-		return fmt.Errorf("Git cache update failed: %s", project.Name)
+		return fmt.Errorf("Git cache update failed for %s: %w", project.Name, err)
 	}
 	cache := filepath.Join(app.config.GitCacheRoot, project.Name+".git")
 	app.note("- cloning %s from cache", project.Name)
-	if err := app.runner.Run(ctx, "git", []string{"clone", "--branch", project.Branch, "--", cache, destination}, process.Options{}); err != nil {
-		return fmt.Errorf("clone failed: %s", project.Name)
+	if err := app.runner.Run(ctx, "git", []string{"clone", "--no-local", "--branch", project.Branch, "--", cache, destination}, process.Options{}); err != nil {
+		return fmt.Errorf("clone failed for %s: %w", project.Name, err)
 	}
 	if err := app.runner.Run(ctx, "git", []string{"-C", destination, "remote", "set-url", "origin", project.Repo}, process.Options{}); err != nil {
 		return fmt.Errorf("cannot set origin for project: %s", project.Name)

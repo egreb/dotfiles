@@ -19,7 +19,7 @@ func (app *App) tmuxSessionManaged(ctx context.Context, name string) bool {
 	return app.tmuxSessionExists(ctx, name) && app.tmuxOption(ctx, name, "@sbx-managed") == "1" && app.tmuxOption(ctx, name, "@sbx-name") == name && app.tmuxOption(ctx, name, "@sbx-role") == "agent"
 }
 func (app *App) listTmuxSessions(ctx context.Context) []tmuxSession {
-	format := strings.Join([]string{"#{session_name}", "#{@sbx-managed}", "#{@sbx-name}", "#{@sbx-workspace}", "#{@sbx-docker-name}", "#{@sbx-role}", "#{@sbx-project}", "#{@sbx-last-session}", "#{session_attached}", "#{pane_id}", "#{pane_current_command}", "#{pane_dead}"}, "\t")
+	format := strings.Join([]string{"#{session_name}", "#{@sbx-managed}", "#{@sbx-name}", "#{@sbx-workspace}", "#{@sbx-docker-name}", "#{@sbx-role}", "#{@sbx-project}", "#{@sbx-last-session}", "#{session_attached}", "#{pane_id}", "#{pane_current_command}", "#{pane_dead}", "#{session_last_attached}"}, "\t")
 	v, e := app.tmuxOutput(ctx, true, "list-sessions", "-F", format)
 	if e != nil {
 		return nil
@@ -27,11 +27,15 @@ func (app *App) listTmuxSessions(ctx context.Context) []tmuxSession {
 	var sessions []tmuxSession
 	for _, l := range outputLines(v) {
 		f := strings.Split(l, "\t")
-		if len(f) != 12 {
+		if len(f) < 12 {
 			continue
 		}
 		attached, _ := strconv.Atoi(f[8])
-		sessions = append(sessions, tmuxSession{Name: f[0], Managed: f[1] == "1", WorkspaceName: f[2], Workspace: f[3], DockerName: f[4], Role: f[5], Project: f[6], LastSession: f[7], Attached: attached > 0, ActivePaneID: f[9], CurrentCommand: f[10], PaneDead: f[11] == "1"})
+		var lastUsed int64
+		if len(f) > 12 {
+			lastUsed, _ = strconv.ParseInt(f[12], 10, 64)
+		}
+		sessions = append(sessions, tmuxSession{LastUsed: lastUsed, Name: f[0], Managed: f[1] == "1", WorkspaceName: f[2], Workspace: f[3], DockerName: f[4], Role: f[5], Project: f[6], LastSession: f[7], Attached: attached > 0, ActivePaneID: f[9], CurrentCommand: f[10], PaneDead: f[11] == "1"})
 	}
 	return sessions
 }
@@ -165,7 +169,7 @@ func (app *App) configureTmuxEnvironment(ctx context.Context) error {
 			return e
 		}
 	}
-	for _, b := range [][2]string{{"i", "new"}, {"o", "tui"}, {"f", "tui --current"}, {"s", "tui --current --split"}, {"a", "add"}} {
+	for _, b := range [][2]string{{"i", "new"}, {"o", "tui"}, {"f", "tui --current"}, {"s", "tui --current --split"}, {"a", "add"}, {"D", "delete"}} {
 		// run-shell expands formats at keypress time. Popup environment values and
 		// its shell command otherwise receive these format expressions literally.
 		popup := append([]string{"tmux"}, app.tmuxArgs("display-popup", "-E", "-w", "90%", "-h", "90%")...)
