@@ -3,7 +3,6 @@ package app
 import (
 	"context"
 	"fmt"
-	"os"
 	"os/signal"
 	"path/filepath"
 	"sbx/internal/model"
@@ -45,7 +44,7 @@ func (app *App) cleanupFailedNew(name, path string, created, sandbox, tmux bool)
 	}
 	if created {
 		if safe, e := app.assertSafeWorkspace(path, name); e == nil {
-			if e = os.RemoveAll(safe); e != nil {
+			if e = removeWorkspaceTree(safe); e != nil {
 				app.note("Cleanup failed: %v", e)
 			}
 		}
@@ -62,7 +61,7 @@ func (app *App) cmdOpen(args []string) error {
 }
 func (app *App) cmdProject(args []string) error {
 	if len(args) > 1 {
-		return fmt.Errorf("Usage: sbx project [name]")
+		return fmt.Errorf("Usage: sbx project [name|--next|--previous]")
 	}
 	if len(args) == 0 {
 		return app.cmdTUI([]string{"--current"})
@@ -71,7 +70,25 @@ func (app *App) cmdProject(args []string) error {
 	if e != nil {
 		return e
 	}
-	return app.activateSelection(context.Background(), model.Selection{Kind: model.SelectProject, Workspace: c.WorkspaceName, Project: args[0]})
+	project := args[0]
+	if project == "--next" || project == "--previous" {
+		inventory, err := app.Inventory(context.Background())
+		if err != nil {
+			return err
+		}
+		var projects []model.Project
+		for _, workspace := range inventory.Workspaces {
+			if workspace.Name == c.WorkspaceName {
+				projects = workspace.Projects
+				break
+			}
+		}
+		project = cycleProject(projects, c.WorkspaceName, c.Session, project == "--previous")
+		if project == "" {
+			return fmt.Errorf("no projects in workspace %s", c.WorkspaceName)
+		}
+	}
+	return app.activateSelection(context.Background(), model.Selection{Kind: model.SelectProject, Workspace: c.WorkspaceName, Project: project})
 }
 func (app *App) cmdList(args []string) error {
 	if len(args) > 1 || len(args) == 1 && args[0] != "--names" {
@@ -181,5 +198,28 @@ func (app *App) cmdDelete(args []string) error {
 	if e != nil {
 		return e
 	}
-	return os.RemoveAll(safe)
+	return removeWorkspaceTree(safe)
+}
+
+// cycleProject follows configured project order, wrapping within one workspace.
+func cycleProject(projects []model.Project, workspace, session string, previous bool) string {
+	if len(projects) == 0 {
+		return ""
+	}
+	index := -1
+	for i, project := range projects {
+		if session == workspace+"--"+project.Name {
+			index = i
+			break
+		}
+	}
+	if previous {
+		if index < 0 {
+			index = 0
+		}
+		index = (index - 1 + len(projects)) % len(projects)
+	} else {
+		index = (index + 1) % len(projects)
+	}
+	return projects[index].Name
 }

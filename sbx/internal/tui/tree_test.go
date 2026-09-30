@@ -154,3 +154,33 @@ func TestCreateConfirmationDefaultsToNo(t *testing.T) {
 		t.Fatal("yes not accepted")
 	}
 }
+
+func TestFocusedSearchTypesNavigatesAndOpens(t *testing.T) {
+	m := treeFixture()
+	m.options.StartSearching = true
+	m.searching = true
+	m = press(m, 'w')
+	if m.query != "w" || len(m.rows) != 3 {
+		t.Fatalf("filter: %+v", m.rows)
+	}
+	next, _ := m.Update(tea.KeyPressMsg{Code: tea.KeyDown})
+	m = next.(dashboard)
+	if m.selected().selection.Project != "worker" {
+		t.Fatal("search navigation did not cross workspace")
+	}
+	next, _ = m.Update(tea.KeyPressMsg{Code: tea.KeyEnter})
+	if next.(dashboard).action.Selection.Project != "worker" {
+		t.Fatal("Enter did not activate search result")
+	}
+	m = treeFixture()
+	m.options.StartSearching = true
+	m.searching = true
+	m = press(m, 'D')
+	if m.pendingDelete != "" || m.query != "D" {
+		t.Fatal("typing triggered deletion")
+	}
+	next, _ = m.Update(tea.KeyPressMsg{Code: tea.KeyEnter})
+	if next.(dashboard).action.Kind != ActionNone {
+		t.Fatal("activated empty results")
+	}
+}

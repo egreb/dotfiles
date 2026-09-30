@@ -29,7 +29,7 @@ func (app *App) cmdTUI(args []string) error {
 		return err
 	}
 	ctx := context.Background()
-	options := tui.Options{}
+	options := tui.Options{StartSearching: currentOnly && !splitMode}
 	current, currentErr := app.currentManagedContext(ctx)
 	if currentErr == nil {
 		options.SelectedSession = current.Session

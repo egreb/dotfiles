@@ -30,3 +30,16 @@ notes new    # prompt for a new work note
 Inside Neovim, use `<leader>mq` to browse notes, `<leader>ms` to search,
 and `<leader>mt` for today's note.
 Daily notes stay plain Markdown; render-markdown handles the display.
+
+## Colors
+
+Catppuccin Mocha is used throughout Ghostty, fish, fzf, both Neovim configs,
+lazygit, Hunk, tuicr, tmux, Alacritty, bat, and delta. Neovim uses its bundled
+`catppuccin` theme (requires a version that includes it), with no theme plugin.
+Ghostty, Hunk, tuicr, and bat use bundled themes; fish and lazygit use the
+official Catppuccin presets. fzf shares `~/.config/fzf/config` between fish
+and the tmux pickers; use a recent fzf with `FZF_DEFAULT_OPTS_FILE` support.
+
+After stowing new config files, reload Ghostty, start a fresh fish shell,
+restart Neovim and other tools, and reload tmux with **Ctrl-s, then r**.
+Use recent bat/delta releases that include the `Catppuccin Mocha` syntax theme.

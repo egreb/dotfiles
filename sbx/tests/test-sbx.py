@@ -91,6 +91,17 @@ else:sys.exit(2)
    if next_identity:
     drain_terminal();os.write(master,b'\x13f');terminal_until(next_identity)
   print('PASS actual prefix+f popup resolves agent/project context and switches original client',flush=True)
+  # The all-workspace picker must offer deletion without acting until confirmed.
+  drain_terminal();os.write(master,b'\x13o')
+  terminal_until(b'Open: alpha / agent')
+  drain_terminal();os.write(master,b'D')
+  terminal_until(b'Delete workspace alpha?')
+  assert (work/'alpha'/'.sbx-managed').is_file()
+  drain_terminal();os.write(master,b'n')
+  terminal_until(b'Open: alpha / agent')
+  assert (work/'alpha'/'.sbx-managed').is_file()
+  os.write(master,b'\x1b');time.sleep(.2);drain_terminal()
+  print('PASS actual prefix+o then D prompts for workspace deletion; n cancels',flush=True)
   pane=tmux('display-message','-p','-t','alpha:','#{pane_id}').stdout.strip();sp=tmux('display-message','-p','#{socket_path}').stdout.strip()
   env['TMUX']=sp+',1,0';env['TMUX_PANE']=pane
   sbx('project','backend');sbx('project','backend')

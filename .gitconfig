@@ -5,6 +5,8 @@
 	pager = delta
 [delta]
 	navigate = true
+	dark = true
+	syntax-theme = Catppuccin Mocha
 [interactive]
 	diffFilter = delta --color-only
 [user]

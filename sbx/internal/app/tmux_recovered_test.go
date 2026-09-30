@@ -1,6 +1,10 @@
 package app
 
 import (
+	"fmt"
+	"os"
+	"os/exec"
+	"path/filepath"
 	"reflect"
 	"sbx/internal/config"
 	"strings"
@@ -38,5 +42,31 @@ func TestTmuxArgsAllowExplicitUserConfig(t *testing.T) {
 	want := []string{"-L", "sbx-test", "-f", "/tmp/custom.conf", "list-sessions"}
 	if got := application.tmuxArgs("list-sessions"); !reflect.DeepEqual(got, want) {
 		t.Fatalf("got %#v, want %#v", got, want)
+	}
+}
+
+func TestAgentSessionReturnsToShellAfterExit(t *testing.T) {
+	for _, status := range []int{0, 1, 130} {
+		t.Run(fmt.Sprint(status), func(t *testing.T) {
+			directory := t.TempDir()
+			native := filepath.Join(directory, "native cli")
+			shell := filepath.Join(directory, "host shell")
+			if err := os.WriteFile(native, []byte(fmt.Sprintf("#!/bin/sh\nprintf 'agent: <%%s>\\n' \"$@\"\nexit %d\n", status)), 0755); err != nil {
+				t.Fatal(err)
+			}
+			if err := os.WriteFile(shell, []byte("#!/bin/sh\nprintf 'shell: <%s>\\n' \"$@\"\n"), 0755); err != nil {
+				t.Fatal(err)
+			}
+			prompt := "fix 'quotes'; $(exit 99)"
+			command := agentSessionCommand(native, shell, "example", prompt)
+			output, err := exec.Command("/bin/bash", "-c", command).CombinedOutput()
+			if err != nil {
+				t.Fatalf("shell did not survive agent exit: %v: %s", err, output)
+			}
+			want := "agent: <run>\nagent: <--name>\nagent: <example>\nagent: <-->\nagent: <" + prompt + ">\nshell: <-l>\n"
+			if string(output) != want {
+				t.Fatalf("got %q, want %q", output, want)
+			}
+		})
 	}
 }

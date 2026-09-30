@@ -12,6 +12,13 @@ require("gitsigns").setup({
 require("zdiff").setup()
 
 -- keymaps
+vim.keymap.set("n", "[h", function()
+	require("gitsigns").nav_hunk("prev")
+end, { desc = "Previous Git hunk" })
+vim.keymap.set("n", "]h", function()
+	require("gitsigns").nav_hunk("next")
+end, { desc = "Next Git hunk" })
+
 vim.keymap.set("n", "<leader>gm", ":Gitsigns diffthis main<cr>", { silent = true, desc = "Diff against main" })
 
 vim.keymap.set("n", "<leader>zd", function()

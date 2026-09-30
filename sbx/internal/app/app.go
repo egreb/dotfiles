@@ -208,7 +208,7 @@ Commands:
                             Select projects and create a sandbox workspace
   open [name]             Open or switch to a managed workspace
   add [project]          Clone a configured project into the current workspace
-  project [name]          Open/switch a host project session
+  project [name|--next|--previous]  Open/switch a host project session
   split [project|agent]  Open a workspace session beside the current pane
   delete [--yes] [name]  Pick a workspace to delete; confirm by typing its name
   list                    List managed workspaces

@@ -8,12 +8,22 @@ set -Ux ZK_NOTEBOOK_DIR ~/notes
 set -Ux TMUX_SESSIONIZER_PATHS "$HOME/Developer/work/agents $HOME/Developer/work/code $HOME/dotfiles"
 set -Ux TMUX_SESSIONIZER_DEPTH 1
 set -U DELTA_FEATURES "diff-so-fancy"
-set -gx LG_CONFIG_FILE "$HOME/.config/lazygit/solarized.yml"
+set -gx LG_CONFIG_FILE "$HOME/.config/lazygit/catppuccin.yml"
 if test -f "$HOME/.config/lazygit/config.yml"
     set -gx LG_CONFIG_FILE "$HOME/.config/lazygit/config.yml,$LG_CONFIG_FILE"
 end
 
-fish_config theme choose solarized-classic
+fish_config theme choose catppuccin-mocha
+
+# Shared with the Bash-based tmux pickers.
+set -gx FZF_DEFAULT_OPTS_FILE ""
+for fzf_config in "$HOME/.config/fzf/config" "$HOME/dotfiles/.config/fzf/config"
+    if test -r "$fzf_config"
+        set -gx FZF_DEFAULT_OPTS_FILE "$fzf_config"
+        break
+    end
+end
+set -gx BAT_THEME "Catppuccin Mocha"
 
 # alias
 alias cc='sbx run --cpus 3 --memory 4g claude .'

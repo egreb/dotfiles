@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -11,6 +12,26 @@ import (
 
 	"sbx/internal/process"
 )
+
+// Filesystem sync or a shutting-down watcher can populate a directory after
+// RemoveAll has scanned it. Retry the whole tree, but never hide other errors
+// or wait indefinitely for a writer that is still running.
+func removeWorkspaceTree(path string) error {
+	return removeTreeWithRetry(path, os.RemoveAll, time.Sleep)
+}
+
+func removeTreeWithRetry(path string, remove func(string) error, sleep func(time.Duration)) error {
+	for attempt := 0; ; attempt++ {
+		err := remove(path)
+		if err == nil {
+			return nil
+		}
+		if !errors.Is(err, syscall.ENOTEMPTY) || attempt == 5 {
+			return fmt.Errorf("remove workspace directory %s: %w", path, err)
+		}
+		sleep(100 * time.Millisecond << attempt)
+	}
+}
 
 // Stop host-side jobs before closing their terminals, while their ancestry still
 // identifies the workspace. Never select processes merely by port or command name.

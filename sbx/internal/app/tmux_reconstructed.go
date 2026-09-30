@@ -73,6 +73,16 @@ func (app *App) switchCurrentClient(ctx context.Context, target string) error {
 	}
 	return app.tmuxRun(ctx, args...)
 }
+
+// Keep the agent session usable after either a normal exit or a CLI failure.
+func agentSessionCommand(native, hostShell, name, prompt string) string {
+	command := process.ShellQuote(native) + " run --name " + process.ShellQuote(name)
+	if prompt != "" {
+		command += " -- " + process.ShellQuote(prompt)
+	}
+	return command + "; exec " + process.ShellQuote(hostShell) + " -l"
+}
+
 func (app *App) createAgentTmuxSession(ctx context.Context, name, workspace, last, prompt string) error {
 	if e := validateName(name); e != nil {
 		return e
@@ -83,10 +93,7 @@ func (app *App) createAgentTmuxSession(ctx context.Context, name, workspace, las
 	if last == "" {
 		last = name
 	}
-	command := "exec " + process.ShellQuote(app.native) + " run --name " + process.ShellQuote(name)
-	if prompt != "" {
-		command += " -- " + process.ShellQuote(prompt)
-	}
+	command := agentSessionCommand(app.native, app.config.HostShell, name, prompt)
 	if e := app.tmuxRun(ctx, "new-session", "-d", "-s", name, "-n", "agent", "-c", workspace, command); e != nil {
 		return e
 	}
@@ -182,6 +189,16 @@ func (app *App) configureTmuxEnvironment(ctx context.Context) error {
 			process.ShellQuote(`exec "$SBX_WORKFLOW_BIN" __popup `+b[1])
 		if e := app.tmuxRun(ctx, "bind-key", b[0], "run-shell", "-b", command); e != nil {
 			return e
+		}
+	}
+	for _, binding := range [][2]string{{"M-k", "--previous"}, {"M-j", "--next"}} {
+		old, _ := app.tmuxOutput(ctx, true, "list-keys", "-T", "prefix", binding[0])
+		if strings.TrimSpace(old) != "" {
+			continue
+		}
+		command := `SBX_TMUX_CLIENT=#{q:client_name} SBX_TMUX_PANE=#{q:pane_id} "$SBX_WORKFLOW_BIN" project ` + binding[1]
+		if err := app.tmuxRun(ctx, "bind-key", binding[0], "run-shell", command); err != nil {
+			return err
 		}
 	}
 	if e := app.tmuxRun(ctx, "bind-key", "n", "select-pane", "-t", ".+"); e != nil {

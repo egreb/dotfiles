@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Prefer the installed config, falling back to the repo before Stow is rerun.
+export FZF_DEFAULT_OPTS_FILE=""
+for fzf_config in "$HOME/.config/fzf/config" "$HOME/dotfiles/.config/fzf/config"; do
+  if [[ -r "$fzf_config" ]]; then
+    export FZF_DEFAULT_OPTS_FILE="$fzf_config"
+    break
+  fi
+done
+
 paths="${TMUX_SESSIONIZER_PATHS:-$HOME}"
 default_depth="${TMUX_SESSIONIZER_DEPTH:-1}"
 
@@ -21,7 +30,7 @@ selected=$(
         find "$expanded" -mindepth 1 -maxdepth "$depth" -type d | sed "s|^$HOME|~|"
       done
     done
-  } | fzf --height 100% --color=bg:#090B10,fg:#e0def4,hl:#c4a7e7,fg+:#e0def4,bg+:#403d52,hl+:#9ccfd8,info:#6e6a86,prompt:#31748f,pointer:#ebbcba,marker:#eb6f92,spinner:#f6c177,header:#6e6a86,border:#26233a
+  } | fzf --height 100%
 )
 
 [ -z "$selected" ] && exit 0

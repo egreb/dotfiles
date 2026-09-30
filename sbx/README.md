@@ -45,6 +45,9 @@ so explicitly. The native executable must differ from this wrapper.
 The tool creates one Docker Sandbox per workspace. Project shells and Neovim
 run on the host. Project sessions have two windows: Neovim v2 in tab 1 and an
 empty shell in tab 2. Exiting Neovim leaves its shell available.
+Exiting the agent returns its tab to a host shell, keeping the tmux workspace
+available. Run `sbx run --name <workspace-name>` there to start the agent again.
+Use `sbx open <workspace-name>` to reconnect after closing the terminal.
 Repository mirrors live under `~/.cache/sbx/git`; workspace clones use Git transport and do not hardlink objects to the cache. `sbx new` and `sbx add` verify mirrors before using them and rebuild damaged mirrors from the configured upstream. Replaced mirrors are retained under `.PROJECT-damaged-*/mirror.git` in the cache directory for diagnosis; they can be removed once no longer needed. Cache operations are locked per project; if another command is using the same cache, retry when it finishes.
 
 This repairs future clones only. Existing workspaces with missing objects need a fresh clone; preserve any local changes, commits, and stashes before replacing them.
@@ -58,12 +61,17 @@ The dedicated server defaults to `sbx-v1`, using your configured tmux prefix.
 | --- | --- |
 | `i` | New workspace form |
 | `o` | All workspace/project sessions |
-| `f` | Current workspace sessions |
+| `f` | Search current workspace sessions (type to filter) |
+| `Meta-k / Meta-j` | Previous/next project in this workspace, wrapping |
 | `s` | Open a session beside the current pane |
 | `a` | Add a project to the current workspace |
 | `Shift-D` | Choose a workspace to delete, then type its name to confirm |
 | `n` | Cycle panes |
 | `r` | Reload config and reapply sbx bindings |
+
+The project-cycle shortcuts preserve existing bindings on those keys and do not replace
+default tmux commands. Meta is usually Alt (Option on macOS when configured as Meta).
+They also work as `sbx project --previous` / `sbx project --next`.
 
 Your separate `Shift-n` work-notes popup remains defined by dotfiles.
 
@@ -71,6 +79,8 @@ The picker groups sessions beneath workspace names, expanding the selected works
 Use `h/l` (or Left/Right) for previous/next workspace and `j/k` (or Up/Down,
 Ctrl-j/k) for sessions within that workspace. Returning to a workspace restores
 its selected session. Space folds the current group; moving within it expands it.
+The `f` picker starts with fuzzy search focused: type a project name, use Up/Down
+to select, and Enter to open. Escape returns to navigation mode.
 Press `/` to edit the filter, then Enter or Escape to return to navigation;
 Enter opens the selected session. `s` toggles workspace-name and last-used sorting
 (default: last used). Recency uses the latest tmux session attachment in each

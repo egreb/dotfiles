@@ -140,6 +140,14 @@ map({ 'n' }, '<leader>ff', function()
 		ignored = false,
 	}
 end, { desc = '[F]ind [F]iles' })
+-- changed files with diff previews
+map('n', '<leader>fv', function()
+	Snacks.picker.git_status {
+		cwd = true,
+		layout = { preset = 'ivy', hidden = {} },
+	}
+end, { desc = '[F]ind [V]ersion control changes' })
+
 -- grep files
 map({ 'n' }, '<leader>fG', function()
 	Snacks.picker.grep {

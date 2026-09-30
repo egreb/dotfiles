@@ -35,6 +35,7 @@ type Action struct {
 type Options struct {
 	Workspace, SelectedSession, ExcludedSession, Title string
 	DeleteMode                                         bool
+	StartSearching                                     bool
 }
 type row struct {
 	label, status, session string
@@ -65,7 +66,7 @@ type previewMsg struct {
 type tickMsg time.Time
 
 func Run(b Backend, in io.Reader, out io.Writer, opts Options) (Action, error) {
-	m := dashboard{backend: b, options: opts, width: 100, height: 30, sortRecent: true}
+	m := dashboard{backend: b, options: opts, width: 100, height: 30, sortRecent: true, searching: opts.StartSearching}
 	v, e := tea.NewProgram(m, tea.WithInput(in), tea.WithOutput(out)).Run()
 	if e != nil {
 		return Action{}, e
@@ -218,7 +219,21 @@ func (m dashboard) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 		if m.searching {
 			switch v.String() {
-			case "esc", "enter":
+			case "up", "ctrl+k", "down", "ctrl+j":
+				delta := 1
+				if v.String() == "up" || v.String() == "ctrl+k" {
+					delta = -1
+				}
+				m.cursor = max(0, min(len(m.rows)-1, m.cursor+delta))
+				return m, m.loadPreview()
+			case "enter":
+				if m.options.StartSearching && len(m.rows) > 0 {
+					m.action = Action{ActionActivate, m.selected().selection}
+					return m, tea.Quit
+				}
+				m.searching = false
+				return m, nil
+			case "esc":
 				m.searching = false
 				return m, nil
 			case "ctrl+c":
@@ -342,6 +357,9 @@ func (m dashboard) View() tea.View {
 	}
 	if m.searching {
 		filterLabel = "Filter: " + m.query + "█  (Enter: done)"
+		if m.options.StartSearching {
+			filterLabel = "Filter: " + m.query + "█  (↑/↓: select · Enter: open · Esc: navigation)"
+		}
 	}
 	lines = append(lines, title+" · sort: "+sortLabel+" (s)", filterLabel)
 	// Full selected identity occupies its own wrapped lines, independent of preview width.

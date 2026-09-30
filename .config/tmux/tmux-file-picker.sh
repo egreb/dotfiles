@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Prefer the installed config, falling back to the repo before Stow is rerun.
+export FZF_DEFAULT_OPTS_FILE=""
+for fzf_config in "$HOME/.config/fzf/config" "$HOME/dotfiles/.config/fzf/config"; do
+  if [[ -r "$fzf_config" ]]; then
+    export FZF_DEFAULT_OPTS_FILE="$fzf_config"
+    break
+  fi
+done
+
 pane_dir=$(tmux display-message -p '#{pane_current_path}')
 pane_id=$(tmux display-message -p '#{pane_id}')
 pane_pid=$(tmux display-message -p '#{pane_pid}')
@@ -15,7 +24,7 @@ git_root=$(cd "$pane_dir" && git rev-parse --show-toplevel 2>/dev/null || echo "
 # Pick files with fd + fzf + bat preview
 selected=$(
   cd "$git_root" && fd --type f --hidden --follow --exclude .git | \
-    fzf --multi --height 100% --color=bg:#090B10,fg:#e0def4,hl:#c4a7e7,fg+:#e0def4,bg+:#403d52,hl+:#9ccfd8,info:#6e6a86,prompt:#31748f,pointer:#ebbcba,marker:#eb6f92,spinner:#f6c177,header:#6e6a86,border:#26233a --preview "bat --theme=rose-pine --style=numbers --color=always {}"
+    fzf --multi --height 100% --preview "bat --theme='Catppuccin Mocha' --style=numbers --color=always {}"
 )
 
 [ -z "$selected" ] && exit 0
