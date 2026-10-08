@@ -2,6 +2,7 @@ package tui
 
 import (
 	tea "charm.land/bubbletea/v2"
+	"context"
 	"sbx/internal/model"
 	"strings"
 	"testing"
@@ -130,7 +131,13 @@ func TestPickerDeleteRequiresExplicitConfirmation(t *testing.T) {
 	if m.selected().selection.Workspace != "alpha" {
 		t.Fatal("confirmation allowed navigation")
 	}
-	m = press(m, 'y')
+	next, cmd := m.Update(tea.KeyPressMsg{Code: 'y', Text: "y"})
+	m = next.(dashboard)
+	if m.action.Kind != ActionNone || !m.deleting["alpha"] {
+		t.Fatal("confirmation did not start deletion")
+	}
+	next, _ = m.Update(cmd())
+	m = next.(dashboard)
 	if m.action.Kind != ActionDeleteConfirmed || m.action.Selection.Workspace != "alpha" || m.action.Selection.Kind != model.SelectWorkspace {
 		t.Fatal("wrong deletion")
 	}
@@ -182,5 +189,42 @@ func TestFocusedSearchTypesNavigatesAndOpens(t *testing.T) {
 	next, _ = m.Update(tea.KeyPressMsg{Code: tea.KeyEnter})
 	if next.(dashboard).action.Kind != ActionNone {
 		t.Fatal("activated empty results")
+	}
+}
+
+type fakeDeleter struct{ deleted []string }
+
+func (f *fakeDeleter) Inventory(context.Context) (model.Inventory, error) {
+	return model.Inventory{}, nil
+}
+func (f *fakeDeleter) Preview(context.Context, string, int) (string, error) { return "", nil }
+func (f *fakeDeleter) StartDelete(_ context.Context, name string) (bool, error) {
+	f.deleted = append(f.deleted, name)
+	return true, nil
+}
+
+func TestPickerDeleteRunsInBackground(t *testing.T) {
+	backend := &fakeDeleter{}
+	m := treeFixture()
+	m.backend = backend
+	m = press(m, 'D')
+	next, cmd := m.Update(tea.KeyPressMsg{Code: 'y', Text: "y"})
+	m = next.(dashboard)
+	next, _ = m.Update(cmd())
+	m = next.(dashboard)
+	if m.action.Kind != ActionNone || len(backend.deleted) != 1 || backend.deleted[0] != "alpha" {
+		t.Fatal("background deletion did not keep the picker open", m.action, backend.deleted)
+	}
+	if m.selected().status != "deleting…" {
+		t.Fatal("deleting workspace not marked", m.selected().status)
+	}
+	m = press(m, 'D')
+	if m.pendingDelete != "" {
+		t.Fatal("deleting workspace offered for deletion again")
+	}
+	next, _ = m.Update(inventoryMsg{inventory: model.Inventory{Workspaces: m.inventory.Workspaces[1:]}})
+	m = next.(dashboard)
+	if m.deleting["alpha"] || len(m.rows) == 0 || m.selected().selection.Workspace == "alpha" {
+		t.Fatal("deleted workspace not cleared")
 	}
 }

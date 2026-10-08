@@ -13,6 +13,7 @@ import (
 type Repository struct{ Name, Branch string }
 type WorkspaceForm struct {
 	Name, Agent, Prompt string
+	Notice              string
 	Repositories        []Repository
 	Selected            map[string]bool
 	ValidateName        func(string) error
@@ -223,7 +224,12 @@ func (m workspaceForm) View() tea.View {
 		return value
 	}
 	var b strings.Builder
-	b.WriteString("\n  \x1b[1mNew workspace\x1b[0m\n  Choose a task and the repositories it needs.\n\n")
+	b.WriteString("\n  \x1b[1mNew workspace\x1b[0m\n")
+	if m.data.Notice != "" {
+		fmt.Fprintf(&b, "  \x1b[33m%s\x1b[0m\n\n", ansi.Truncate(m.data.Notice, width, "…"))
+	} else {
+		b.WriteString("  Choose a task and the repositories it needs.\n\n")
+	}
 	fmt.Fprintf(&b, "%s\n    %s\n\n", label(0, "Name"), ansi.Truncate(field(m.data.Name, m.nameCursor, 0, "e.g. fix-checkout"), width-4, "…"))
 	agents := "● Claude     ○ Codex"
 	if m.data.Agent == "codex" {

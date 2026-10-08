@@ -70,6 +70,39 @@ func (app *App) cmdNew(args []string) (returnErr error) {
 	}
 	selected := make(map[string]bool, len(projects))
 	formUsed := false
+	// Once the user has entered their input, a failure must not lose it.
+	draftReady, complete := false, false
+	defer func() {
+		if complete {
+			app.clearNewDraft()
+			return
+		}
+		if returnErr == nil || !draftReady {
+			return
+		}
+		if err := app.saveNewDraft(name, agent, prompt, selected); err != nil {
+			if prompt != "" {
+				app.note("Could not save the task prompt (%v). It was:\n%s", err, prompt)
+			}
+			return
+		}
+		app.note("Your input was saved; run '%s new' to restore it.", app.Program)
+	}()
+	notice := ""
+	if name == "" && !agentSet && !promptSet && !allProjects {
+		if draft, ok := app.loadNewDraft(); ok {
+			name, prompt = draft.Name, draft.Prompt
+			if draft.Agent == "claude" || draft.Agent == "codex" {
+				agent = draft.Agent
+			}
+			for _, project := range projects {
+				if containsString(draft.Selected, project.Name) {
+					selected[project.Name] = true
+				}
+			}
+			notice = "Restored input from a failed attempt."
+		}
+	}
 	input, inputOK := app.In.(*os.File)
 	output, outputOK := app.Out.(*os.File)
 	if inputOK && outputOK && term.IsTerminal(input.Fd()) && term.IsTerminal(output.Fd()) && (name == "" || !allProjects) {
@@ -82,7 +115,7 @@ func (app *App) cmdNew(args []string) (returnErr error) {
 		}
 		form, accepted, err := tui.RunWorkspaceForm(app.In, app.Out, tui.WorkspaceForm{
 			Name: name, Agent: agent, Prompt: prompt, Repositories: repositories,
-			Selected: selected, ValidateName: validateName,
+			Selected: selected, ValidateName: validateName, Notice: notice,
 		})
 		if err != nil {
 			return err
@@ -93,6 +126,7 @@ func (app *App) cmdNew(args []string) (returnErr error) {
 		}
 		name, agent, prompt, selected = form.Name, form.Agent, form.Prompt, form.Selected
 		formUsed = true
+		draftReady = true
 	}
 	interactive := name == ""
 	if interactive {
@@ -123,6 +157,7 @@ func (app *App) cmdNew(args []string) (returnErr error) {
 				return err
 			}
 		}
+		draftReady = true
 	}
 	if agent != "claude" && agent != "codex" {
 		return fmt.Errorf("agent must be 'claude' or 'codex', got: %s", agent)
@@ -215,7 +250,6 @@ func (app *App) cmdNew(args []string) (returnErr error) {
 	workspaceCreated := false
 	sandboxAttempted := false
 	tmuxAttempted := false
-	complete := false
 	defer func() {
 		if !complete {
 			app.cleanupFailedNew(name, workspace, workspaceCreated, sandboxAttempted, tmuxAttempted)
@@ -271,7 +305,12 @@ func (app *App) cmdNew(args []string) (returnErr error) {
 
 	sandboxAttempted = true
 	app.note("- creating Docker Sandbox %s (%s)", name, agent)
-	if err := app.runner.Run(ctx, app.native, []string{"create", "--name", name, agent, workspace}, process.Options{}); err != nil {
+	createArgs := []string{"create", "--name", name}
+	if app.config.SandboxMemory != "" {
+		createArgs = append(createArgs, "--memory", app.config.SandboxMemory)
+	}
+	createArgs = append(createArgs, agent, workspace)
+	if err := app.runner.Run(ctx, app.native, createArgs, process.Options{}); err != nil {
 		return fmt.Errorf("Docker Sandbox creation failed: %s", name)
 	}
 	exists, err = app.nativeSandboxNamedExists(ctx, name, true)

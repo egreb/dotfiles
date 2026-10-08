@@ -21,6 +21,7 @@ type Config struct {
 	GitCacheRoot    string
 	Agent           string
 	ClaudeTheme     string
+	SandboxMemory   string
 	HostShell       string
 	TmuxSocket      string
 	TmuxConfig      string
@@ -35,6 +36,8 @@ type Project struct {
 }
 
 var projectNamePattern = regexp.MustCompile(`^[A-Za-z0-9][A-Za-z0-9._-]*$`)
+
+var sandboxMemoryPattern = regexp.MustCompile(`^[1-9][0-9]*[mMgG]$`)
 
 func Load(_ string) (Config, error) {
 	home, err := os.UserHomeDir()
@@ -109,7 +112,7 @@ func Load(_ string) (Config, error) {
 	if err != nil {
 		return Config{}, err
 	}
-	claudeTheme, err := get("claude_theme", "light")
+	claudeTheme, err := get("claude_theme", "dark")
 	if err != nil {
 		return Config{}, err
 	}
@@ -117,6 +120,13 @@ func Load(_ string) (Config, error) {
 	case "", "light", "dark", "light-daltonized", "dark-daltonized", "light-ansi", "dark-ansi":
 	default:
 		return Config{}, fmt.Errorf("invalid claude_theme: %s", claudeTheme)
+	}
+	sandboxMemory, err := get("sandbox_memory", "8g")
+	if err != nil {
+		return Config{}, err
+	}
+	if sandboxMemory != "" && !sandboxMemoryPattern.MatchString(sandboxMemory) {
+		return Config{}, fmt.Errorf("invalid sandbox_memory: %s (expected e.g. 8g or 4096m)", sandboxMemory)
 	}
 	hostShell, err := get("host_shell", "fish")
 	if err != nil {
@@ -175,6 +185,7 @@ func Load(_ string) (Config, error) {
 		GitCacheRoot:    gitCacheRoot,
 		Agent:           agent,
 		ClaudeTheme:     claudeTheme,
+		SandboxMemory:   sandboxMemory,
 		HostShell:       hostShell,
 		TmuxSocket:      tmuxSocket,
 		TmuxConfig:      tmuxConfig,

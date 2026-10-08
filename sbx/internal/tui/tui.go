@@ -18,6 +18,13 @@ type Backend interface {
 	Inventory(context.Context) (model.Inventory, error)
 	Preview(context.Context, string, int) (string, error)
 }
+
+// BackgroundDeleter lets the picker stay open while a workspace is removed
+// elsewhere. StartDelete reports false when it cannot, and the picker then
+// quits with ActionDeleteConfirmed instead.
+type BackgroundDeleter interface {
+	StartDelete(context.Context, string) (bool, error)
+}
 type ActionKind int
 
 const (
@@ -40,6 +47,7 @@ type Options struct {
 type row struct {
 	label, status, session string
 	selection              model.Selection
+	score                  int
 }
 type dashboard struct {
 	backend               Backend
@@ -48,11 +56,13 @@ type dashboard struct {
 	rows                  []row
 	cursor, width, height int
 	query, preview, err   string
+	rankedQuery           string
 	showPane, showHelp    bool
 	searching, sortRecent bool
 	collapsed             map[string]bool
 	remembered            map[string]model.Selection
 	pendingDelete         string
+	deleting              map[string]bool
 	action                Action
 }
 type inventoryMsg struct {
@@ -64,6 +74,11 @@ type previewMsg struct {
 	err              error
 }
 type tickMsg time.Time
+type deleteStartedMsg struct {
+	workspace string
+	started   bool
+	err       error
+}
 
 func Run(b Backend, in io.Reader, out io.Writer, opts Options) (Action, error) {
 	m := dashboard{backend: b, options: opts, width: 100, height: 30, sortRecent: true, searching: opts.StartSearching}
@@ -75,6 +90,16 @@ func Run(b Backend, in io.Reader, out io.Writer, opts Options) (Action, error) {
 }
 func (m dashboard) load() tea.Cmd {
 	return func() tea.Msg { v, e := m.backend.Inventory(context.Background()); return inventoryMsg{v, e} }
+}
+func (m dashboard) startDelete(name string) tea.Cmd {
+	deleter, ok := m.backend.(BackgroundDeleter)
+	if !ok {
+		return func() tea.Msg { return deleteStartedMsg{name, false, nil} }
+	}
+	return func() tea.Msg {
+		started, e := deleter.StartDelete(context.Background(), name)
+		return deleteStartedMsg{name, started, e}
+	}
 }
 func pulse() tea.Cmd              { return tea.Tick(3*time.Second, func(t time.Time) tea.Msg { return tickMsg(t) }) }
 func (m dashboard) Init() tea.Cmd { return tea.Batch(m.load(), pulse()) }
@@ -97,15 +122,19 @@ func (m dashboard) loadPreview() tea.Cmd {
 		return previewMsg{s, v, e}
 	}
 }
-func fuzzyMatch(s, q string) bool {
-	r := []rune(strings.ToLower(q))
-	i := 0
-	for _, c := range strings.ToLower(s) {
-		if i < len(r) && c == r[i] {
-			i++
+func hasWorkspace(inventory model.Inventory, name string) bool {
+	for _, w := range inventory.Workspaces {
+		if w.Name == name {
+			return true
 		}
 	}
-	return i == len(r)
+	return false
+}
+func (m dashboard) rowStatus(workspace string, s *model.Session) string {
+	if m.deleting[workspace] {
+		return "deleting…"
+	}
+	return status(s)
 }
 func status(s *model.Session) string {
 	if s == nil {
@@ -135,12 +164,12 @@ func (m *dashboard) filter() {
 			continue
 		}
 		if m.options.DeleteMode {
-			if fuzzyMatch(w.Name, m.query) {
+			if score, ok := fuzzyScore(w.Name, m.query); ok {
 				session := ""
 				if w.AgentSession != nil {
 					session = w.AgentSession.Name
 				}
-				rows = append(rows, row{w.Name, status(w.AgentSession), session, model.Selection{Kind: model.SelectWorkspace, Workspace: w.Name}})
+				rows = append(rows, row{w.Name, m.rowStatus(w.Name, w.AgentSession), session, model.Selection{Kind: model.SelectWorkspace, Workspace: w.Name}, score})
 			}
 			continue
 		}
@@ -153,28 +182,66 @@ func (m *dashboard) filter() {
 			if session != "" && session == m.options.ExcludedSession {
 				return
 			}
-			if !fuzzyMatch(w.Name+" :: "+name, m.query) {
+			// A scoped picker only lists one workspace, so its name would match
+			// every row and drown out the project name.
+			haystack := w.Name + "/" + name
+			if m.options.Workspace != "" {
+				haystack = name
+			}
+			score, ok := fuzzyScore(haystack, m.query)
+			if !ok {
 				return
 			}
 			project := name
 			if kind == model.SelectAgent {
 				project = ""
 			}
-			rows = append(rows, row{label, status(s), session, model.Selection{Kind: kind, Workspace: w.Name, Project: project}})
+			rows = append(rows, row{label, m.rowStatus(w.Name, s), session, model.Selection{Kind: kind, Workspace: w.Name, Project: project}, score})
 		}
 		add("agent", model.SelectAgent, w.AgentSession)
 		for _, p := range w.Projects {
 			add(p.Name, model.SelectProject, p.Session)
 		}
 	}
+	if strings.TrimSpace(m.query) != "" {
+		rankRows(rows)
+	}
 	m.rows = rows
 	m.cursor = 0
+	if m.query != m.rankedQuery && strings.TrimSpace(m.query) != "" {
+		// Like fzf, a changed query lands on the best match; periodic
+		// refreshes keep the current selection.
+		previous = row{}
+	}
+	m.rankedQuery = m.query
 	for i, r := range rows {
 		if r.selection == previous.selection || m.options.SelectedSession != "" && r.session == m.options.SelectedSession {
 			m.cursor = i
 		}
 	}
 	m.options.SelectedSession = ""
+}
+
+// rankRows orders matches best-first while keeping each workspace's rows
+// contiguous, since the tree view groups consecutive rows by workspace.
+func rankRows(rows []row) {
+	best := map[string]int{}
+	for _, r := range rows {
+		if v, ok := best[r.selection.Workspace]; !ok || r.score > v {
+			best[r.selection.Workspace] = r.score
+		}
+	}
+	sort.SliceStable(rows, func(i, j int) bool {
+		a, b := rows[i], rows[j]
+		if a.selection.Workspace != b.selection.Workspace {
+			return best[a.selection.Workspace] > best[b.selection.Workspace]
+		}
+		if a.score != b.score {
+			return a.score > b.score
+		}
+		// fzf's tiebreak: the shorter candidate is the tighter match.
+		return len(a.label) < len(b.label)
+	})
 }
 func (m dashboard) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch v := msg.(type) {
@@ -189,9 +256,26 @@ func (m dashboard) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		} else {
 			m.err = ""
 			m.inventory = v.inventory
+			for name := range m.deleting {
+				if !hasWorkspace(v.inventory, name) {
+					delete(m.deleting, name)
+				}
+			}
 			m.filter()
 		}
 		return m, m.loadPreview()
+	case deleteStartedMsg:
+		if !v.started {
+			m.action = Action{ActionDeleteConfirmed, model.Selection{Kind: model.SelectWorkspace, Workspace: v.workspace}}
+			return m, tea.Quit
+		}
+		if v.err != nil {
+			delete(m.deleting, v.workspace)
+			m.err = v.err.Error()
+			m.filter()
+			return m, nil
+		}
+		return m, m.load()
 	case previewMsg:
 		if v.session == m.selected().session {
 			m.preview = v.content
@@ -210,8 +294,14 @@ func (m dashboard) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		if m.pendingDelete != "" {
 			switch v.String() {
 			case "y", "Y":
-				m.action = Action{ActionDeleteConfirmed, model.Selection{Kind: model.SelectWorkspace, Workspace: m.pendingDelete}}
-				return m, tea.Quit
+				name := m.pendingDelete
+				m.pendingDelete = ""
+				if m.deleting == nil {
+					m.deleting = map[string]bool{}
+				}
+				m.deleting[name] = true
+				m.filter()
+				return m, m.startDelete(name)
 			case "n", "N", "esc", "enter", "ctrl+c":
 				m.pendingDelete = ""
 			}
@@ -292,6 +382,10 @@ func (m dashboard) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				return m, tea.Quit
 			}
 		case "enter":
+			if len(m.rows) > 0 && m.deleting[m.selected().selection.Workspace] {
+				m.err = m.selected().selection.Workspace + " is being deleted"
+				return m, nil
+			}
 			if len(m.rows) > 0 {
 				kind := ActionActivate
 				if m.options.DeleteMode {
@@ -301,7 +395,7 @@ func (m dashboard) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				return m, tea.Quit
 			}
 		case "D", "ctrl+d":
-			if len(m.rows) > 0 {
+			if len(m.rows) > 0 && !m.deleting[m.selected().selection.Workspace] {
 				if m.options.DeleteMode {
 					m.action = Action{ActionDelete, m.selected().selection}
 					return m, tea.Quit
