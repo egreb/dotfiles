@@ -4,8 +4,8 @@ vim.pack.add({
 
 require("copy_with_context").setup({
   mappings = {
-    relative = "<leader>cy",
-    absolute = "<leader>cY",
+    relative = "<leader>cY",
+    absolute = "<leader>cy",
     remote = "<leader>cr",
   },
   formats = {
