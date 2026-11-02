@@ -42,14 +42,15 @@ local opts = {
 require('obsidian').setup(opts)
 
 local keys = {
-    { '<leader>mt', '<cmd>Obsidian today<cr>', desc = 'Obsidian: today (daily note)' },
-    { '<leader>my', '<cmd>Obsidian yesterday<cr>', desc = 'Obsidian: yesterday note' },
-    { '<leader>mn', '<cmd>Obsidian new<cr>', desc = 'Obsidian: new note' },
-    { '<leader>ms', '<cmd>Obsidian search<cr>', desc = 'Obsidian: search notes' },
-    { '<leader>mq', '<cmd>Obsidian quick_switch<cr>', desc = 'Obsidian: quick switch' },
-    { '<leader>mb', '<cmd>Obsidian backlinks<cr>', desc = 'Obsidian: backlinks' },
-    { '<leader>ml', '<cmd>Obsidian links<cr>', desc = 'Obsidian: links in note' },
-    { '<leader>mg', '<cmd>Obsidian tags<cr>', desc = 'Obsidian: tags (search / add via <C-x>/<C-l>)' },
+    { '<leader>nt', '<cmd>Obsidian today<cr>', desc = 'Obsidian: today (daily note)' },
+    { '<leader>ny', '<cmd>Obsidian yesterday<cr>', desc = 'Obsidian: yesterday note' },
+    { '<leader>nn', '<cmd>Obsidian new<cr>', desc = 'Obsidian: new note' },
+    { '<leader>nf', '<cmd>Obsidian search<cr>', desc = 'Obsidian: search notes' },
+    { '<leader>nq', '<cmd>Obsidian quick_switch<cr>', desc = 'Obsidian: quick switch' },
+    { '<leader>nb', '<cmd>Obsidian backlinks<cr>', desc = 'Obsidian: backlinks' },
+    { '<leader>nl', '<cmd>Obsidian links<cr>', desc = 'Obsidian: links in note' },
+    { '<leader>ng', '<cmd>Obsidian tags<cr>', desc = 'Obsidian: tags (search / add via <C-x>/<C-l>)' },
+    { '<leader>nc', '<cmd>Obsidian toggle_checkbox<cr>', desc = 'Obsidian: toggle checkbox' },
 }
 
 for _, key in ipairs(keys) do

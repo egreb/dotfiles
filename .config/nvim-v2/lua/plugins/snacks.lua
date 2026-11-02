@@ -60,14 +60,14 @@ local keys = {
 		desc = 'Explorer',
 	},
 	{
-		'<leader>nn',
+		'<leader>ss',
 		function()
 			Snacks.scratch()
 		end,
 		desc = 'Toggle Scratch Buffer',
 	},
 	{
-		'<leader>ns',
+		'<leader>sl',
 		function()
 			Snacks.scratch.select()
 		end,
