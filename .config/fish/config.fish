@@ -2,7 +2,6 @@ eval (/opt/homebrew/bin/brew shellenv)
 
 set -U fish_greeting # disable fish greeting
 set -U fish_key_bindings fish_vi_key_bindings
-set -gx NVIM_APPNAME nvim-v2 # use the v2 config for Neovim and child tools
 set -Ux EDITOR nvim # set Neovim as the default editor
 set -Ux ZK_NOTEBOOK_DIR ~/notes
 set -Ux TMUX_SESSIONIZER_PATHS "$HOME/Developer/work/agents $HOME/Developer/work/code $HOME/dotfiles"
@@ -28,7 +27,6 @@ set -gx BAT_THEME "Catppuccin Mocha"
 # alias
 alias cc='sbx run --cpus 3 --memory 4g claude .'
 alias claude='sbx run --cpus 3 --memory 4g claude .'
-alias nvmi='NVIM_APPNAME=nvim-v2 nvim'
 
 # abbreviations
 abbr ta "tmux attach-session -t"
@@ -56,25 +54,9 @@ fish_add_path ~/.config/bin
 fish_add_path ~/dotfiles/bin
 fish_add_path ~/go/bin
 fish_add_path "/Users/sib/.local/bin"
-fish_add_path "/Users/sib/.config/herd-lite/bin"
-
-function ws
-    set selected (git worktree list | grep -v '(bare)' | awk '{print $1}' | fzf --prompt="Select worktree: ")
-    
-    if test -n "$selected"
-        echo "Changing to: $selected"
-        cd "$selected"
-    else
-        echo "No worktree selected"
-    end
-end
-
 
 # Added by OrbStack: command-line tools and integration
 # This won't be added again if you remove it.
 source ~/.orbstack/shell/init2.fish 2>/dev/null || :
-
-# opencode
-fish_add_path /Users/sib/.opencode/bin
 
 fish_add_path --path --move --prepend ~/.config/sbx/bin
