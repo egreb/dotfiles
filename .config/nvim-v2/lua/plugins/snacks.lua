@@ -53,13 +53,6 @@ Snacks.setup({
 -- keymaps
 local keys = {
 	{
-		'<C-n>',
-		function()
-			Snacks.explorer()
-		end,
-		desc = 'Explorer',
-	},
-	{
 		'<leader>ss',
 		function()
 			Snacks.scratch()

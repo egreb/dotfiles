@@ -36,11 +36,17 @@ require("blink.cmp").setup({
 			"buffer",
 		},
 		per_filetype = {
-			sql = { "lsp", "snippets", "buffer" },
+			sql = { "lsp", "dadbod", "snippets", "buffer" },
+			mysql = { "lsp", "dadbod", "snippets", "buffer" },
+			plsql = { "lsp", "dadbod", "snippets", "buffer" },
 		},
 		providers = {
 			lsp = {
 				score_offset = 90,
+			},
+			dadbod = {
+				name = "Dadbod",
+				module = "vim_dadbod_completion.blink",
 			},
 		},
 	},

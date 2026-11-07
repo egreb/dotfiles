@@ -3,5 +3,3 @@ font-size = 19
 mouse-hide-while-typing = true
 window-decoration = false
 macos-option-as-alt = true
-padding-x = 10
-padding-y = 10

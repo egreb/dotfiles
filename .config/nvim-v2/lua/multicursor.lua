@@ -33,7 +33,12 @@ local function set_pattern()
 		if word == "" then
 			return nil
 		end
-		pattern = "\\C\\V\\<" .. vim.fn.escape(word, "\\") .. "\\>"
+		pattern = vim.fn.escape(word, "\\")
+		-- word boundaries only make sense around keyword text, \<,\> never matches
+		if vim.fn.match(word, "^\\k\\+$") ~= -1 then
+			pattern = "\\<" .. pattern .. "\\>"
+		end
+		pattern = "\\C\\V" .. pattern
 		local line = vim.fn.line(".")
 		if vim.fn.search(pattern, "bc", line) == 0 then
 			vim.fn.search(pattern, "c", line)
@@ -70,14 +75,14 @@ local function select_all()
 		return
 	end
 	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-	for _, m in ipairs(vim.fn.matchbufline(0, pattern, 1, "$")) do
+	for _, m in ipairs(vim.fn.matchbufline(vim.api.nvim_get_current_buf(), pattern, 1, "$")) do
 		if m.lnum ~= row or m.byteidx ~= col then
 			vim.api.nvim_buf_set_extmark(0, ns, m.lnum - 1, m.byteidx, {})
 		end
 	end
 end
 
-vim.keymap.set({ "n", "x" }, "<A-n>", primary(function()
+vim.keymap.set({ "n", "x" }, "<C-n>", primary(function()
 	next_match(true)
 end), { desc = "Multicursor: select next occurrence" })
 vim.keymap.set({ "n", "x" }, "<leader>ms", primary(function()
