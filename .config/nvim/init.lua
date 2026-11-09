@@ -1,0 +1,6 @@
+require("egreb.config.options")
+require("egreb.config.autocommands")
+require("egreb.plugins.mason")
+require("egreb.plugins.git")
+require("egreb.config.lsp")
+require("egreb.config.keymaps")
