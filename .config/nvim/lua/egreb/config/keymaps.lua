@@ -1,5 +1,14 @@
 local map = vim.keymap.set
 
+-- LSP navigation (Snacks pickers: jump straight to the target if there is only one, otherwise pick with preview)
+map("n", "gd", function()
+	require("snacks").picker.lsp_definitions()
+end, { desc = "Goto definition" })
+
+map("n", "gi", function()
+	require("snacks").picker.lsp_implementations()
+end, { desc = "Goto implementation" })
+
 -- Git
 map("n", "]g", function()
 	require("gitsigns").nav_hunk("next")
