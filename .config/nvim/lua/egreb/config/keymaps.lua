@@ -3,6 +3,7 @@ local map = vim.keymap.set
 -- Basics
 map("n", "<leader>w", "<cmd>write<cr>", { desc = "Write buffer" })
 map("n", "<leader>q", "<cmd>bdelete<cr>", { desc = "Close buffer" })
+map("n", "<Esc>", "<cmd>nohlsearch<cr><Esc>", { desc = "Clear search highlights" })
 
 -- Navigate between open windows
 map("n", "<C-h>", "<C-w>h", { desc = "Window left" })
