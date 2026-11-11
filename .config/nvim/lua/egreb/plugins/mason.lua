@@ -19,6 +19,8 @@ local tools = {
 	"goimports", -- golang
 	"oxfmt", -- typescript / json
 	"stylua", -- lua
+	-- Needed by nvim-treesitter to build parsers
+	"tree-sitter-cli",
 }
 
 -- Make sure everything above is installed on startup. Runs asynchronously so it doesn't block.

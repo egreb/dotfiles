@@ -1,7 +1,20 @@
 require("egreb.config.options")
 require("egreb.config.autocommands")
+
+-- Plugins
 require("egreb.plugins.mason")
+require("egreb.plugins.treesitter")
+require("egreb.plugins.snacks")
 require("egreb.plugins.git")
 require("egreb.plugins.blink")
+require("egreb.plugins.conform")
+require("egreb.plugins.oil")
+require("egreb.plugins.mini")
+require("egreb.plugins.which-key")
+require("egreb.plugins.tiny-cmdline")
+require("egreb.plugins.render-markdown")
+require("egreb.plugins.obsidian")
+require("egreb.plugins.copy-with-context")
+
 require("egreb.config.lsp")
 require("egreb.config.keymaps")
