@@ -6,6 +6,10 @@ vim.pack.add({
 local bottom = { layout = { preset = "ivy" } }
 
 require("snacks").setup({
+	-- Lazygit in a floating terminal, toggled with `<leader>lg`, see keymaps. Snacks gives it a theme
+	-- matching the colorscheme, and editing a file from lazygit (`e`) opens it in this Neovim.
+	lazygit = { enabled = true },
+
 	-- File/grep/buffer pickers etc. The default layout shows a preview of the selected item.
 	picker = {
 		enabled = true,

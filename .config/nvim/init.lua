@@ -12,7 +12,7 @@ require("egreb.plugins.oil")
 require("egreb.plugins.mini")
 require("egreb.plugins.which-key")
 require("egreb.plugins.tiny-cmdline")
-require("egreb.plugins.render-markdown")
+require("egreb.plugins.md-render")
 require("egreb.plugins.obsidian")
 require("egreb.plugins.copy-with-context")
 

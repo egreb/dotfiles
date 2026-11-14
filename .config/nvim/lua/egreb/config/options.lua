@@ -42,9 +42,14 @@ require("vim._core.ui2").enable({
 vim.opt.messagesopt:append("timeout:5000") -- ms a message stays visible in the ui2 message window
 vim.opt.messagesopt:append("maxheight:50") -- max height of the expanded cmdline, as a % of 'lines'
 
--- Colorscheme (builtin)
+-- Colorscheme: the full catppuccin plugin, not the builtin one. It also styles other plugins
+-- (blink, gitsigns, snacks, which-key, mini, ...), which it detects through vim.pack.
 vim.o.termguicolors = true -- enable 24-bit colors
-vim.cmd.colorscheme("catppuccin") -- load the builtin catppuccin theme
+vim.pack.add({ { src = "https://github.com/catppuccin/nvim", name = "catppuccin" } })
+require("catppuccin").setup({
+	flavour = "auto", -- mocha with a dark background, latte with a light one
+})
+vim.cmd.colorscheme("catppuccin")
 
 -- UI
 vim.o.number = true -- show the absolute line number on the current line

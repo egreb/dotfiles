@@ -13,6 +13,6 @@ require("obsidian").setup({
 		{ name = "personal", path = "~/vaults/personal" },
 	},
 	picker = { name = "snacks.picker" },
-	-- render-markdown owns the in-buffer markdown UI
+	-- md-render handles the rendered markdown view (plugins/md-render.lua)
 	ui = { enable = false },
 })

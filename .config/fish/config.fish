@@ -38,6 +38,7 @@ abbr gcbrun "gh pr comment -b '/gcbrun'"
 abbr notify "noti gh pr checks --watch"
 abbr vpr "gh pr view -w"
 abbr cpr "gh pr create -w"
+abbr viewreadme "gh pr view --json body --jq .body | bat --language markdown --style plain"
 abbr lg "lazygit"
 
 # Set up fzf key bindings

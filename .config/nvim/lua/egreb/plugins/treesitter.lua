@@ -29,7 +29,7 @@ require("nvim-treesitter").install({
 	"json",
 	"lua",
 	"markdown",
-	"markdown_inline", -- needed by render-markdown
+	"markdown_inline", -- inline markdown (bold, links, code spans)
 })
 
 -- Treesitter highlighting is provided by Neovim, it just has to be started per buffer
