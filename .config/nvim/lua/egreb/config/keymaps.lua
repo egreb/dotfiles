@@ -42,6 +42,9 @@ map("n", "<leader>ih", function()
 	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 end, { desc = "Toggle inlay hints" })
 
+-- Same as the builtin `gra`; in visual mode the actions apply to the selection
+map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code actions" })
+
 -- LSP navigation (Snacks pickers: jump straight to the target if there is only one, otherwise pick with preview)
 map("n", "gd", function()
 	require("snacks").picker.lsp_definitions()
